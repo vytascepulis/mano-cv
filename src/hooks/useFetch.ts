@@ -30,6 +30,7 @@ const useFetch = <T>({ endpoint, method = "GET" }: Props) => {
         method,
         url: `http://${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/api/${endpoint}`,
         data: body,
+        withCredentials: true,
       });
 
       setData(response.data);

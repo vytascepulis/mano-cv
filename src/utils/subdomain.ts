@@ -1,14 +1,16 @@
 import { Subdomain, SubdomainData } from "@/types/subdomain";
 
-export const getSubdomainFromUrl = () => {
-  const host = window.location.hostname;
-  const sub = host.split(".");
+export const getSubdomainFromUrl = (url?: string) => {
+  if (!url) return null;
 
-  if (sub.length > 2 || !sub.length) {
-    return null;
-  }
+  const currentHost = url
+    .replace("http://", "")
+    .replace("https://", "")
+    .replace(`.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`, "");
 
-  return sub.slice(0, 1)[0];
+  if (currentHost === process.env.NEXT_PUBLIC_ROOT_DOMAIN) return null;
+
+  return currentHost;
 };
 
 export const formatSubdomain = (subdomain: Subdomain): SubdomainData => {

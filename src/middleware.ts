@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getSubdomainFromUrl } from "@/utils/subdomain";
 
 export const config = {
-  matcher: ["/", "/subdomains/:slug*"],
+  matcher: ["/", "/subdomains/:slug*", "/settings"],
 };
 
 export function middleware(req: NextRequest) {
@@ -13,15 +14,12 @@ export function middleware(req: NextRequest) {
     throw Error("Middleware -> No hostname");
   }
 
-  const currentHost = hostname.replace(
-    `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`,
-    "",
-  );
+  const sub = getSubdomainFromUrl(hostname);
 
-  if (currentHost === process.env.NEXT_PUBLIC_ROOT_DOMAIN) {
+  if (!sub) {
     url.pathname = `/home${url.pathname}`;
   } else {
-    url.pathname = `/subdomains/${currentHost}${url.pathname}`;
+    url.pathname = `/subdomains/${sub}${url.pathname}`;
   }
 
   // Protect /subdomains route

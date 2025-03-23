@@ -1,12 +1,14 @@
-import { useRouter } from "next/router";
-import CodePage from "@/pages/code";
 import { useEffect, useState } from "react";
-import { SubdomainData } from "@/types/subdomain";
+import { getCookie, setCookie } from "@/utils/cookies";
+import NotFoundPage from "@/pages/404";
+import CodePage from "@/pages/subdomains/[slug]/code";
+import { useRouter } from "next/router";
 import useFetch from "@/hooks/useFetch";
-import { getCookie } from "@/utils/cookies";
+import { SubdomainData } from "@/types/subdomain";
 
-export default function SubdomainPage() {
+const SubdomainPageContent = () => {
   const router = useRouter();
+  const slug = router.query.slug;
   const { error, isLoading, fetch } = useFetch<SubdomainData>({
     endpoint: "subdomain",
     method: "POST",
@@ -15,12 +17,9 @@ export default function SubdomainPage() {
   const [isPageLoading, setIsPageLoading] = useState(true);
 
   useEffect(() => {
-    if (router.query.slug) {
+    setCookie("code", "1234", 47);
+    if (slug && Boolean(getCookie("code"))) {
       fetch({
-        body: {
-          subdomain: router.query.slug,
-          code: getCookie("code"),
-        },
         onSuccess: (data) => {
           setTheme(data);
           setIsPageLoading(false);
@@ -30,23 +29,29 @@ export default function SubdomainPage() {
         },
       });
     }
-  }, [router.query.slug]);
+
+    if (!Boolean(getCookie("code"))) {
+      setIsPageLoading(false);
+    }
+  }, [slug]);
 
   if (isPageLoading || isLoading) {
     return <>loading</>;
   }
 
   if (error?.code === 404) {
-    return <>Subdomain not found</>;
+    return <NotFoundPage />;
   }
 
   if (!theme) {
-    return <CodePage slug={router.query.slug as string} setTheme={setTheme} />;
+    return <CodePage setTheme={setTheme} />;
   }
 
   return (
     <h1>
-      Welcome to {router.query.slug}, theme is {theme.style}
+      Welcome to {slug}. Theme is {theme.style}
     </h1>
   );
-}
+};
+
+export default SubdomainPageContent;

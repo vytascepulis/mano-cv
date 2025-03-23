@@ -1,14 +1,12 @@
 import { useState } from "react";
-import { setCookie } from "@/utils/cookies";
 import { SubdomainData } from "@/types/subdomain";
 import useFetch from "@/hooks/useFetch";
 
 interface Props {
-  slug: string;
   setTheme: (theme: SubdomainData) => void;
 }
 
-const CodePage = ({ slug, setTheme }: Props) => {
+const CodePage = ({ setTheme }: Props) => {
   const { fetch } = useFetch<SubdomainData>({
     endpoint: "subdomain",
     method: "POST",
@@ -18,11 +16,9 @@ const CodePage = ({ slug, setTheme }: Props) => {
   const handleOnSubmit = () => {
     fetch({
       body: {
-        subdomain: slug,
         code,
       },
       onSuccess: (data) => {
-        setCookie("code", code, 48);
         setTheme(data);
       },
       onError: (error) => {

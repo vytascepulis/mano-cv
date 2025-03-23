@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import data from "./subdomains.json";
-import { formatSubdomain } from "@/utils/subdomain";
+import { formatSubdomain, getSubdomainFromUrl } from "@/utils/subdomain";
 import { SubdomainData } from "@/types/subdomain";
+import { handleCors } from "@/utils/cors";
 
 interface ResponseError {
   message: string;
@@ -13,14 +14,13 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Response>,
 ) {
-  const method = req.method;
-  const subdomain = req.body.subdomain;
-  const code = req.body.code;
+  if (handleCors(req, res)) return;
 
-  if (method === "OPTIONS") {
-    res.status(200).end();
-    return;
-  }
+  const method = req.method;
+  const subdomain = getSubdomainFromUrl(req.headers.origin);
+  const code = req.body.code || req.cookies.code;
+
+  console.log("code: ", code);
 
   if (method === "POST") {
     const foundSubdomain = data.subdomains.find(
@@ -36,6 +36,14 @@ export default function handler(
       res.status(400).json({ message: "Incorrect code" });
       return;
     }
+
+    const maxAge = 48 * 60 * 60;
+    const domain = `${subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
+
+    res.setHeader(
+      "Set-Cookie",
+      `code=${foundSubdomain.code}; Domain=${domain}; HttpOnly; Secure; SameSite=None; Path=/; Max-Age=${maxAge}`,
+    );
 
     res.status(200).json({ ...formatSubdomain(foundSubdomain) });
     return;

@@ -1,3 +1,5 @@
+import { NextApiResponse } from "next";
+
 export const setCookie = (name: string, value: string, hours: number): void => {
   if (!name || !value || !hours) {
     console.error("Error setting cookie");
@@ -16,3 +18,5 @@ export const getCookie = (name: string) => {
   const matches = document.cookie.match(new RegExp(`(?:^|; )${name}=([^;]*)`));
   return matches ? decodeURIComponent(matches[1]) : null;
 };
+
+export const setResponseCookie = (res: NextApiResponse) => {};
