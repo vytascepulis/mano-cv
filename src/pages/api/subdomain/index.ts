@@ -1,8 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import data from "./subdomains.json";
 import { formatSubdomain, getSubdomainFromUrl } from "@/utils/subdomain";
 import { SubdomainData } from "@/types/subdomain";
 import { handleCors } from "@/utils/cors";
+import { createClient } from "@supabase/supabase-js";
+import { sha256 } from "@/utils/crypto";
 
 interface ResponseError {
   message: string;
@@ -10,7 +11,7 @@ interface ResponseError {
 
 type Response = SubdomainData | ResponseError;
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Response>,
 ) {
@@ -18,34 +19,37 @@ export default function handler(
 
   const method = req.method;
   const subdomain = getSubdomainFromUrl(req.headers.origin);
-  const code = req.body.code || req.cookies.code;
-
-  console.log("code: ", code);
+  const code = req.body.code;
 
   if (method === "POST") {
-    const foundSubdomain = data.subdomains.find(
-      (item) => item.slug === subdomain,
-    );
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+    const supabase = createClient(supabaseUrl, supabaseKey);
 
-    if (!foundSubdomain) {
+    const { data, error } = await supabase
+      .from("subdomains")
+      .select()
+      .limit(1)
+      .eq("slug", subdomain);
+
+    if (error || !data) {
+      res.status(500).json({ message: "Internal Server Error" });
+      return;
+    }
+
+    const subdomainData = data[0];
+
+    if (!subdomainData) {
       res.status(404).json({ message: "Subdomain not found" });
       return;
     }
 
-    if (!code || code !== foundSubdomain.code) {
+    if (!code || sha256(code) !== subdomainData.code) {
       res.status(400).json({ message: "Incorrect code" });
       return;
     }
 
-    const maxAge = 48 * 60 * 60;
-    const domain = `${subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
-
-    res.setHeader(
-      "Set-Cookie",
-      `code=${foundSubdomain.code}; Domain=${domain}; HttpOnly; Secure; SameSite=None; Path=/; Max-Age=${maxAge}`,
-    );
-
-    res.status(200).json({ ...formatSubdomain(foundSubdomain) });
+    res.status(200).json({ ...formatSubdomain(subdomainData) });
     return;
   }
 

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { SubdomainData } from "@/types/subdomain";
 import useFetch from "@/hooks/useFetch";
+import { setCookie } from "@/utils/cookies";
 
 interface Props {
   setTheme: (theme: SubdomainData) => void;
@@ -20,6 +21,7 @@ const CodePage = ({ setTheme }: Props) => {
       },
       onSuccess: (data) => {
         setTheme(data);
+        setCookie("code", code, 48);
       },
       onError: (error) => {
         console.error(error);

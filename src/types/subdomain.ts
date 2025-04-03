@@ -1,9 +1,8 @@
-export interface Subdomain {
-  slug: string;
-  code: string;
-  style: string;
-}
+import type { Database } from "../../database.types";
+
+export type Subdomain = Database["public"]["Tables"]["subdomains"]["Row"];
 
 export interface SubdomainData {
-  style: string;
+  style: Subdomain["style"];
+  slug: Subdomain["slug"];
 }

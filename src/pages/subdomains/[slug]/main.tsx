@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getCookie, setCookie } from "@/utils/cookies";
+import { getCookie } from "@/utils/cookies";
 import NotFoundPage from "@/pages/404";
 import CodePage from "@/pages/subdomains/[slug]/code";
 import { useRouter } from "next/router";
@@ -17,23 +17,19 @@ const SubdomainPageContent = () => {
   const [isPageLoading, setIsPageLoading] = useState(true);
 
   useEffect(() => {
-    setCookie("code", "1234", 47);
-    if (slug && Boolean(getCookie("code"))) {
-      fetch({
-        onSuccess: (data) => {
-          setTheme(data);
-          setIsPageLoading(false);
-        },
-        onError: () => {
-          setIsPageLoading(false);
-        },
-      });
-    }
-
-    if (!Boolean(getCookie("code"))) {
-      setIsPageLoading(false);
-    }
-  }, [slug]);
+    fetch({
+      body: {
+        code: getCookie("code"),
+      },
+      onSuccess: (data) => {
+        setTheme(data);
+        setIsPageLoading(false);
+      },
+      onError: () => {
+        setIsPageLoading(false);
+      },
+    });
+  }, []);
 
   if (isPageLoading || isLoading) {
     return <>loading</>;
@@ -49,6 +45,7 @@ const SubdomainPageContent = () => {
 
   return (
     <h1>
+      {}
       Welcome to {slug}. Theme is {theme.style}
     </h1>
   );
