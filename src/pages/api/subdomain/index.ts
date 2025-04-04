@@ -18,7 +18,7 @@ export default async function handler(
   if (handleCors(req, res)) return;
 
   const method = req.method;
-  const subdomain = getSubdomainFromUrl(req.headers.origin);
+  const subdomain = getSubdomainFromUrl(req.headers.origin!);
   const code = req.body.code;
 
   if (method === "POST") {
