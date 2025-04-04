@@ -3,6 +3,7 @@ import { Subdomain, SubdomainData } from "@/types/subdomain";
 export const getSubdomainFromUrl = (url: string) => {
   url = url.split(":")[0];
   url = url.replace(/^www\./, "");
+  url = url.replace(".vercel", "");
 
   const parts = url.split(".");
 
