@@ -26,6 +26,7 @@ const useFetch = <T>({ endpoint, method = "GET" }: Props) => {
     setIsLoading(true);
 
     const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
+    console.log(process.env);
 
     try {
       const response = await axios({
