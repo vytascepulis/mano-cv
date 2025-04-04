@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSubdomainFromUrl } from "@/utils/subdomain";
+import { getToken } from "next-auth/jwt";
 
 export const config = {
-  matcher: ["/", "/subdomains/:slug*", "/settings"],
+  matcher: ["/", "/subdomains/:slug*"],
 };
 
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const url = req.nextUrl;
   const hostname =
     req.headers.get("host") || process.env.NEXT_PUBLIC_ROOT_DOMAIN;
@@ -15,6 +16,8 @@ export function middleware(req: NextRequest) {
   }
 
   const sub = getSubdomainFromUrl(hostname);
+  const token = await getToken({ req });
+  console.log("token", token);
 
   if (!sub) {
     url.pathname = `/home${url.pathname}`;

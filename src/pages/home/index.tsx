@@ -1,9 +1,25 @@
-import { getSubdomainFromUrl } from "@/utils/subdomain";
 import { useEffect } from "react";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function HomePage() {
+  const { data: session } = useSession();
+
   useEffect(() => {
-    console.log(getSubdomainFromUrl(window.location.origin));
-  }, []);
-  return <>home page</>;
+    console.log(session);
+  }, [session]);
+
+  if (!session) {
+    return (
+      <>
+        <button onClick={() => signIn("google")}>Sign in</button>
+      </>
+    );
+  }
+
+  return (
+    <>
+      SEttings <br />
+      <button onClick={() => signOut()}>Sign out</button>
+    </>
+  );
 }

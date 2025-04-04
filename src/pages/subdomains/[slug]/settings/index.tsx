@@ -8,12 +8,12 @@ const SettingsPage = () => {
   // if (!token) {
   //   return <NotFoundPage />;
   // }
-
+  console.log(session);
   if (!session) {
     return (
       <>
         {slug}
-        <button onClick={() => signIn()}>Sign in</button>
+        <button onClick={() => signIn("google")}>Sign in</button>
       </>
     );
   }
