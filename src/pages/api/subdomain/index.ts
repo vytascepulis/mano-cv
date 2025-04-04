@@ -2,8 +2,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { formatSubdomain, getSubdomainFromUrl } from "@/utils/subdomain";
 import { SubdomainData } from "@/types/subdomain";
 import { handleCors } from "@/utils/cors";
-import { createClient } from "@supabase/supabase-js";
 import { sha256 } from "@/utils/crypto";
+import { supabase } from "@/lib/supabase";
 
 interface ResponseError {
   message: string;
@@ -22,10 +22,6 @@ export default async function handler(
   const code = req.body.code;
 
   if (method === "POST") {
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-    const supabase = createClient(supabaseUrl, supabaseKey);
-
     const { data, error } = await supabase
       .from("subdomains")
       .select()

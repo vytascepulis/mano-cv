@@ -1,6 +1,6 @@
-import type { Database } from "../../database.types";
+import type { Tables } from "./supabase.types.ts";
 
-export type Subdomain = Database["public"]["Tables"]["subdomains"]["Row"];
+export type Subdomain = Tables<"subdomains">;
 
 export interface SubdomainData {
   style: Subdomain["style"];
