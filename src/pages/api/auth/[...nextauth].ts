@@ -40,13 +40,6 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
 
         return token;
       },
-      async session({ session, token }) {
-        if (session.user) {
-          session.user.googleId = token.googleId;
-        }
-
-        return session;
-      },
     },
   });
 }
