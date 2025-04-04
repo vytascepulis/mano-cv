@@ -25,10 +25,12 @@ const useFetch = <T>({ endpoint, method = "GET" }: Props) => {
   const fetch = async ({ onSuccess, onError, body }: FetchProps<T>) => {
     setIsLoading(true);
 
+    const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
+
     try {
       const response = await axios({
         method,
-        url: `http://${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/api/${endpoint}`,
+        url: `${protocol}://${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/api/${endpoint}`,
         data: body,
       });
 
