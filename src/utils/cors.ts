@@ -2,7 +2,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 const handleCors = (req: NextApiRequest, res: NextApiResponse) => {
   const origin = req.headers.origin;
-  const allowedDomainPattern = /localhost/;
+  const allowedDomainPattern =
+    /^(https?:\/\/)?([a-z0-9-]+\.)?(localhost(:\d+)?|mano-cv\.lt)$/;
 
   if (origin && allowedDomainPattern.test(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin);

@@ -15,7 +15,6 @@ export async function middleware(req: NextRequest) {
     throw Error("Middleware -> No hostname");
   }
 
-  console.log(getSubdomainFromUrl("mano-cv.vercel.app"));
   const sub = getSubdomainFromUrl(hostname);
   const token = await getToken({ req });
   console.log("token", token);
