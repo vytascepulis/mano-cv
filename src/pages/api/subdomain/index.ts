@@ -15,9 +15,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Response>,
 ) {
-  console.log("call api route");
   if (handleCors(req, res)) return;
-  console.log("after handleCors");
 
   const method = req.method;
   const subdomain = getSubdomainFromUrl(req.headers.origin!);
