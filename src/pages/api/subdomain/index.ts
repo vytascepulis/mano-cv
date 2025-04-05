@@ -19,7 +19,7 @@ export default async function handler(
 
   const method = req.method;
   const subdomain = getSubdomainFromUrl(req.headers.origin!);
-  const cookiesCode = sha256(req.cookies.code);
+  const cookiesCode = req.cookies.code;
   const bodyCode = sha256(req.body.code);
 
   if (method === "POST") {
