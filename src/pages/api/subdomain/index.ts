@@ -48,7 +48,7 @@ export default async function handler(
 
         res.setHeader(
           "Set-Cookie",
-          `code=${subdomainData.code}; Domain=${domain}; HttpOnly; Secure; SameSite=None; Path=/; Max-Age=${maxAge}`,
+          `code=${subdomainData.code}; Domain=${domain}; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=${maxAge}`,
         );
       }
       res.status(200).json({ ...formatSubdomain(subdomainData) });
