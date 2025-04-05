@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { SubdomainData } from "@/types/subdomain";
 import useFetch from "@/hooks/useFetch";
+import { UserData } from "@/types/types";
 
 interface Props {
-  setTheme: (theme: SubdomainData) => void;
+  setSubdomainData: (subdomainData: UserData["subdomain"]) => void;
 }
 
-const CodePage = ({ setTheme }: Props) => {
-  const { fetch } = useFetch<SubdomainData>({
+const CodePage = ({ setSubdomainData }: Props) => {
+  const { fetch } = useFetch<UserData>({
     endpoint: "subdomain",
     method: "POST",
   });
@@ -19,7 +19,7 @@ const CodePage = ({ setTheme }: Props) => {
         code,
       },
       onSuccess: (data) => {
-        setTheme(data);
+        setSubdomainData(data.subdomain);
       },
       onError: (error) => {
         console.error(error);

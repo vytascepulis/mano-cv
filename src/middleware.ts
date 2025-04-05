@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSubdomainFromUrl } from "@/utils/subdomain";
-import { getToken } from "next-auth/jwt";
 
 export const config = {
-  matcher: ["/", "/subdomains/:slug*"],
+  matcher: ["/", "/subdomains/:slug*", "/nustatymai"],
 };
 
 export async function middleware(req: NextRequest) {
@@ -16,8 +15,6 @@ export async function middleware(req: NextRequest) {
   }
 
   const sub = getSubdomainFromUrl(hostname);
-  const token = await getToken({ req });
-  console.log("token", token);
 
   if (!sub) {
     url.pathname = `/home${url.pathname}`;
@@ -26,7 +23,7 @@ export async function middleware(req: NextRequest) {
   }
 
   // Protect /subdomains route
-  if (req.url.includes("/subdomains")) {
+  if (req.url.includes("/subdomains") && sub) {
     url.pathname = "/404";
   }
 

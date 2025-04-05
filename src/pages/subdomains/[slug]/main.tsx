@@ -3,22 +3,23 @@ import NotFoundPage from "@/pages/404";
 import CodePage from "@/pages/subdomains/[slug]/code";
 import { useRouter } from "next/router";
 import useFetch from "@/hooks/useFetch";
-import { SubdomainData } from "@/types/subdomain";
+import { UserData } from "@/types/types";
 
 const SubdomainPageContent = () => {
   const router = useRouter();
   const slug = router.query.slug;
-  const { error, isLoading, fetch } = useFetch<SubdomainData>({
+  const { error, isLoading, fetch } = useFetch<UserData>({
     endpoint: "subdomain",
     method: "POST",
   });
-  const [theme, setTheme] = useState<SubdomainData | null>(null);
+  const [subdomainData, setSubdomainData] =
+    useState<UserData["subdomain"]>(null);
   const [isPageLoading, setIsPageLoading] = useState(true);
 
   useEffect(() => {
     fetch({
       onSuccess: (data) => {
-        setTheme(data);
+        setSubdomainData(data.subdomain);
         setIsPageLoading(false);
       },
       onError: () => {
@@ -35,14 +36,14 @@ const SubdomainPageContent = () => {
     return <NotFoundPage />;
   }
 
-  if (!theme) {
-    return <CodePage setTheme={setTheme} />;
+  if (!subdomainData) {
+    return <CodePage setSubdomainData={setSubdomainData} />;
   }
 
   return (
     <h1>
       {}
-      Welcome to {slug}. Theme is {theme.style}
+      Welcome to {slug}. Theme is {subdomainData.style}
     </h1>
   );
 };

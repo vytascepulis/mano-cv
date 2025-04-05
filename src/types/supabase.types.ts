@@ -12,26 +12,64 @@ export type Database = {
       subdomains: {
         Row: {
           code: string
-          created_at: string
+          createdAt: string
           id: string
           slug: string
+          status: Database["public"]["Enums"]["SubdomainStatus"]
           style: string
         }
         Insert: {
           code?: string
-          created_at?: string
+          createdAt?: string
           id?: string
           slug: string
+          status?: Database["public"]["Enums"]["SubdomainStatus"]
           style: string
         }
         Update: {
           code?: string
-          created_at?: string
+          createdAt?: string
           id?: string
           slug?: string
+          status?: Database["public"]["Enums"]["SubdomainStatus"]
           style?: string
         }
         Relationships: []
+      }
+      users: {
+        Row: {
+          createdAt: string
+          email: string
+          googleId: string
+          id: string
+          status: Database["public"]["Enums"]["UserStatus"]
+          subdomain: string | null
+        }
+        Insert: {
+          createdAt?: string
+          email: string
+          googleId: string
+          id?: string
+          status?: Database["public"]["Enums"]["UserStatus"]
+          subdomain?: string | null
+        }
+        Update: {
+          createdAt?: string
+          email?: string
+          googleId?: string
+          id?: string
+          status?: Database["public"]["Enums"]["UserStatus"]
+          subdomain?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "users_subdomain_fkey"
+            columns: ["subdomain"]
+            isOneToOne: false
+            referencedRelation: "subdomains"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
@@ -41,7 +79,8 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      SubdomainStatus: "ACTIVE" | "HIDDEN" | "BLOCKED"
+      UserStatus: "ACTIVE" | "INITIALIZED" | "BLOCKED"
     }
     CompositeTypes: {
       [_ in never]: never

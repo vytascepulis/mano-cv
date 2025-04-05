@@ -11,7 +11,9 @@ export default function HomePage() {
   if (!session) {
     return (
       <>
-        <button onClick={() => signIn("google")}>Sign in</button>
+        <button onClick={() => signIn("google", { callbackUrl: "/auth" })}>
+          Sign in
+        </button>
       </>
     );
   }

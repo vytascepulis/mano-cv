@@ -1,6 +1,8 @@
-import { Subdomain, SubdomainData } from "@/types/subdomain";
+import { UserData, UserWithSubdomain } from "@/types/types";
 
-export const getSubdomainFromUrl = (url: string) => {
+export const getSubdomainFromUrl = (url?: string) => {
+  if (!url) return null;
+
   url = url.replace("https://", "");
   url = url.replace("http://", "");
   url = url.replace("www.", "");
@@ -12,9 +14,23 @@ export const getSubdomainFromUrl = (url: string) => {
   return url || null;
 };
 
-export const formatSubdomain = (subdomain: Subdomain): SubdomainData => {
+export const formatSubdomainUrl = (slug: string) => {
+  const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
+
+  return `${protocol}://${slug}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
+};
+
+export const formatUserData = (user: UserWithSubdomain): UserData => {
   return {
-    style: subdomain.style,
-    slug: subdomain.slug,
+    id: user.id,
+    status: user.status,
+    subdomain: user.subdomain
+      ? {
+          id: user.subdomain.id,
+          status: user.subdomain.status,
+          slug: user.subdomain.slug,
+          style: user.subdomain.style,
+        }
+      : null,
   };
 };
