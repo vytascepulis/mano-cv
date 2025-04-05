@@ -22,6 +22,7 @@ export default async function handler(
   const code = req.body.code;
 
   if (method === "POST") {
+    console.log("origin: ", req.headers.origin);
     const { data, error } = await supabase
       .from("subdomains")
       .select()
