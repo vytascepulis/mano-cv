@@ -6,7 +6,7 @@ const handleCors = (req: NextApiRequest, res: NextApiResponse) => {
     /^https:\/\/([a-z0-9-]+\.)?mano-cv\.lt$|^http:\/\/localhost(:\d+)?$/;
 
   if (origin && allowedDomainPattern.test(origin)) {
-    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Origin", origin);
     res.setHeader("Access-Control-Allow-Credentials", "true");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
     res.setHeader(
