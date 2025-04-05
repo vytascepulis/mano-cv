@@ -19,10 +19,10 @@ export default async function handler(
 
   const method = req.method;
   const subdomain = getSubdomainFromUrl(req.headers.origin!);
-  const code = req.body.code;
+  const cookiesCode = sha256(req.cookies.code);
+  const bodyCode = sha256(req.body.code);
 
   if (method === "POST") {
-    console.log("origin: ", req.headers.origin);
     const { data, error } = await supabase
       .from("subdomains")
       .select()
@@ -41,12 +41,21 @@ export default async function handler(
       return;
     }
 
-    if (!code || sha256(code) !== subdomainData.code) {
-      res.status(400).json({ message: "Incorrect code" });
+    if (bodyCode === subdomainData.code || cookiesCode === subdomainData.code) {
+      if (bodyCode && !cookiesCode) {
+        const maxAge = 48 * 60 * 60;
+        const domain = `${subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
+
+        res.setHeader(
+          "Set-Cookie",
+          `code=${subdomainData.code}; Domain=${domain}; HttpOnly; Secure; SameSite=None; Path=/; Max-Age=${maxAge}`,
+        );
+      }
+      res.status(200).json({ ...formatSubdomain(subdomainData) });
       return;
     }
 
-    res.status(200).json({ ...formatSubdomain(subdomainData) });
+    res.status(400).json({ message: "Incorrect code" });
     return;
   }
 

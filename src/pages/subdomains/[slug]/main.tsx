@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { getCookie } from "@/utils/cookies";
 import NotFoundPage from "@/pages/404";
 import CodePage from "@/pages/subdomains/[slug]/code";
 import { useRouter } from "next/router";
@@ -18,9 +17,6 @@ const SubdomainPageContent = () => {
 
   useEffect(() => {
     fetch({
-      body: {
-        code: getCookie("code"),
-      },
       onSuccess: (data) => {
         setTheme(data);
         setIsPageLoading(false);
