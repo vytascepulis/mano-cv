@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 const handleCors = (req: NextApiRequest, res: NextApiResponse) => {
   const origin = req.headers.origin;
   const allowedDomainPattern =
-    /^(https?:\/\/)?([a-z0-9-]+\.)?(localhost(:\d+)?|mano-cv\.lt)$/;
+    /^https:\/\/([a-z0-9-]+\.)?mano-cv\.lt$|^http:\/\/localhost(:\d+)?$/;
   console.log("handleCors", origin);
 
   if (origin && allowedDomainPattern.test(origin)) {
