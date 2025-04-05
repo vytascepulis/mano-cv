@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 
 interface Props {
   endpoint: string;
@@ -22,24 +22,46 @@ const useFetch = <T>({ endpoint, method = "GET" }: Props) => {
   const [error, setError] = useState<FetchError | null>(null);
   const [data, setData] = useState<T | null>(null);
 
-  const fetch = async ({ onSuccess, onError, body }: FetchProps<T>) => {
+  const fetchData = async ({ onSuccess, onError, body }: FetchProps<T>) => {
     setIsLoading(true);
 
     const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
 
     try {
-      const response = await axios({
-        method,
-        url: `${protocol}://${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/api/${endpoint}`,
-        data: body,
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${protocol}://${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/api/${endpoint}`,
+        {
+          method,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+          credentials: "include", // Ensures cookies are sent with the request
         },
-      });
+      );
 
-      setData(response.data);
-      onSuccess?.(response.data);
+      if (!response.ok) {
+        console.log("response not ok");
+        return;
+        // throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json(); // Parse the JSON response
+
+      setData(data);
+      onSuccess?.(data);
+      // const response = await axios({
+      //   method,
+      //   url: `${protocol}://${process.env.NEXT_PUBLIC_ROOT_DOMAIN}/api/${endpoint}`,
+      //   data: body,
+      //   withCredentials: true,
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      // });
+      //
+      // setData(response.data);
+      // onSuccess?.(response.data);
     } catch (e) {
       const err = e as AxiosError<{ message: string }>;
 
@@ -55,7 +77,7 @@ const useFetch = <T>({ endpoint, method = "GET" }: Props) => {
     }
   };
 
-  return { fetch, isLoading, error, data };
+  return { fetch: fetchData, isLoading, error, data };
 };
 
 export default useFetch;

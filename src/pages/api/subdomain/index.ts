@@ -44,11 +44,11 @@ export default async function handler(
     if (bodyCode === subdomainData.code || cookiesCode === subdomainData.code) {
       if (bodyCode && !cookiesCode) {
         const maxAge = 48 * 60 * 60;
-        const domain = `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
+        // const domain = `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
 
         res.setHeader(
           "Set-Cookie",
-          `code=${subdomainData.code}; Domain=${domain}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=${maxAge}`,
+          `code=${subdomainData.code}; HttpOnly; Secure; SameSite=None; Path=/; Max-Age=${maxAge}`,
         );
       }
       res.status(200).json({ ...formatSubdomain(subdomainData) });
