@@ -3,16 +3,13 @@ import { Subdomain, SubdomainData } from "@/types/subdomain";
 export const getSubdomainFromUrl = (url: string) => {
   url = url.replace("https://", "");
   url = url.replace("http://", "");
-  url = url.replace(/^www\./, "");
-  url = url.replace(".vercel", "");
+  url = url.replace("www.", "");
+  url = url.replace(".mano-cv.lt", "");
+  url = url.replace("mano-cv.lt", "");
+  url = url.replace(".localhost:3000", "");
+  url = url.replace("localhost:3000", "");
 
-  const parts = url.split(".");
-
-  if (parts.length > 2) {
-    return parts.slice(0, -2).join(".");
-  }
-
-  return null;
+  return url || null;
 };
 
 export const formatSubdomain = (subdomain: Subdomain): SubdomainData => {
