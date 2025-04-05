@@ -6,7 +6,7 @@ import { UserData } from "@/types/types";
 const SettingsPage = () => {
   const { data: session } = useSession();
 
-  const { error, isLoading, fetch } = useFetch<UserData>({
+  const { fetch } = useFetch<UserData>({
     endpoint: "settings",
     method: "POST",
   });

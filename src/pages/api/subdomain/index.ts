@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { formatUserData, getSubdomainFromUrl } from "@/utils/subdomain";
 import { handleCors } from "@/utils/cors";
 import { sha256 } from "@/utils/crypto";
-import { supabase, userWithSubdomainQuery } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase";
 import { UserData } from "@/types/types";
 import { SubdomainStatus } from "@/types/supabase.enums";
 
