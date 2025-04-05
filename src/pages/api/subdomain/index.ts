@@ -44,7 +44,7 @@ export default async function handler(
     if (bodyCode === subdomainData.code || cookiesCode === subdomainData.code) {
       if (bodyCode && !cookiesCode) {
         const maxAge = 48 * 60 * 60;
-        const domain = `${subdomain}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
+        const domain = `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
 
         res.setHeader(
           "Set-Cookie",
