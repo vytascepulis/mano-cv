@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
 
 const SubdomainWizard = () => {
-  const { data: session, update } = useSession();
+  const { update } = useSession();
   return (
     <>
       init subdomain page{" "}
