@@ -8,12 +8,13 @@ export const supabase = createClient<Database>(
 
 export const userWithSubdomainQuery = supabase
   .from("users")
-  .select("*, subdomain(*)");
+  .select(
+    "id, googleId, status, subdomain!inner(id, slug, style, status, code)",
+  );
 
 export const subdomainQuery = supabase
   .from("users")
-  .select("*, subdomain(*)")
-  .limit(1);
+  .select("*, subdomain!inner(*)");
 
 export const userDataByGoogleIdQuery = supabase
   .from("users")

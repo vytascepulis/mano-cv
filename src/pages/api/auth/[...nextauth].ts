@@ -77,7 +77,21 @@ export const authOptions: AuthOptions = {
 
       return true;
     },
-    async jwt({ token, user, account, profile }) {
+    async jwt({ token, user, account, profile, trigger }) {
+      if (trigger === "update") {
+        const { data } = await userDataByGoogleIdQuery.eq(
+          "googleId",
+          token.googleId,
+        );
+
+        const userData = data?.[0];
+
+        if (userData) {
+          token.userStatus = userData.status;
+          token.subdomainSlug = userData.subdomain?.slug;
+        }
+      }
+
       if (account && profile?.sub) {
         token.googleId = sha256(profile.sub)!;
         token.userStatus = user.status;

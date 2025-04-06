@@ -1,16 +1,16 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { formatUserData, getSubdomainFromUrl } from "@/utils/subdomain";
+import { formatSubdomainData, getSubdomainFromUrl } from "@/utils/subdomain";
 import { handleCors } from "@/utils/cors";
 import { sha256 } from "@/utils/crypto";
-import { supabase } from "@/lib/supabase";
-import { UserData } from "@/types/types";
+import { userWithSubdomainQuery } from "@/lib/supabase";
+import { SubdomainData } from "@/types/types";
 import { SubdomainStatus } from "@/types/supabase.enums";
 
 interface ResponseError {
   message: string;
 }
 
-type Response = UserData | ResponseError;
+type Response = SubdomainData | ResponseError;
 
 export default async function handler(
   req: NextApiRequest,
@@ -24,9 +24,7 @@ export default async function handler(
   const bodyCode = sha256(req.body.code);
 
   if (method === "POST" && subdomain) {
-    const { data, error } = await supabase
-      .from("users")
-      .select("*, subdomain(*)")
+    const { data, error } = await userWithSubdomainQuery
       .eq("subdomain.slug", subdomain)
       .limit(1);
 
@@ -34,10 +32,9 @@ export default async function handler(
       res.status(500).json({ message: "Internal Server Error" });
       return;
     }
-    // console.log(subdomain);
+
     const userData = data[0];
-    console.log("userData2", userData);
-    // console.log("data: ", data);
+
     if (
       !userData?.subdomain ||
       userData?.subdomain.status === SubdomainStatus.HIDDEN ||
@@ -52,7 +49,7 @@ export default async function handler(
       cookiesCode === userData.subdomain.code
     ) {
       if (bodyCode && !cookiesCode) {
-        const maxAge = 48 * 60 * 60;
+        const maxAge = 14 * 24 * 60 * 60; // 2 weeks
 
         res.setHeader(
           "Set-Cookie",
@@ -60,7 +57,7 @@ export default async function handler(
         );
       }
 
-      res.status(200).json({ ...formatUserData(userData) });
+      res.status(200).json({ ...formatSubdomainData(userData) });
       return;
     }
 

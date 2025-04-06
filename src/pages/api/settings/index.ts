@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { formatUserData, getSubdomainFromUrl } from "@/utils/subdomain";
+import { getSubdomainFromUrl } from "@/utils/subdomain";
 import { handleCors } from "@/utils/cors";
 import { subdomainQuery } from "@/lib/supabase";
 import { getServerSession } from "next-auth";
@@ -29,7 +29,9 @@ export default async function handler(
       return;
     }
 
-    const { data, error } = await subdomainQuery;
+    const { data, error } = await subdomainQuery
+      .eq("subdomain.slug", subdomain)
+      .limit(1);
 
     if (error || !data) {
       res.status(500).json({ message: "Internal Server Error" });
@@ -48,7 +50,7 @@ export default async function handler(
       return;
     }
 
-    res.status(200).json({ ...formatUserData(userData) });
+    res.status(200).json({ ...userData });
     return;
   }
 

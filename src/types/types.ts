@@ -13,11 +13,15 @@ export type UserWithSubdomain = ItemType<
 
 export interface UserData {
   id: User["id"];
-  status: User["status"];
   subdomain: {
     id: Subdomain["id"];
     slug: Subdomain["slug"];
-    status: Subdomain["status"];
     style: Subdomain["style"];
   } | null;
+}
+
+export interface SubdomainData {
+  id: Subdomain["id"];
+  slug: Subdomain["slug"];
+  style: Subdomain["style"];
 }

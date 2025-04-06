@@ -1,4 +1,4 @@
-import { UserData, UserWithSubdomain } from "@/types/types";
+import { SubdomainData, UserWithSubdomain } from "@/types/types";
 
 export const getSubdomainFromUrl = (url?: string) => {
   if (!url) return null;
@@ -20,17 +20,10 @@ export const formatSubdomainUrl = (slug: string) => {
   return `${protocol}://${slug}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
 };
 
-export const formatUserData = (user: UserWithSubdomain): UserData => {
+export const formatSubdomainData = (user: UserWithSubdomain): SubdomainData => {
   return {
-    id: user.id,
-    status: user.status,
-    subdomain: user.subdomain
-      ? {
-          id: user.subdomain.id,
-          status: user.subdomain.status,
-          slug: user.subdomain.slug,
-          style: user.subdomain.style,
-        }
-      : null,
+    id: user.subdomain.id,
+    slug: user.subdomain.slug,
+    style: user.subdomain.style,
   };
 };
