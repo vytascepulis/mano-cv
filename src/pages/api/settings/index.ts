@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getSubdomainFromUrl } from "@/utils/subdomain";
 import { handleCors } from "@/utils/cors";
-import { subdomainQuery } from "@/lib/supabase";
+import { subdomainSettingsQuery } from "@/lib/supabase";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { UserData } from "@/types/types";
@@ -29,28 +29,26 @@ export default async function handler(
       return;
     }
 
-    const { data, error } = await subdomainQuery
-      .eq("subdomain.slug", subdomain)
-      .limit(1);
+    const { data: settingsData, error } = await subdomainSettingsQuery({
+      subdomain,
+    });
 
-    if (error || !data) {
+    if (error) {
       res.status(500).json({ message: "Internal Server Error" });
       return;
     }
 
-    const userData = data[0];
-
-    if (!userData) {
+    if (!settingsData) {
       res.status(404).json({ message: "Subdomain not found" });
       return;
     }
 
-    if (userData.googleId !== session.user.googleId) {
+    if (settingsData.googleId !== session.user.googleId) {
       res.status(401).json({ message: "Subdomain does not belong to you" });
       return;
     }
 
-    res.status(200).json({ ...userData });
+    res.status(200).json({ ...settingsData });
     return;
   }
 

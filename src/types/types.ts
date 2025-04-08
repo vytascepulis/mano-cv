@@ -8,7 +8,7 @@ export type User = Tables<"users">;
 type ItemType<T> = T extends (infer U)[] ? U : T;
 
 export type UserWithSubdomain = ItemType<
-  QueryData<typeof userWithSubdomainQuery>
+  QueryData<ReturnType<typeof userWithSubdomainQuery>>
 >;
 
 export interface UserData {

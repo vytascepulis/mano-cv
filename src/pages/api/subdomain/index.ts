@@ -5,6 +5,7 @@ import { sha256 } from "@/utils/crypto";
 import { userWithSubdomainQuery } from "@/lib/supabase";
 import { SubdomainData } from "@/types/types";
 import { SubdomainStatus } from "@/types/supabase.enums";
+import { ErrorCodes } from "@/constants/postgrest";
 
 interface ResponseError {
   message: string;
@@ -24,16 +25,19 @@ export default async function handler(
   const bodyCode = sha256(req.body.code);
 
   if (method === "POST" && subdomain) {
-    const { data, error } = await userWithSubdomainQuery
-      .eq("subdomain.slug", subdomain)
-      .limit(1);
+    const { data: userData, error } = await userWithSubdomainQuery({
+      subdomain,
+    });
 
-    if (error || !data) {
+    if (error) {
+      if (error.code === ErrorCodes.NOT_FOUND) {
+        res.status(404).json({ message: "Subdomain not found" });
+        return;
+      }
+
       res.status(500).json({ message: "Internal Server Error" });
       return;
     }
-
-    const userData = data[0];
 
     if (
       !userData?.subdomain ||

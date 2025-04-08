@@ -3,6 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import { NextApiRequest, NextApiResponse } from "next";
 import { sha256 } from "@/utils/crypto";
 import { createUserMutation, userDataByGoogleIdQuery } from "@/lib/supabase";
+import { ErrorCodes } from "@/constants/postgrest";
 
 const sessionTokenName =
   process.env.NODE_ENV === "production"
@@ -43,16 +44,13 @@ export const authOptions: AuthOptions = {
         return false;
       }
 
-      const { data, error } = await userDataByGoogleIdQuery.eq(
-        "googleId",
-        sha256(profile.sub)!,
-      );
+      const { data: userData, error } = await userDataByGoogleIdQuery({
+        hashedGoogleId: sha256(profile.sub),
+      });
 
-      if (error || !data) {
+      if (error && error.code !== ErrorCodes.NOT_FOUND) {
         return false;
       }
-
-      const userData = data[0];
 
       if (userData) {
         user.status = userData.status;
@@ -61,30 +59,25 @@ export const authOptions: AuthOptions = {
 
       if (!userData) {
         const { data: createData, error: createError } =
-          await createUserMutation
-            .insert({
-              googleId: sha256(profile.sub)!,
-              email: profile.email!,
-            })
-            .select("status");
+          await createUserMutation({
+            hashedGoogleId: sha256(profile.sub),
+            email: profile.email!,
+          });
 
-        if (createError || !createData[0]) {
+        if (createError) {
           return false;
         }
 
-        user.status = createData[0].status;
+        user.status = createData.status;
       }
 
       return true;
     },
     async jwt({ token, user, account, profile, trigger }) {
       if (trigger === "update") {
-        const { data } = await userDataByGoogleIdQuery.eq(
-          "googleId",
-          token.googleId,
-        );
-
-        const userData = data?.[0];
+        const { data: userData } = await userDataByGoogleIdQuery({
+          hashedGoogleId: token.googleId,
+        });
 
         if (userData) {
           token.userStatus = userData.status;
@@ -93,7 +86,7 @@ export const authOptions: AuthOptions = {
       }
 
       if (account && profile?.sub) {
-        token.googleId = sha256(profile.sub)!;
+        token.googleId = sha256(profile.sub);
         token.userStatus = user.status;
         token.subdomainSlug = user.subdomainSlug;
       }
