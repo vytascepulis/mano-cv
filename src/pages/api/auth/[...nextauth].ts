@@ -41,6 +41,7 @@ export const authOptions: AuthOptions = {
   callbacks: {
     async signIn({ profile, user }) {
       if (!profile?.sub) {
+        console.log("no profile sub: ", profile);
         return false;
       }
 
@@ -49,6 +50,7 @@ export const authOptions: AuthOptions = {
       });
 
       if (error && error.code !== ErrorCodes.NOT_FOUND) {
+        console.log("query error: ", error);
         return false;
       }
 
@@ -65,6 +67,7 @@ export const authOptions: AuthOptions = {
           });
 
         if (createError) {
+          console.log("create error: ", createError);
           return false;
         }
 
