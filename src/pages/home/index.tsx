@@ -1,29 +1,18 @@
-import { useEffect } from "react";
-import { signIn, signOut, useSession } from "next-auth/react";
-import { Button } from "@/components/ui/button";
+import { ReactElement } from "react";
+import { signOut } from "next-auth/react";
+import HomePageLayout from "@/components/layouts/HomePageLayout";
+import HeroSection from "@/pages/home/HeroSection";
 
 export default function HomePage() {
-  const { data: session } = useSession();
-
-  useEffect(() => {
-    console.log(session);
-  }, [session]);
-
-  if (!session) {
-    return (
-      <>
-        <Button onClick={() => console.log("click")}>Click me</Button>
-        <button onClick={() => signIn("google", { callbackUrl: "/auth" })}>
-          Sign in
-        </button>
-      </>
-    );
-  }
-
   return (
     <>
+      <HeroSection />
       SEttings <br />
       <button onClick={() => signOut()}>Sign out</button>
     </>
   );
 }
+
+HomePage.getLayout = function getLayout(page: ReactElement) {
+  return <HomePageLayout>{page}</HomePageLayout>;
+};

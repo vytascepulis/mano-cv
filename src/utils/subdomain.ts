@@ -20,6 +20,12 @@ export const formatSubdomainUrl = (slug: string) => {
   return `${protocol}://${slug}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
 };
 
+export const getDomainUrl = () => {
+  const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
+
+  return `${protocol}://${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
+};
+
 export const formatSubdomainData = (user: UserWithSubdomain): SubdomainData => {
   return {
     id: user.subdomain.id,

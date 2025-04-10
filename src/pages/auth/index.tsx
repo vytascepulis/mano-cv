@@ -8,6 +8,7 @@ const LoginAuthPage = () => {
   const router = useRouter();
 
   useEffect(() => {
+    router.replace({ pathname: "/", query: "status=initialized" });
     if (status === "authenticated") {
       if (session.user.subdomainSlug) {
         router.replace(
@@ -16,9 +17,9 @@ const LoginAuthPage = () => {
         return;
       }
 
-      router.replace(`/prisijungti`);
+      router.replace({ pathname: "/", query: "status=initialized" });
     }
-  }, [status, session, router]);
+  }, [status, session]);
 
   return null;
 };
