@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { Database } from "@/types/supabase.types";
+import { UserStatus } from "@/types/supabase.enums";
 
 export const supabase = createClient<Database>(
   process.env.SUPABASE_URL!,
@@ -50,4 +51,30 @@ export const createUserMutation = ({
       email,
     })
     .select("status")
+    .single();
+
+export const registerSlugMutation = ({ slug }: { slug: string }) =>
+  supabase
+    .from("subdomains")
+    .insert({
+      slug,
+    })
+    .select("id")
+    .single();
+
+export const updateUserSubdomainMutation = ({
+  hashedGoogleId,
+  subdomainUuid,
+}: {
+  hashedGoogleId: string;
+  subdomainUuid: string;
+}) =>
+  supabase
+    .from("users")
+    .update({
+      subdomain: subdomainUuid,
+      status: UserStatus.ACTIVE,
+    })
+    .eq("googleId", hashedGoogleId)
+    .select("subdomain(id, slug)")
     .single();

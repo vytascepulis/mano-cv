@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState } from "react";
-import Button from "@/components/ui/Button";
+import { useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { twMerge } from "tailwind-merge";

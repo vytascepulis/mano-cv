@@ -8,18 +8,20 @@ const Loader = ({ size = "md" }: Props) => {
   const getSize = () => {
     switch (size) {
       case "sm":
-        return "15px";
+        return { width: "15px", borderWidth: "2px" };
       case "md":
-        return "30px";
+        return { width: "30px", borderWidth: "5px" };
       case "lg":
-        return "45px";
+        return { width: "45px", borderWidth: "5px" };
     }
   };
+
+  const { width, borderWidth } = getSize();
 
   return (
     <span
       className={style.loader}
-      style={{ height: getSize(), width: getSize() }}
+      style={{ height: width, width, borderWidth }}
     />
   );
 };

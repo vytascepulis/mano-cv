@@ -25,3 +25,8 @@ export interface SubdomainData {
   slug: Subdomain["slug"];
   style: Subdomain["style"];
 }
+
+export interface RegisterData {
+  id: Subdomain["id"];
+  slug: Subdomain["slug"];
+}
