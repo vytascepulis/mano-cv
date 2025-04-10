@@ -45,7 +45,7 @@ const RegisterModalContent = () => {
         Tavo svetainės pavadinimas
       </h1>
       <p className="text-dark max-w-[400px]">
-        Geras svetainės vardas leis kitiems lengviau ją prisiminti. Jo keisti
+        Geras svetainės vardas leis kitiems lengviau ją įsiminti. Jo keisti
         nebegalėsi, tad neskubėk
       </p>
       <div className="mt-10 flex w-[400px] flex-row gap-4">

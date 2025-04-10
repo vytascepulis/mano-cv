@@ -6,7 +6,7 @@ interface Props {
 
 const HomePageLayout = ({ children }: Props) => {
   return (
-    <div className="min-h-screen bg-violet-100">
+    <div className="bg-light min-h-screen">
       <div className="absolute z-10 min-h-2/3 min-w-screen bg-gray-900 shadow-md"></div>
       <div className="relative z-20 mx-auto max-w-7xl">
         <Navbar />
