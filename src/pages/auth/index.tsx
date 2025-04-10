@@ -8,12 +8,9 @@ const LoginAuthPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    router.replace({ pathname: "/", query: "status=initialized" });
     if (status === "authenticated") {
       if (session.user.subdomainSlug) {
-        router.replace(
-          `${formatSubdomainUrl(session.user.subdomainSlug)}/nustatymai`,
-        );
+        window.location.href = `${formatSubdomainUrl(session.user.subdomainSlug)}/nustatymai`;
         return;
       }
 

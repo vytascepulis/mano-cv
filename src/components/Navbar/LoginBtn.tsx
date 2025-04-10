@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import RegisterModalContent from "@/components/Navbar/RegisterModalContent";
 import LoginModalContent from "@/components/Navbar/LoginModalContent";
 import { parseQueryString } from "@/utils/queryString";
+import UserBtn from "@/components/Navbar/UserBtn";
 
 const LoginBtn = () => {
   const session = useSession();
@@ -25,18 +26,14 @@ const LoginBtn = () => {
   }, []);
 
   return (
-    <div className="ml-auto">
-      {isLoading && (
-        <div className="flex min-w-[100px] justify-center">
-          <Loader />
-        </div>
-      )}
+    <div className="ml-auto flex">
+      {isLoading && <Loader variant="dark" />}
       {(isUnauthenticated || isInitialized) && (
         <Button onClick={toggleModal}>
           {isInitialized ? "Registruotis" : "Prisijungti"}
         </Button>
       )}
-      {isAuthenticated && !isInitialized && <>user pic</>}
+      {isAuthenticated && !isInitialized && <UserBtn />}
       {!session.data?.user.subdomainSlug && (
         <Modal isOpen={isModalOpen} handleClose={toggleModal}>
           {isInitialized && <RegisterModalContent />}

@@ -11,6 +11,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   disabled?: boolean;
   href?: string;
   loading?: boolean;
+  target?: string;
   children: React.ReactNode;
 }
 
@@ -22,6 +23,7 @@ const Button = ({
   disabled,
   href,
   loading,
+  target,
   children,
 }: Props) => {
   const defaultClasses =
@@ -44,6 +46,7 @@ const Button = ({
       <Link
         className="text-primary hover:text-primary/80 cursor-pointer font-bold transition-colors"
         href={href}
+        target={target}
       >
         {children}
       </Link>

@@ -31,7 +31,6 @@ const RegisterModalContent = () => {
             window.location.href = `${formatSubdomainUrl(data.slug)}/nustatymai`;
           }
         }
-        // console.log("ok: ", data);
       },
       onError: (error) => {
         setLoading(false);

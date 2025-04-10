@@ -21,7 +21,7 @@ const links = [
 const Navbar = () => {
   return (
     <nav
-      className={`sticky top-(--navbar-top) flex h-(--navbar-height) w-full content-center items-center rounded-lg border border-violet-200 bg-violet-100/95 px-4 py-3 shadow-md`}
+      className={`sticky top-(--navbar-top) flex h-(--navbar-height) w-full items-center rounded-lg border border-violet-200 bg-violet-100/95 px-4 shadow-md`}
     >
       <a href={getDomainUrl()}>
         <img
@@ -30,7 +30,7 @@ const Navbar = () => {
           className="h-[25px] object-contain"
         />
       </a>
-      <ul className="ml-20 flex items-center gap-x-4">
+      <ul className="ml-20 flex gap-x-4">
         {links.map((link) => (
           <li key={link.section}>
             <a
