@@ -18,7 +18,7 @@ type FetchProps<T> = {
 };
 
 const useFetch = <T>({ endpoint, method = "GET" }: Props) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<FetchError | null>(null);
   const [data, setData] = useState<T | null>(null);
 

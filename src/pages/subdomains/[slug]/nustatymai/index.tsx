@@ -1,12 +1,20 @@
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import { useEffect } from "react";
 import useFetch from "@/hooks/useFetch";
 import { UserData } from "@/types/types";
+import Loader from "@/components/ui/Loader";
+import { HttpError } from "@/constants/http";
+import NotFoundPage from "@/pages/404";
+import InternalErrorPage from "@/pages/500";
+
+const notFoundErrors = [
+  HttpError.NOT_FOUND,
+  HttpError.NOT_LOGGED_IN,
+  HttpError.NOT_ALLOWED,
+];
 
 const SettingsPage = () => {
-  const { data: session } = useSession();
-
-  const { fetch } = useFetch<UserData>({
+  const { fetch, error, isLoading } = useFetch<UserData>({
     endpoint: "settings",
     method: "POST",
   });
@@ -22,7 +30,17 @@ const SettingsPage = () => {
     });
   }, []);
 
-  if (!session) return <>not logged in</>;
+  if (isLoading) {
+    return <Loader variant="dark" />;
+  }
+
+  if (error && notFoundErrors.includes(error.code)) {
+    return <NotFoundPage />;
+  }
+
+  if (error) {
+    return <InternalErrorPage />;
+  }
 
   return (
     <>
