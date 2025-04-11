@@ -57,6 +57,7 @@ export const authOptions: AuthOptions = {
       if (userData) {
         user.status = userData.status;
         user.subdomainSlug = userData.subdomain?.slug;
+        user.image = userData.imageUrl;
       }
 
       if (!userData) {
@@ -72,6 +73,7 @@ export const authOptions: AuthOptions = {
         }
 
         user.status = createData.status;
+        user.image = createData.imageUrl;
       }
 
       return true;
@@ -92,6 +94,7 @@ export const authOptions: AuthOptions = {
         token.googleId = sha256(profile.sub);
         token.userStatus = user.status;
         token.subdomainSlug = user.subdomainSlug;
+        token.image = user.image;
       }
 
       return token;
@@ -101,6 +104,7 @@ export const authOptions: AuthOptions = {
         session.user.googleId = token.googleId;
         session.user.status = token.userStatus;
         session.user.subdomainSlug = token.subdomainSlug;
+        session.user.image = token.image;
       }
 
       return session;

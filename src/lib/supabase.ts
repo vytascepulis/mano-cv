@@ -32,7 +32,7 @@ export const userDataByGoogleIdQuery = ({
 }) =>
   supabase
     .from("users")
-    .select("status, subdomain(slug)")
+    .select("status, imageUrl, subdomain(slug)")
     .eq("googleId", hashedGoogleId)
     .limit(1)
     .single();
@@ -50,7 +50,7 @@ export const createUserMutation = ({
       googleId: hashedGoogleId,
       email,
     })
-    .select("status")
+    .select("status, imageUrl")
     .single();
 
 export const registerSlugMutation = ({ slug }: { slug: string }) =>

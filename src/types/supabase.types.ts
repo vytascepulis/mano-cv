@@ -42,6 +42,7 @@ export type Database = {
           email: string
           googleId: string
           id: string
+          imageUrl: string
           status: Database["public"]["Enums"]["UserStatus"]
           subdomain: string | null
         }
@@ -50,6 +51,7 @@ export type Database = {
           email: string
           googleId: string
           id?: string
+          imageUrl?: string
           status?: Database["public"]["Enums"]["UserStatus"]
           subdomain?: string | null
         }
@@ -58,6 +60,7 @@ export type Database = {
           email?: string
           googleId?: string
           id?: string
+          imageUrl?: string
           status?: Database["public"]["Enums"]["UserStatus"]
           subdomain?: string | null
         }

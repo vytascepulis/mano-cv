@@ -65,15 +65,14 @@ const UserBtn = () => {
         {data.user.subdomainSlug}.mano-cv.lt
       </Button>
       <button
-        className="outline-primary cursor-pointer overflow-hidden rounded-full outline-3"
+        className="outline-primary min-h-[35px] min-w-[35px] cursor-pointer overflow-hidden rounded-full outline-3"
         onClick={toggleIsMenuOpen}
       >
-        img
-        {/*<img*/}
-        {/*  alt={data.user.name!}*/}
-        {/*  src={data.user.image!}*/}
-        {/*  className="h-[35px] object-contain"*/}
-        {/*/>*/}
+        <img
+          alt={data.user.name!}
+          src={data.user.image!}
+          className="h-[35px] object-contain"
+        />
       </button>
       {isMenuOpen && (
         <div
