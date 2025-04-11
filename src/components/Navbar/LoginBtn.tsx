@@ -2,13 +2,14 @@ import { useSession } from "next-auth/react";
 import Loader from "@/components/ui/Loader";
 import Button from "@/components/ui/Button";
 import Modal from "@/components/ui/Modal";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import RegisterModalContent from "@/components/Navbar/RegisterModalContent";
 import LoginModalContent from "@/components/Navbar/LoginModalContent";
 import { parseQueryString } from "@/utils/queryString";
 import UserBtn from "@/components/Navbar/UserBtn";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { useGlobalContext } from "@/contexts/GlobalContext";
 
 const LoginBtn = () => {
   const session = useSession();
@@ -17,12 +18,12 @@ const LoginBtn = () => {
   const isAuthenticated = session.status === "authenticated";
   const isInitialized = session.data?.user.status === "INITIALIZED";
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const toggleModal = () => setIsModalOpen((prevState) => !prevState);
+  const { toggleLoginModal, loginModalOpen, setLoginModalOpen } =
+    useGlobalContext();
 
   useEffect(() => {
     if (parseQueryString()?.status === "initialized") {
-      setIsModalOpen(true);
+      setLoginModalOpen(true);
       window.history.replaceState({}, document.title, window.location.pathname);
     }
   }, []);
@@ -31,7 +32,7 @@ const LoginBtn = () => {
     <div className="ml-auto flex">
       {isLoading && <Loader variant="dark" />}
       {(isUnauthenticated || isInitialized) && (
-        <Button onClick={toggleModal}>
+        <Button onClick={toggleLoginModal}>
           <FontAwesomeIcon icon={faUser} />
           <span className="hidden md:block">
             {isInitialized ? "Registruotis" : "Prisijungti"}
@@ -40,7 +41,7 @@ const LoginBtn = () => {
       )}
       {isAuthenticated && !isInitialized && <UserBtn />}
       {!session.data?.user.subdomainSlug && (
-        <Modal isOpen={isModalOpen} handleClose={toggleModal}>
+        <Modal isOpen={loginModalOpen} handleClose={toggleLoginModal}>
           {isInitialized && <RegisterModalContent />}
           {!isInitialized && <LoginModalContent />}
         </Modal>

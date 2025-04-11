@@ -6,6 +6,7 @@ import { ReactElement, ReactNode } from "react";
 import { Outfit } from "next/font/google";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import { GlobalProvider } from "@/contexts/GlobalContext";
 
 export type NextPageWithLayout<P = unknown, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -26,10 +27,12 @@ export default function App({
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
-    <main className={outfit.className}>
+    <GlobalProvider>
       <SessionProvider session={session} refetchOnWindowFocus={false}>
-        {getLayout(<Component {...pageProps} />)}
+        <main className={outfit.className}>
+          {getLayout(<Component {...pageProps} />)}
+        </main>
       </SessionProvider>
-    </main>
+    </GlobalProvider>
   );
 }

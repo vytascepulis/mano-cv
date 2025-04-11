@@ -1,6 +1,8 @@
 import Button from "@/components/ui/Button";
+import { useGlobalContext } from "@/contexts/GlobalContext";
 
 const HeroSection = () => {
+  const { toggleLoginModal } = useGlobalContext();
   return (
     <section className="text-light mx-auto flex max-w-[700px] flex-col items-center text-center">
       <h1 className="mb-7 text-4xl font-extrabold md:mb-5 lg:text-6xl">
@@ -12,7 +14,9 @@ const HeroSection = () => {
         žmonėmis
       </p>
       <div className="flex w-full flex-col justify-center gap-3 md:flex-row">
-        <Button size="lg">Pradėti</Button>
+        <Button size="lg" onClick={toggleLoginModal}>
+          Pradėti
+        </Button>
         <Button size="lg" variant="outline">
           Žiūrėti pavyzdžius
         </Button>
