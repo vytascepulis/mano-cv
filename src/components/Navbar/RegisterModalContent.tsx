@@ -22,15 +22,9 @@ const RegisterModalContent = () => {
       body: {
         slug: refSlugValue.current,
       },
-      onSuccess: async (data) => {
+      onSuccess: async () => {
         setLoading(false);
-
-        if (window) {
-          const newSession = await update();
-          if (newSession?.user.subdomainSlug) {
-            window.location.href = `${formatSubdomainUrl(data.slug)}/nustatymai`;
-          }
-        }
+        await update();
       },
       onError: (error) => {
         setLoading(false);

@@ -33,11 +33,13 @@ const MobileMenu = () => {
           onClick={(e) => {
             e.stopPropagation();
           }}
-          className="h-screen w-[200px] p-4"
+          className="h-screen w-[200px]"
         >
-          <Button variant="link" onClick={closeDialog}>
-            <FontAwesomeIcon size="2xl" icon={faXmark} />
-          </Button>
+          <div className="p-4">
+            <Button variant="link" onClick={closeDialog}>
+              <FontAwesomeIcon size="2xl" icon={faXmark} />
+            </Button>
+          </div>
 
           <ul className="mt-5 flex flex-col gap-1">
             {menuLinks.map((link) => (
@@ -46,7 +48,7 @@ const MobileMenu = () => {
                   href={`#${link.section}`}
                   onClick={closeDialog}
                   className={twMerge(
-                    "block rounded-sm py-2 pr-3 font-extrabold transition-colors",
+                    "block rounded-sm p-4 py-2 pr-3 font-extrabold transition-colors",
                     "text-dark hover:bg-violet-600/10",
                   )}
                 >

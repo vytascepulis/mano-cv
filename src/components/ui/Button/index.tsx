@@ -31,7 +31,7 @@ const Button = ({
   const defaultClasses =
     "cursor-pointer justify-center px-3 h-[35px] rounded-xs transition-colors shadow-sm font-semibold disabled:cursor-not-allowed flex gap-2 items-center";
   const primaryDefaultClasses =
-    "bg-primary text-light hover:bg-primary/90 disabled:bg-primary/50";
+    "bg-primary text-light hover:bg-violet-700 disabled:bg-primary/50";
   const primaryOutlineClasses =
     "bg-transparent text-violet-500 border-3 border-primary hover:bg-primary hover:text-light hover:border-primary/90";
   const lgClasses = "h-[45px] px-5 text-lg";

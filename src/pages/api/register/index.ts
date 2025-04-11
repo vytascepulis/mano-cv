@@ -5,13 +5,11 @@ import {
 } from "@/lib/supabase";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { RegisterData } from "@/types/types";
+import { ErrorResponse, RegisterData } from "@/types/types";
+import { HttpError } from "@/constants/http";
+import { buildErrorResponse } from "@/pages/api/utils";
 
-interface ResponseError {
-  message: string;
-}
-
-type Response = RegisterData | ResponseError;
+type Response = RegisterData | ErrorResponse;
 
 export default async function handler(
   req: NextApiRequest,
@@ -20,12 +18,15 @@ export default async function handler(
   const method = req.method;
   const slug = req.body.slug;
 
-  if (method === "POST" && slug) {
+  if (method === "POST") {
+    if (!slug) {
+      return buildErrorResponse(res, HttpError.BAD_REQUEST);
+    }
+
     const session = await getServerSession(req, res, authOptions);
 
     if (!session) {
-      res.status(500).json({ message: "Internal Server Error" });
-      return;
+      return buildErrorResponse(res, HttpError.NOT_LOGGED_IN);
     }
 
     const { data: registerSlugData, error: registerSlugError } =
@@ -34,9 +35,7 @@ export default async function handler(
       });
 
     if (registerSlugError) {
-      console.log("Error registering slug: ", registerSlugError);
-      res.status(500).json({ message: "Internal Server Error" });
-      return;
+      return buildErrorResponse(res, HttpError.INTERNAL_ERROR);
     }
 
     const { data: updateSubdomainData, error: updateSubdomainError } =
@@ -46,17 +45,14 @@ export default async function handler(
       });
 
     if (updateSubdomainError || !updateSubdomainData?.subdomain) {
-      console.log("Error updating subdomain: ", updateSubdomainError);
-      res.status(500).json({ message: "Internal Server Error" });
-      return;
+      return buildErrorResponse(res, HttpError.INTERNAL_ERROR);
     }
 
-    res.status(200).json({
+    return res.status(200).json({
       id: updateSubdomainData.subdomain.id,
       slug: updateSubdomainData.subdomain.slug,
     });
-    return;
   }
 
-  res.status(500).json({ message: "Internal Server Error" });
+  return buildErrorResponse(res, HttpError.METHOD_NOT_ALLOWED);
 }

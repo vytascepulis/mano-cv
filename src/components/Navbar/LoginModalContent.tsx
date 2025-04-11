@@ -11,7 +11,7 @@ const LoginModalContent = () => {
       <p className="text-dark max-w-[400px]">
         Prisijunk su Google ir pradėk kurti savo asmeninį internetinį CV
       </p>
-      <div className="mt-4 md:mt-10">
+      <div className="mt-4 md:mt-6">
         <GoogleButton
           onClick={() => signIn("google", { callbackUrl: "/auth" })}
         />

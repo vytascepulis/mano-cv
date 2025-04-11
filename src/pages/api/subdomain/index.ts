@@ -1,11 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { formatSubdomainData, getSubdomainFromUrl } from "@/utils/subdomain";
-import { handleCors } from "@/utils/cors";
 import { sha256 } from "@/utils/crypto";
 import { userWithSubdomainQuery } from "@/lib/supabase";
 import { SubdomainData } from "@/types/types";
 import { SubdomainStatus } from "@/types/supabase.enums";
 import { ErrorCodes } from "@/constants/postgrest";
+import { buildErrorResponse } from "@/pages/api/utils";
+import { HttpError } from "@/constants/http";
+import build from "next/dist/build";
 
 interface ResponseError {
   message: string;
@@ -17,26 +19,26 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Response>,
 ) {
-  if (handleCors(req, res)) return;
-
   const method = req.method;
   const subdomain = getSubdomainFromUrl(req.headers.origin);
   const cookiesCode = req.cookies.code;
   const bodyCode = sha256(req.body.code);
 
-  if (method === "POST" && subdomain) {
+  if (method === "POST") {
+    if (!subdomain) {
+      return buildErrorResponse(res, HttpError.BAD_REQUEST);
+    }
+
     const { data: userData, error } = await userWithSubdomainQuery({
       subdomain,
     });
 
     if (error) {
       if (error.code === ErrorCodes.NOT_FOUND) {
-        res.status(404).json({ message: "Subdomain not found" });
-        return;
+        return buildErrorResponse(res, HttpError.NOT_FOUND);
       }
 
-      res.status(500).json({ message: "Internal Server Error" });
-      return;
+      return buildErrorResponse(res, HttpError.INTERNAL_ERROR);
     }
 
     if (
@@ -44,8 +46,7 @@ export default async function handler(
       userData?.subdomain.status === SubdomainStatus.HIDDEN ||
       userData?.status === SubdomainStatus.BLOCKED
     ) {
-      res.status(404).json({ message: "Subdomain not found" });
-      return;
+      return buildErrorResponse(res, HttpError.NOT_FOUND);
     }
 
     if (
@@ -61,13 +62,11 @@ export default async function handler(
         );
       }
 
-      res.status(200).json({ ...formatSubdomainData(userData) });
-      return;
+      return res.status(200).json({ ...formatSubdomainData(userData) });
     }
 
-    res.status(400).json({ message: "Incorrect code" });
-    return;
+    return buildErrorResponse(res, HttpError.NOT_ALLOWED);
   }
 
-  res.status(500).json({ message: "Internal Server Error" });
+  return buildErrorResponse(res, HttpError.METHOD_NOT_ALLOWED);
 }

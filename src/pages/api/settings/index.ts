@@ -1,32 +1,30 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getSubdomainFromUrl } from "@/utils/subdomain";
-import { handleCors } from "@/utils/cors";
 import { subdomainSettingsQuery } from "@/lib/supabase";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { UserData } from "@/types/types";
+import { ErrorResponse, UserData } from "@/types/types";
+import { buildErrorResponse } from "@/pages/api/utils";
+import { HttpError } from "@/constants/http";
 
-interface ResponseError {
-  message: string;
-}
-
-type Response = UserData | ResponseError;
+type Response = UserData | ErrorResponse;
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Response>,
 ) {
-  if (handleCors(req, res)) return;
-
   const method = req.method;
   const subdomain = getSubdomainFromUrl(req.headers.origin);
 
-  if (method === "POST" && subdomain) {
+  if (method === "POST") {
+    if (!subdomain) {
+      return buildErrorResponse(res, HttpError.INTERNAL_ERROR);
+    }
+
     const session = await getServerSession(req, res, authOptions);
 
     if (!session) {
-      res.status(500).json({ message: "Internal Server Error" });
-      return;
+      return buildErrorResponse(res, HttpError.NOT_LOGGED_IN);
     }
 
     const { data: settingsData, error } = await subdomainSettingsQuery({
@@ -34,23 +32,19 @@ export default async function handler(
     });
 
     if (error) {
-      res.status(500).json({ message: "Internal Server Error" });
-      return;
+      return buildErrorResponse(res, HttpError.INTERNAL_ERROR);
     }
 
     if (!settingsData) {
-      res.status(404).json({ message: "Subdomain not found" });
-      return;
+      return buildErrorResponse(res, HttpError.NOT_FOUND);
     }
 
     if (settingsData.googleId !== session.user.googleId) {
-      res.status(401).json({ message: "Subdomain does not belong to you" });
-      return;
+      return buildErrorResponse(res, HttpError.NOT_ALLOWED);
     }
 
-    res.status(200).json({ ...settingsData });
-    return;
+    return res.status(200).json({ ...settingsData });
   }
 
-  res.status(500).json({ message: "Internal Server Error" });
+  return buildErrorResponse(res, HttpError.METHOD_NOT_ALLOWED);
 }

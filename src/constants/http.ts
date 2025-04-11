@@ -1,0 +1,8 @@
+export enum HttpError {
+  "BAD_REQUEST" = 400,
+  "NOT_LOGGED_IN" = 401,
+  "NOT_ALLOWED" = 403,
+  "NOT_FOUND" = 404,
+  "METHOD_NOT_ALLOWED" = 405,
+  "INTERNAL_ERROR" = 500,
+}

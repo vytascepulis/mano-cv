@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { HttpError } from "@/constants/http";
 
-const handleCors = (req: NextApiRequest, res: NextApiResponse) => {
+export const handleCors = (req: NextApiRequest, res: NextApiResponse) => {
   const origin = req.headers.origin;
   const allowedDomainPattern =
     /^https:\/\/([a-z0-9-]+\.)?mano-cv\.lt$|^http:\/\/localhost(:\d+)?$/;
@@ -23,4 +24,6 @@ const handleCors = (req: NextApiRequest, res: NextApiResponse) => {
   return false; // Request should continue to API logic
 };
 
-export { handleCors };
+export const buildErrorResponse = (res: NextApiResponse, code: HttpError) => {
+  res.status(code).json({ message: HttpError[code] });
+};
