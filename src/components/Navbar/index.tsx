@@ -2,24 +2,8 @@ import { getDomainUrl } from "@/utils/subdomain";
 import logo from "./mano-cv-logo.png";
 import LoginBtn from "@/components/Navbar/LoginBtn";
 import { twMerge } from "tailwind-merge";
-import Button from "@/components/ui/Button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
-
-const links = [
-  {
-    text: "Privalumai",
-    section: "privalumai",
-  },
-  {
-    text: "Paslaugos",
-    section: "paslaugos",
-  },
-  {
-    text: "Šablonai",
-    section: "sablonai",
-  },
-];
+import { menuLinks } from "@/components/Navbar/constants";
+import MobileMenu from "@/components/MobileMenu";
 
 const Navbar = () => {
   return (
@@ -28,9 +12,7 @@ const Navbar = () => {
         className={`grid h-(--navbar-height) grid-cols-[1fr_2fr_1fr] content-center border border-violet-200 bg-violet-100/95 px-4 shadow-md lg:rounded-lg`}
       >
         <div className="self-center lg:hidden">
-          <Button variant="link">
-            <FontAwesomeIcon size="xl" icon={faBars} />
-          </Button>
+          <MobileMenu />
         </div>
         <a
           href={getDomainUrl()}
@@ -43,7 +25,7 @@ const Navbar = () => {
           />
         </a>
         <ul className="hidden place-self-center lg:flex lg:gap-x-1">
-          {links.map((link) => (
+          {menuLinks.map((link) => (
             <li key={link.section}>
               <a
                 href={`#${link.section}`}
