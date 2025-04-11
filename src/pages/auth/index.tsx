@@ -1,7 +1,6 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { formatSubdomainUrl } from "@/utils/subdomain";
 
 const LoginAuthPage = () => {
   const { data: session, status } = useSession();
@@ -10,7 +9,6 @@ const LoginAuthPage = () => {
   useEffect(() => {
     if (status === "authenticated") {
       if (session.user.subdomainSlug) {
-        // window.location.href = `${formatSubdomainUrl(session.user.subdomainSlug)}/nustatymai`;
         router.replace({ pathname: "/" });
         return;
       }
