@@ -3,7 +3,6 @@ import { useRef, useState } from "react";
 import Button from "@/components/ui/Button";
 import useFetch from "@/hooks/useFetch";
 import { RegisterData } from "@/types/types";
-import { formatSubdomainUrl } from "@/utils/subdomain";
 import { useSession } from "next-auth/react";
 
 const RegisterModalContent = () => {
