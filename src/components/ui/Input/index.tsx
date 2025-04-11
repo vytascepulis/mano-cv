@@ -1,7 +1,10 @@
+import { twMerge } from "tailwind-merge";
+
 interface GenericProps {
   onChange: (value: string) => void;
   placeholder?: string;
   disabled?: boolean;
+  className?: string;
 }
 
 interface TextProps extends GenericProps {
@@ -16,7 +19,7 @@ interface SuffixProps extends GenericProps {
 type Props = TextProps | SuffixProps;
 
 const Input = (props: Props) => {
-  const { onChange, type, placeholder, disabled } = props;
+  const { onChange, type, placeholder, disabled, className } = props;
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value);
@@ -26,9 +29,14 @@ const Input = (props: Props) => {
     const { suffix } = props;
 
     return (
-      <span className="bg-light has-focus:outline-primary flex h-[35px] max-w-[400px] flex-1 items-center rounded-xs shadow-sm has-focus:outline-3 has-disabled:bg-gray-100">
+      <span
+        className={twMerge(
+          className,
+          "bg-light has-focus:outline-primary flex h-[35px] items-center rounded-xs shadow-sm has-focus:outline-3 has-disabled:bg-gray-100",
+        )}
+      >
         <input
-          className="h-full w-0 min-w-0 flex-1 grow pr-1 pl-3 outline-0 placeholder:text-gray-400 disabled:cursor-not-allowed"
+          className="h-full w-0 min-w-0 grow pr-1 pl-3 outline-0 placeholder:text-gray-400 disabled:cursor-not-allowed"
           onChange={handleOnChange}
           placeholder={placeholder}
           disabled={disabled}

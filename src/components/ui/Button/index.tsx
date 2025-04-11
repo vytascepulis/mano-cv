@@ -12,6 +12,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   href?: string;
   loading?: boolean;
   target?: string;
+  className?: string;
   children: React.ReactNode;
 }
 
@@ -24,30 +25,34 @@ const Button = ({
   href,
   loading,
   target,
+  className,
   children,
 }: Props) => {
   const defaultClasses =
-    "cursor-pointer px-3 h-[35px] rounded-xs transition-colors shadow-sm font-semibold disabled:cursor-not-allowed flex gap-2 items-center";
+    "cursor-pointer justify-center px-3 h-[35px] rounded-xs transition-colors shadow-sm font-semibold disabled:cursor-not-allowed flex gap-2 items-center";
   const primaryDefaultClasses =
     "bg-primary text-light hover:bg-primary/90 disabled:bg-primary/50";
   const primaryOutlineClasses =
     "bg-transparent text-violet-500 border-3 border-primary hover:bg-primary hover:text-light hover:border-primary/90";
   const lgClasses = "h-[45px] px-5 text-lg";
 
+  const defaultLinkClasses =
+    "text-primary hover:text-primary/80 cursor-pointer font-bold transition-colors shadow-none px-0 h-auto";
+
+  const linkClass = twMerge(className, defaultLinkClasses);
+
   const buttonClass = twMerge(
+    className,
     defaultClasses,
     color === "primary" && variant === "default" && primaryDefaultClasses,
     variant === "outline" && primaryOutlineClasses,
     size === "lg" && lgClasses,
+    variant === "link" && linkClass,
   );
 
-  if (variant === "link" && href) {
+  if (href) {
     return (
-      <Link
-        className="text-primary hover:text-primary/80 cursor-pointer font-bold transition-colors"
-        href={href}
-        target={target}
-      >
+      <Link className={linkClass} href={href} target={target}>
         {children}
       </Link>
     );

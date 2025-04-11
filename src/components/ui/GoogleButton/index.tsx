@@ -6,7 +6,7 @@ const GoogleButton = ({ onClick }: Props) => {
   return (
     <button
       className="gsi-material-button"
-      style={{ width: "300px" }}
+      style={{ width: "200px" }}
       onClick={onClick}
     >
       <div className="gsi-material-button-state"></div>

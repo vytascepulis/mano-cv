@@ -15,6 +15,7 @@ body.disable-scroll {
   --content-after-navbar-padding: calc(
     var(--navbar-height) + var(--navbar-top) + 50px
   );
+  --content-after-navbar-mobile-padding: 50px;
 }
 
 @theme inline {

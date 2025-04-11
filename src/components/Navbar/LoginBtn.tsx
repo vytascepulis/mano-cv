@@ -7,6 +7,8 @@ import RegisterModalContent from "@/components/Navbar/RegisterModalContent";
 import LoginModalContent from "@/components/Navbar/LoginModalContent";
 import { parseQueryString } from "@/utils/queryString";
 import UserBtn from "@/components/Navbar/UserBtn";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const LoginBtn = () => {
   const session = useSession();
@@ -30,7 +32,10 @@ const LoginBtn = () => {
       {isLoading && <Loader variant="dark" />}
       {(isUnauthenticated || isInitialized) && (
         <Button onClick={toggleModal}>
-          {isInitialized ? "Registruotis" : "Prisijungti"}
+          <FontAwesomeIcon icon={faUser} />
+          <span className="hidden md:block">
+            {isInitialized ? "Registruotis" : "Prisijungti"}
+          </span>
         </Button>
       )}
       {isAuthenticated && !isInitialized && <UserBtn />}

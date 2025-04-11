@@ -40,21 +40,22 @@ const RegisterModalContent = () => {
   };
 
   return (
-    <div className="flex flex-col items-center py-10 text-center">
-      <h1 className="text-dark mb-5 text-5xl font-extrabold">
+    <div className="flex flex-col items-center py-2 text-center md:py-10">
+      <h1 className="text-dark mb-4 text-4xl font-extrabold md:mb-5 md:text-5xl">
         Tavo svetainės pavadinimas
       </h1>
       <p className="text-dark max-w-[400px]">
         Geras svetainės vardas leis kitiems lengviau ją įsiminti. Jo keisti
         nebegalėsi, tad neskubėk
       </p>
-      <div className="mt-10 flex w-[400px] flex-row gap-4">
+      <div className="mt-4 flex w-full flex-col gap-4 sm:w-[400px] sm:flex-row md:mt-10">
         <Input
           type="suffix"
           onChange={(val) => (refSlugValue.current = val)}
           suffix=".mano-cv.lt"
           placeholder="Pavadinimas"
           disabled={loading}
+          className="flex-none sm:flex-1"
         />
         <Button loading={loading} onClick={handleRegisterSlug}>
           Sukurti

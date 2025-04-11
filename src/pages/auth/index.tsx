@@ -10,7 +10,8 @@ const LoginAuthPage = () => {
   useEffect(() => {
     if (status === "authenticated") {
       if (session.user.subdomainSlug) {
-        window.location.href = `${formatSubdomainUrl(session.user.subdomainSlug)}/nustatymai`;
+        // window.location.href = `${formatSubdomainUrl(session.user.subdomainSlug)}/nustatymai`;
+        router.replace({ pathname: "/" });
         return;
       }
 

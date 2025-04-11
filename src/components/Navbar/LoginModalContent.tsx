@@ -4,18 +4,18 @@ import { signIn } from "next-auth/react";
 
 const LoginModalContent = () => {
   return (
-    <div className="flex flex-col items-center py-10 text-center">
-      <h1 className="text-dark mb-5 text-5xl font-extrabold">
+    <div className="flex flex-col items-center py-2 text-center md:py-10">
+      <h1 className="text-dark mb-4 text-4xl font-extrabold md:mb-5 md:text-5xl">
         Pradėk vienu paspaudimu
       </h1>
       <p className="text-dark max-w-[400px]">
         Prisijunk su Google ir pradėk kurti savo asmeninį internetinį CV
       </p>
-      <div className="mt-10">
+      <div className="mt-4 md:mt-10">
         <GoogleButton
           onClick={() => signIn("google", { callbackUrl: "/auth" })}
         />
-        <p className="text-dark mt-1 text-xs font-light">
+        <p className="text-dark mt-2 text-xs font-light md:mt-1">
           Registruodamasis sutinki su mūsų{" "}
           <Button variant="link" href="/">
             slapukų politika
