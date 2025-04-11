@@ -7,7 +7,6 @@ import { SubdomainStatus } from "@/types/supabase.enums";
 import { ErrorCodes } from "@/constants/postgrest";
 import { buildErrorResponse } from "@/pages/api/utils";
 import { HttpError } from "@/constants/http";
-import build from "next/dist/build";
 
 interface ResponseError {
   message: string;
