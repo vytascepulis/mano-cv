@@ -48,7 +48,7 @@ const MobileMenu = () => {
                   href={`#${link.section}`}
                   onClick={closeDialog}
                   className={twMerge(
-                    "block rounded-sm p-4 py-2 pr-3 font-extrabold transition-colors",
+                    "block rounded-sm py-2 pl-7 font-extrabold transition-colors",
                     "text-dark hover:bg-violet-600/10",
                   )}
                 >

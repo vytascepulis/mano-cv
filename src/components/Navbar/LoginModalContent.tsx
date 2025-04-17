@@ -1,4 +1,4 @@
-import GoogleButton from "@/components/ui/GoogleButton";
+import GoogleButton from "../GoogleButton";
 import Button from "@/components/ui/Button";
 import { signIn } from "next-auth/react";
 
@@ -15,7 +15,7 @@ const LoginModalContent = () => {
         <GoogleButton
           onClick={() => signIn("google", { callbackUrl: "/auth" })}
         />
-        <p className="text-dark mt-2 text-xs font-light md:mt-1">
+        <p className="text-dark mt-2 text-xs font-light">
           Registruodamasis sutinki su mūsų{" "}
           <Button variant="link" href="/">
             slapukų politika

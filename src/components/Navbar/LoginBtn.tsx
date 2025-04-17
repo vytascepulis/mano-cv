@@ -31,7 +31,7 @@ const LoginBtn = () => {
   return (
     <div className="ml-auto flex">
       {isLoading && <Loader variant="dark" />}
-      {(isUnauthenticated || isInitialized) && (
+      {!isLoading && (isUnauthenticated || isInitialized) && (
         <Button onClick={toggleLoginModal}>
           <FontAwesomeIcon icon={faUser} />
           <span className="hidden md:block">

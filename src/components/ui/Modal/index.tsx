@@ -28,7 +28,7 @@ const Modal = ({ isOpen, handleClose, children }: Props) => {
       ref={refDialog}
       className={twMerge(
         style.modal,
-        "mx-auto mt-40 w-[700px] rounded-lg bg-violet-100",
+        "mx-auto mt-5 w-[700px] rounded-lg bg-violet-100 sm:mt-40",
       )}
       onClick={handleClose}
     >

@@ -1,0 +1,15 @@
+export const initialSettings = {
+  image: null,
+  fullName: "",
+  phoneNumber: "",
+  email: "",
+  address: "",
+  intro: "",
+  skills: [],
+  languages: [],
+  experience: [],
+  education: [],
+  desiredPosition: [],
+  expectedSalary: { amount: 0, currency: "" },
+  websiteDesign: "",
+};

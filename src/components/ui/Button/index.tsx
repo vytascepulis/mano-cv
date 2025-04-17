@@ -4,7 +4,7 @@ import Link from "next/link";
 import Loader from "@/components/ui/Loader";
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
-  color?: "primary" | "secondary";
+  color?: "primary" | "secondary" | "danger";
   variant?: "default" | "outline" | "link";
   size?: "sm" | "md" | "lg";
   onClick?: () => void;
@@ -13,6 +13,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   loading?: boolean;
   target?: string;
   className?: string;
+  type?: "button" | "submit";
   children: React.ReactNode;
 }
 
@@ -26,33 +27,62 @@ const Button = ({
   loading,
   target,
   className,
+  type = "button",
   children,
 }: Props) => {
   const defaultClasses =
     "cursor-pointer justify-center px-3 h-[35px] rounded-xs transition-colors shadow-sm font-semibold disabled:cursor-not-allowed flex gap-2 items-center";
+  const linkClasses = "font-bold shadow-none px-0 h-auto";
+
   const primaryDefaultClasses =
-    "bg-primary text-light hover:bg-violet-700 disabled:bg-primary/50";
+    "bg-violet-600 text-gray-50 hover:bg-violet-700 disabled:bg-violet-600/50";
   const primaryOutlineClasses =
-    "bg-transparent text-violet-500 border-3 border-primary hover:bg-primary hover:text-light hover:border-primary/90";
-  const lgClasses = "h-[45px] px-5 text-lg";
+    "bg-transparent text-violet-500 border-3 border-violet-600 hover:bg-violet-600 hover:text-gray-50 disabled:bg-violet-600/50 disabled:border-none disabled:text-gray-50";
+  const primaryLinkClasses = "text-violet-600 hover:text-violet-800";
 
-  const defaultLinkClasses =
-    "text-primary hover:text-primary/80 cursor-pointer font-bold transition-colors shadow-none px-0 h-auto";
+  const secondaryDefaultClasses =
+    "bg-gray-900 text-gray-50 hover:bg-gray-800 disabled:bg-gray-900/50";
+  const secondaryOutlineClasses =
+    "bg-transparent text-gray-900 border-3 border-gray-900 hover:bg-gray-900 hover:text-gray-50 disabled:bg-gray-900/50 disabled:border-none disabled:text-gray-50";
+  const secondaryLinkClasses = "text-gray-900 hover:text-gray-700";
 
-  const linkClass = twMerge(className, defaultLinkClasses);
+  const dangerDefaultClasses =
+    "bg-red-500 text-gray-50 hover:bg-red-600 disabled:bg-red-500/50";
+  const dangerOutlineClasses =
+    "bg-transparent text-red-500 border-3 border-red-500 hover:bg-red-500 hover:text-gray-50 disabled:bg-red-500/50 disabled:border-none disabled:text-gray-50";
+  const dangerLinkClasses = "text-red-500 hover:text-red-700";
 
   const buttonClass = twMerge(
-    className,
     defaultClasses,
-    color === "primary" && variant === "default" && primaryDefaultClasses,
-    variant === "outline" && primaryOutlineClasses,
-    size === "lg" && lgClasses,
-    variant === "link" && linkClass,
+    className,
+    variant === "link" && linkClasses,
+    variant === "default" && color === "primary" && primaryDefaultClasses,
+    variant === "outline" && color === "primary" && primaryOutlineClasses,
+    variant === "link" && color === "primary" && primaryLinkClasses,
+    variant === "default" && color === "secondary" && secondaryDefaultClasses,
+    variant === "outline" && color === "secondary" && secondaryOutlineClasses,
+    variant === "link" && color === "secondary" && secondaryLinkClasses,
+    variant === "default" && color === "danger" && dangerDefaultClasses,
+    variant === "outline" && color === "danger" && dangerOutlineClasses,
+    variant === "link" && color === "danger" && dangerLinkClasses,
+    size === "lg" && "text-lg",
+    size === "sm" && "text-sm",
+    (variant === "default" || variant === "outline") &&
+      size === "lg" &&
+      "h-[45px] px-5",
+    (variant === "default" || variant === "outline") &&
+      size === "sm" &&
+      "h-[25px] px-2",
   );
 
   if (href) {
     return (
-      <Link className={linkClass} href={href} target={target}>
+      <Link
+        className={buttonClass}
+        href={href}
+        target={target}
+        onClick={onClick}
+      >
         {children}
       </Link>
     );
@@ -63,6 +93,7 @@ const Button = ({
       className={buttonClass}
       disabled={disabled || loading}
       onClick={onClick}
+      type={type}
     >
       {children}
       {loading && <Loader size="sm" />}

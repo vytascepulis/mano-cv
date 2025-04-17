@@ -1,5 +1,5 @@
 import Input from "@/components/ui/Input";
-import { useRef, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import Button from "@/components/ui/Button";
 import useFetch from "@/hooks/useFetch";
 import { RegisterData } from "@/types/types";
@@ -15,7 +15,9 @@ const RegisterModalContent = () => {
     method: "POST",
   });
 
-  const handleRegisterSlug = () => {
+  const handleRegisterSlug = (e: FormEvent) => {
+    e.preventDefault();
+
     setLoading(true);
     fetch({
       body: {
@@ -41,7 +43,10 @@ const RegisterModalContent = () => {
         Geras svetainės vardas leis kitiems lengviau ją įsiminti. Jo keisti
         nebegalėsi, tad neskubėk
       </p>
-      <div className="mt-4 flex w-full flex-col gap-4 sm:w-[400px] sm:flex-row md:mt-10">
+      <form
+        onSubmit={handleRegisterSlug}
+        className="mt-4 flex w-full flex-col gap-4 sm:w-[400px] sm:flex-row md:mt-10"
+      >
         <Input
           type="suffix"
           onChange={(val) => (refSlugValue.current = val)}
@@ -50,10 +55,10 @@ const RegisterModalContent = () => {
           disabled={loading}
           className="flex-none sm:flex-1"
         />
-        <Button loading={loading} onClick={handleRegisterSlug}>
+        <Button type="submit" loading={loading}>
           Sukurti
         </Button>
-      </div>
+      </form>
     </div>
   );
 };
