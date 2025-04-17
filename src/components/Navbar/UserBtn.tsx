@@ -22,7 +22,7 @@ interface MenuItem {
 }
 
 interface Props {
-  hiddenIds: MenuItem["id"][];
+  hiddenIds?: MenuItem["id"][];
 }
 
 const MenuBtn = ({ item }: { item: MenuItem }) => {

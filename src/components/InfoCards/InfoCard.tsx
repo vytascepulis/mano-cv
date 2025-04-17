@@ -15,7 +15,7 @@ const InfoCard = ({ card, onEdit, onDelete }: Props) => {
   const dateTo = card.dateTo ? format(card.dateTo, "yyyy-MM") : "dabar";
 
   return (
-    <div className="rounded-xs bg-violet-100 p-[10px] shadow-sm outline-1 outline-violet-300">
+    <div className="card">
       <div className="flex flex-row justify-between">
         <h2 className="text-dark text-lg font-semibold">{card.title}</h2>
         <div className="flex flex-row gap-2">

@@ -4,14 +4,79 @@ import { texts } from "@/pages/subdomains/[slug]/nustatymai/texts";
 import InputPills from "@/components/ui/InputPills";
 import Select from "@/components/ui/Select";
 import InfoCards from "@/components/InfoCards";
+import ToggleCards from "@/components/ToggleCards";
+import PhotoUpload from "@/components/PhotoUpload";
 
 const SettingsList = () => {
   return (
     <div className="mx-auto box-content flex max-w-[800px] flex-col gap-8 px-0 py-10 lg:px-3 lg:py-24">
       <Setting title={texts.image.title} subtitle={texts.image.subtitle}>
-        photo module
+        <PhotoUpload
+          initialPhoto={"https://mano-cv.lt/generic-user.png"}
+          onUpload={(file) => console.log("upload: ", file)}
+        />
       </Setting>
       <Setting title={texts.fullName.title} subtitle={texts.fullName.subtitle}>
+        <ToggleCards
+          options={{
+            onView: (card) => console.log("view", card),
+            onSelect: (card) => console.log("select", card),
+          }}
+          cards={[
+            {
+              id: "1",
+              title: "Klasikinis",
+              description:
+                "Aiški struktūra, tradicinis išdėstymas. Puikiai tinka formaliems ar akademiniams CV",
+            },
+            {
+              id: "2",
+              title: "Modernus",
+              description:
+                "Švarus dizainas su akcentais ir vizualine hierarchija. Idealus kūrybinių sričių ar tech specialistams",
+            },
+            {
+              id: "3",
+              title: "Minimalistinis",
+              description:
+                "Paprastas, lengvai skaitomas stilius be jokių perteklinių elementų. Dėmesys tik svarbiausiai informacijai",
+            },
+          ]}
+        />
+      </Setting>
+      <Select
+        options={[
+          { value: "test-value", label: "Test value" },
+          { value: "test-value2", label: "Test value2" },
+          { value: "test-value3", label: "Test value3" },
+          { value: "mr-alo", label: "Mr. Alo" },
+          { value: "mr-alo2", label: "Mr. Alo2" },
+          { value: "mr-alo3", label: "Mr. Alo3" },
+        ]}
+        initialValue={{ value: "mr-alo", label: "Mr. Alo" }}
+        onChange={(val) => console.log("selected: ", val)}
+        label={"label bro"}
+      />
+      <Setting
+        title={texts.phoneNumber.title}
+        subtitle={texts.phoneNumber.subtitle}
+      >
+        <InputPills
+          className="w-full lg:max-w-[300px]"
+          onChange={(val) => console.log("val: ", val)}
+          label={"pills label"}
+        />
+      </Setting>
+      <Setting title={texts.email.title} subtitle={texts.email.subtitle}>
+        <Input
+          type="textarea"
+          onChange={(val) => console.log("val: ", val)}
+          placeholder="textarea"
+          className="lg:max-w-[300px]"
+          label="halo"
+        />
+      </Setting>
+      <Setting title={texts.address.title} subtitle={texts.address.subtitle}>
         <InfoCards
           onAdd={(cards) => console.log("onAdd: ", cards)}
           options={{
@@ -59,47 +124,6 @@ const SettingsList = () => {
               isCurrent: true,
             },
           ]}
-        />
-      </Setting>
-      <Select
-        options={[
-          { value: "test-value", label: "Test value" },
-          { value: "test-value2", label: "Test value2" },
-          { value: "test-value3", label: "Test value3" },
-          { value: "mr-alo", label: "Mr. Alo" },
-          { value: "mr-alo2", label: "Mr. Alo2" },
-          { value: "mr-alo3", label: "Mr. Alo3" },
-        ]}
-        initialValue={{ value: "mr-alo", label: "Mr. Alo" }}
-        onChange={(val) => console.log("selected: ", val)}
-        label={"label bro"}
-      />
-      <Setting
-        title={texts.phoneNumber.title}
-        subtitle={texts.phoneNumber.subtitle}
-      >
-        <InputPills
-          className="w-full lg:max-w-[300px]"
-          onChange={(val) => console.log("val: ", val)}
-          label={"pills label"}
-        />
-      </Setting>
-      <Setting title={texts.email.title} subtitle={texts.email.subtitle}>
-        <Input
-          type="textarea"
-          onChange={(val) => console.log("val: ", val)}
-          placeholder="textarea"
-          className="lg:max-w-[300px]"
-          label="halo"
-        />
-      </Setting>
-      <Setting title={texts.address.title} subtitle={texts.address.subtitle}>
-        <Input
-          type="text"
-          onChange={(val) => console.log("val: ", val)}
-          placeholder="Pavadinimas"
-          className="lg:max-w-[300px]"
-          label="alo label"
         />
       </Setting>
       <Setting title={texts.intro.title} subtitle={texts.intro.subtitle}>

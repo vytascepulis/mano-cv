@@ -4,9 +4,12 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { twMerge } from "tailwind-merge";
 import style from "./style.module.css";
 
-interface Props {
+export interface ModalProps {
   isOpen: boolean;
   handleClose: () => void;
+}
+
+interface Props extends ModalProps {
   children: React.ReactNode;
 }
 

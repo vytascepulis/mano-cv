@@ -16,7 +16,7 @@ const Setting = ({ title, subtitle, optional, children }: Props) => {
         <p className="mb-3 shrink-0 text-[15px] font-light lg:max-w-[250px]">
           {subtitle}
         </p>
-        <div className="flex w-full max-w-[400px] grow justify-end">
+        <div className="flex w-full max-w-[400px] grow lg:justify-end">
           {children}
         </div>
       </div>
