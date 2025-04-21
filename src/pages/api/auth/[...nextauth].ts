@@ -4,7 +4,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { sha256 } from "@/utils/crypto";
 import { createUserMutation, userDataByGoogleIdQuery } from "@/lib/supabase";
 import { ErrorCodes } from "@/constants/postgrest";
-import { getGenericUserPhoto, getUserImage } from "@/utils/user";
 
 const sessionTokenName =
   process.env.NODE_ENV === "production"
