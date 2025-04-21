@@ -23,7 +23,6 @@ declare module "next-auth/jwt" {
     googleId: string;
     userStatus: UserData["status"];
     subdomainSlug?: Subdomain["slug"];
-    image?: string | null;
     id: UserData["id"];
   }
 }

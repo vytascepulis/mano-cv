@@ -22,11 +22,16 @@ export default async function handler(
   const method = req.method;
   const subdomain = getSubdomainFromUrl(req.headers.origin);
   const cookiesCode = req.cookies.code;
-  const bodyCode = sha256(req.body.code);
+  const bodyCode = req.body.code;
+  const bodyCodeEncrypted = sha256(bodyCode);
 
   if (method === "POST") {
     if (!subdomain) {
       return buildErrorResponse(res, HttpError.BAD_REQUEST);
+    }
+
+    if (!cookiesCode && !bodyCode) {
+      return buildErrorResponse(res, HttpError.NOT_ALLOWED);
     }
 
     const { data, error } = await userSubdomainQuery({
@@ -50,7 +55,7 @@ export default async function handler(
     }
 
     if (
-      bodyCode === data.subdomain.code ||
+      bodyCodeEncrypted === data.subdomain.code ||
       cookiesCode === data.subdomain.code
     ) {
       if (bodyCode && !cookiesCode) {
