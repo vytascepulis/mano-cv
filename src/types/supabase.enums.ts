@@ -1,11 +1,16 @@
 export enum SubdomainStatus {
   ACTIVE = "ACTIVE",
-  HIDDEN = "HIDDEN",
-  BLOCKED = "BLOCKED"
+  HIDDEN = "HIDDEN"
 }
 
 export enum UserStatus {
   ACTIVE = "ACTIVE",
   INITIALIZED = "INITIALIZED",
   BLOCKED = "BLOCKED"
+}
+
+export enum WebsiteDesigns {
+  CLASSIC = "CLASSIC",
+  MODERN = "MODERN",
+  MINIMALISTIC = "MINIMALISTIC"
 }

@@ -1,27 +1,41 @@
 import { createClient } from "@supabase/supabase-js";
 import { Database } from "@/types/supabase.types";
-import { UserStatus } from "@/types/supabase.enums";
 
 export const supabase = createClient<Database>(
-  process.env.SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_ANON_KEY!,
 );
 
-export const userWithSubdomainQuery = ({ subdomain }: { subdomain: string }) =>
+export const userSubdomainQuery = ({ subdomain }: { subdomain: string }) =>
   supabase
     .from("users")
     .select(
-      "id, googleId, status, subdomain!inner(id, slug, style, status, code)",
+      `userStatus:status, subdomain:subdomains!inner(code, status),
+      education:educations(title, subtitle, description, dateFrom, dateTo, isCurrent),
+      experience:experiences(title, subtitle, description, dateFrom, dateTo, isCurrent),
+      settings(fullName, phoneNumber, email, address, intro, skills, languages, desiredPosition, expectedSalary, websiteDesign)`,
     )
-    .eq("subdomain.slug", subdomain)
+    .eq("subdomains.slug", subdomain)
     .limit(1)
     .single();
 
-export const subdomainSettingsQuery = ({ subdomain }: { subdomain: string }) =>
+export const userSettingsQuery = ({
+  id,
+  googleId,
+}: {
+  id: string;
+  googleId: string;
+}) =>
   supabase
     .from("users")
-    .select("*, subdomain!inner(*)")
-    .eq("subdomain.slug", subdomain)
+    .select(
+      `userStatus:status, userId:id, subdomain:subdomains!inner(status),
+      education:educations(id, title, subtitle, description, dateFrom, dateTo, isCurrent),
+      experience:experiences(id, title, subtitle, description, dateFrom, dateTo, isCurrent),
+      settings(fullName, phoneNumber, email, address, intro, skills, languages, desiredPosition, expectedSalary, websiteDesign)`,
+    )
+    .eq("id", id)
+    .eq("googleId", googleId)
     .limit(1)
     .single();
 
@@ -32,7 +46,7 @@ export const userDataByGoogleIdQuery = ({
 }) =>
   supabase
     .from("users")
-    .select("status, imageUrl, subdomain(slug)")
+    .select("status, id, subdomain:subdomains(slug)")
     .eq("googleId", hashedGoogleId)
     .limit(1)
     .single();
@@ -50,31 +64,21 @@ export const createUserMutation = ({
       googleId: hashedGoogleId,
       email,
     })
-    .select("status, imageUrl")
+    .select("status, id")
     .single();
 
-export const registerSlugMutation = ({ slug }: { slug: string }) =>
+export const registerSlugMutation = ({
+  slug,
+  userId,
+}: {
+  slug: string;
+  userId: string;
+}) =>
   supabase
     .from("subdomains")
     .insert({
       slug,
+      user: userId,
     })
-    .select("id")
-    .single();
-
-export const updateUserSubdomainMutation = ({
-  hashedGoogleId,
-  subdomainUuid,
-}: {
-  hashedGoogleId: string;
-  subdomainUuid: string;
-}) =>
-  supabase
-    .from("users")
-    .update({
-      subdomain: subdomainUuid,
-      status: UserStatus.ACTIVE,
-    })
-    .eq("googleId", hashedGoogleId)
-    .select("subdomain(id, slug)")
+    .select("id, slug")
     .single();

@@ -6,9 +6,10 @@ import EditCardModal from "@/components/InfoCards/EditCardModal";
 import { v4 as uuidv4 } from "uuid";
 
 interface Props {
-  initialCards?: Card[];
+  cards: Card[];
   options: CardOptions;
   onAdd: (cards: Card[]) => void;
+  disabled?: boolean;
 }
 
 const sortCards = (cards: Card[]) => {
@@ -16,8 +17,7 @@ const sortCards = (cards: Card[]) => {
   return cards.sort((a, b) => b.dateFrom - a.dateFrom);
 };
 
-const InfoCards = ({ initialCards, options, onAdd }: Props) => {
-  const [cards, setCards] = useState<Card[]>(sortCards(initialCards || []));
+const InfoCards = ({ cards, options, onAdd, disabled }: Props) => {
   const [modalState, setModalState] = useState<ModalState | null>(null);
 
   const onEdit = (card: Card) => {
@@ -37,33 +37,24 @@ const InfoCards = ({ initialCards, options, onAdd }: Props) => {
   };
 
   const handleEdit = (card: Card) => {
-    setCards((prevState) => {
-      const updated = prevState.map((item) => {
-        if (item.id === card?.id) {
-          return card;
-        }
+    const updated = cards.map((item) => {
+      if (item.id === card?.id) {
+        return card;
+      }
 
-        return item;
-      });
-      onAdd(updated);
-      return sortCards(updated);
+      return item;
     });
+
+    onAdd(sortCards(updated));
   };
 
   const handleAddNew = (card: Card) => {
-    setCards((prevState) => {
-      const updated = [...prevState, { ...card, id: uuidv4() }];
-      onAdd(updated);
-      return sortCards(updated);
-    });
+    onAdd(sortCards([...cards, { ...card, id: uuidv4() }]));
   };
 
   const handleDelete = (card: Card) => {
-    setCards((prevState) => {
-      const updated = prevState.filter((item) => item.id !== card.id);
-      onAdd(updated);
-      return sortCards(updated);
-    });
+    const updated = cards.filter((item) => item.id !== card.id);
+    onAdd(sortCards(updated));
   };
 
   const onEditSubmit = (card: Card) => {
@@ -86,9 +77,11 @@ const InfoCards = ({ initialCards, options, onAdd }: Props) => {
 
   return (
     <div className="flex w-full flex-col gap-[10px]">
-      <Button variant="outline" onClick={onNew}>
-        Pridėti naują
-      </Button>
+      {!disabled && (
+        <Button variant="outline" onClick={onNew}>
+          {options.addNewBtnChildren}
+        </Button>
+      )}
       {Boolean(cards.length) && (
         <div className="flex flex-col gap-[10px]">
           {cards.map((card) => (
@@ -97,6 +90,7 @@ const InfoCards = ({ initialCards, options, onAdd }: Props) => {
               card={card}
               onEdit={onEdit}
               onDelete={onDelete}
+              disabled={disabled}
             />
           ))}
         </div>

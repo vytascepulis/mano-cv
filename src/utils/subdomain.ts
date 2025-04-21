@@ -1,5 +1,3 @@
-import { SubdomainData, UserWithSubdomain } from "@/types/types";
-
 export const getSubdomainFromUrl = (url?: string) => {
   if (!url) return null;
 
@@ -24,12 +22,4 @@ export const getDomainUrl = () => {
   const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
 
   return `${protocol}://${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
-};
-
-export const formatSubdomainData = (user: UserWithSubdomain): SubdomainData => {
-  return {
-    id: user.subdomain.id,
-    slug: user.subdomain.slug,
-    style: user.subdomain.style,
-  };
 };

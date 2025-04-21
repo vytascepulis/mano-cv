@@ -8,6 +8,7 @@ interface GenericProps {
   disabled?: boolean;
   className?: string;
   maxLength?: number;
+  minLength?: number;
   label?: React.ReactNode;
   defaultValue?: string;
   required?: boolean;
@@ -15,7 +16,7 @@ interface GenericProps {
 }
 
 interface TextProps extends GenericProps {
-  type: "text";
+  type: "text" | "number" | "email";
 }
 
 interface SuffixProps extends GenericProps {
@@ -39,6 +40,7 @@ const Input = (props: Props) => {
     disabled,
     className,
     maxLength,
+    minLength,
     label,
     defaultValue,
     required,
@@ -131,11 +133,12 @@ const Input = (props: Props) => {
   }
 
   return (
-    <label className={twMerge(className, "flex grow flex-col")}>
+    <label className={twMerge(className, "flex min-w-0 grow flex-col")}>
       {label && (
         <span className="pb-1 font-semibold text-gray-700">{label}</span>
       )}
       <input
+        type={type}
         className={twMerge(
           "bg-light rounded-xs shadow-sm outline-0",
           "py-[6px] pr-1 pl-3",
@@ -148,6 +151,7 @@ const Input = (props: Props) => {
         value={value}
         onKeyDown={handleOnEnter}
         maxLength={maxLength}
+        minLength={minLength}
         required={required}
         name={name}
       />

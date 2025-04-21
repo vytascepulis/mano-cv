@@ -1,7 +1,15 @@
 import { PixelCrop } from "react-image-crop";
+import { getGenericUserPhoto } from "@/utils/user";
 
-export const fileToUrl = (file: Blob): string => {
+export const fileToUrl = (file: Blob) => {
   return URL.createObjectURL(file);
+};
+
+export const fileToImageState = (file: Blob | null) => {
+  return {
+    url: file ? fileToUrl(file) : getGenericUserPhoto(),
+    blob: file,
+  };
 };
 
 export async function renderCroppedImage(

@@ -4,6 +4,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { sha256 } from "@/utils/crypto";
 import { createUserMutation, userDataByGoogleIdQuery } from "@/lib/supabase";
 import { ErrorCodes } from "@/constants/postgrest";
+import { getGenericUserPhoto, getUserImage } from "@/utils/user";
 
 const sessionTokenName =
   process.env.NODE_ENV === "production"
@@ -57,7 +58,8 @@ export const authOptions: AuthOptions = {
       if (userData) {
         user.status = userData.status;
         user.subdomainSlug = userData.subdomain?.slug;
-        user.image = userData.imageUrl;
+        user.image = getUserImage(userData.id);
+        user.id = userData.id;
       }
 
       if (!userData) {
@@ -73,7 +75,8 @@ export const authOptions: AuthOptions = {
         }
 
         user.status = createData.status;
-        user.image = createData.imageUrl;
+        user.image = getGenericUserPhoto();
+        user.id = createData.id;
       }
 
       return true;
@@ -95,6 +98,7 @@ export const authOptions: AuthOptions = {
         token.userStatus = user.status;
         token.subdomainSlug = user.subdomainSlug;
         token.image = user.image;
+        token.id = user.id;
       }
 
       return token;
@@ -105,6 +109,7 @@ export const authOptions: AuthOptions = {
         session.user.status = token.userStatus;
         session.user.subdomainSlug = token.subdomainSlug;
         session.user.image = token.image;
+        session.user.id = token.id;
       }
 
       return session;

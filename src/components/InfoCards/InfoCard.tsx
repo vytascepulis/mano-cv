@@ -3,14 +3,16 @@ import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import { Card } from "@/components/InfoCards/types";
 import { format } from "date-fns";
+import Button from "@/components/ui/Button";
 
 interface Props {
   card: Card;
   onEdit: (card: Card) => void;
   onDelete: (card: Card) => void;
+  disabled?: boolean;
 }
 
-const InfoCard = ({ card, onEdit, onDelete }: Props) => {
+const InfoCard = ({ card, onEdit, onDelete, disabled }: Props) => {
   const dateFrom = format(card.dateFrom, "yyyy-MM");
   const dateTo = card.dateTo ? format(card.dateTo, "yyyy-MM") : "dabar";
 
@@ -18,20 +20,25 @@ const InfoCard = ({ card, onEdit, onDelete }: Props) => {
     <div className="card">
       <div className="flex flex-row justify-between">
         <h2 className="text-dark text-lg font-semibold">{card.title}</h2>
-        <div className="flex flex-row gap-2">
-          <button
-            className="cursor-pointer text-violet-800 transition-colors hover:text-violet-900"
-            onClick={() => onEdit(card)}
-          >
-            <FontAwesomeIcon icon={faPenToSquare} size="lg" />
-          </button>
-          <button
-            className="cursor-pointer text-red-500 transition-colors hover:text-red-600"
-            onClick={() => onDelete(card)}
-          >
-            <FontAwesomeIcon icon={faTrashCan} size="lg" />
-          </button>
-        </div>
+        {!disabled && (
+          <div className="flex flex-row gap-2">
+            <Button
+              disabled={disabled}
+              variant="link"
+              onClick={() => onEdit(card)}
+            >
+              <FontAwesomeIcon icon={faPenToSquare} size="lg" />
+            </Button>
+            <Button
+              variant="link"
+              color="danger"
+              disabled={disabled}
+              onClick={() => onDelete(card)}
+            >
+              <FontAwesomeIcon icon={faTrashCan} size="lg" />
+            </Button>
+          </div>
+        )}
       </div>
       <p className="text-[14px] text-gray-500">
         {card.subtitle}{" "}
@@ -39,7 +46,9 @@ const InfoCard = ({ card, onEdit, onDelete }: Props) => {
           ({dateFrom} - {dateTo})
         </span>
       </p>
-      <p className="mt-[5px] text-[15px] text-gray-500">{card.description}</p>
+      {card.description && (
+        <p className="mt-[5px] text-[15px] text-gray-500">{card.description}</p>
+      )}
     </div>
   );
 };

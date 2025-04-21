@@ -9,6 +9,150 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      educations: {
+        Row: {
+          createdAt: string
+          dateFrom: string
+          dateTo: string | null
+          description: string | null
+          id: string
+          isCurrent: boolean
+          subtitle: string
+          title: string
+          user: string
+        }
+        Insert: {
+          createdAt?: string
+          dateFrom: string
+          dateTo?: string | null
+          description?: string | null
+          id?: string
+          isCurrent: boolean
+          subtitle: string
+          title: string
+          user: string
+        }
+        Update: {
+          createdAt?: string
+          dateFrom?: string
+          dateTo?: string | null
+          description?: string | null
+          id?: string
+          isCurrent?: boolean
+          subtitle?: string
+          title?: string
+          user?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "educations_user_fkey"
+            columns: ["user"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      experiences: {
+        Row: {
+          createdAt: string
+          dateFrom: string
+          dateTo: string | null
+          description: string | null
+          id: string
+          isCurrent: boolean
+          subtitle: string
+          title: string
+          user: string
+        }
+        Insert: {
+          createdAt?: string
+          dateFrom: string
+          dateTo?: string | null
+          description?: string | null
+          id?: string
+          isCurrent: boolean
+          subtitle: string
+          title: string
+          user: string
+        }
+        Update: {
+          createdAt?: string
+          dateFrom?: string
+          dateTo?: string | null
+          description?: string | null
+          id?: string
+          isCurrent?: boolean
+          subtitle?: string
+          title?: string
+          user?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "experiences_user_fkey"
+            columns: ["user"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      settings: {
+        Row: {
+          address: string
+          createdAt: string
+          desiredPosition: string[]
+          email: string
+          expectedSalary: string
+          fullName: string
+          id: string
+          intro: string
+          languages: string[]
+          phoneNumber: string
+          skills: string[]
+          user: string
+          websiteDesign: Database["public"]["Enums"]["WebsiteDesigns"]
+        }
+        Insert: {
+          address: string
+          createdAt?: string
+          desiredPosition: string[]
+          email: string
+          expectedSalary: string
+          fullName: string
+          id?: string
+          intro: string
+          languages: string[]
+          phoneNumber: string
+          skills: string[]
+          user: string
+          websiteDesign?: Database["public"]["Enums"]["WebsiteDesigns"]
+        }
+        Update: {
+          address?: string
+          createdAt?: string
+          desiredPosition?: string[]
+          email?: string
+          expectedSalary?: string
+          fullName?: string
+          id?: string
+          intro?: string
+          languages?: string[]
+          phoneNumber?: string
+          skills?: string[]
+          user?: string
+          websiteDesign?: Database["public"]["Enums"]["WebsiteDesigns"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "settings_user_fkey"
+            columns: ["user"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       subdomains: {
         Row: {
           code: string | null
@@ -16,7 +160,7 @@ export type Database = {
           id: string
           slug: string
           status: Database["public"]["Enums"]["SubdomainStatus"]
-          style: string
+          user: string
         }
         Insert: {
           code?: string | null
@@ -24,7 +168,7 @@ export type Database = {
           id?: string
           slug: string
           status?: Database["public"]["Enums"]["SubdomainStatus"]
-          style?: string
+          user: string
         }
         Update: {
           code?: string | null
@@ -32,9 +176,17 @@ export type Database = {
           id?: string
           slug?: string
           status?: Database["public"]["Enums"]["SubdomainStatus"]
-          style?: string
+          user?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "subdomains_user_fkey"
+            columns: ["user"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       users: {
         Row: {
@@ -42,37 +194,23 @@ export type Database = {
           email: string
           googleId: string
           id: string
-          imageUrl: string
           status: Database["public"]["Enums"]["UserStatus"]
-          subdomain: string | null
         }
         Insert: {
           createdAt?: string
           email: string
           googleId: string
           id?: string
-          imageUrl?: string
           status?: Database["public"]["Enums"]["UserStatus"]
-          subdomain?: string | null
         }
         Update: {
           createdAt?: string
           email?: string
           googleId?: string
           id?: string
-          imageUrl?: string
           status?: Database["public"]["Enums"]["UserStatus"]
-          subdomain?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "users_subdomain_fkey"
-            columns: ["subdomain"]
-            isOneToOne: false
-            referencedRelation: "subdomains"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
     }
     Views: {
@@ -82,8 +220,9 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      SubdomainStatus: "ACTIVE" | "HIDDEN" | "BLOCKED"
+      SubdomainStatus: "ACTIVE" | "HIDDEN"
       UserStatus: "ACTIVE" | "INITIALIZED" | "BLOCKED"
+      WebsiteDesigns: "CLASSIC" | "MODERN" | "MINIMALISTIC"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -199,8 +338,9 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      SubdomainStatus: ["ACTIVE", "HIDDEN", "BLOCKED"],
+      SubdomainStatus: ["ACTIVE", "HIDDEN"],
       UserStatus: ["ACTIVE", "INITIALIZED", "BLOCKED"],
+      WebsiteDesigns: ["CLASSIC", "MODERN", "MINIMALISTIC"],
     },
   },
 } as const

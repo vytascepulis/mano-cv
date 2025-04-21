@@ -1,57 +1,76 @@
-import { useState } from "react";
 import Input from "@/components/ui/Input";
 import { twMerge } from "tailwind-merge";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { useState, ReactNode } from "react";
+import Button from "@/components/ui/Button";
 
 interface Props {
   onChange: (pills: string[]) => void;
   className?: string;
   placeholder?: string;
-  label?: React.ReactNode;
+  label?: ReactNode;
+  pills: string[];
+  addBtnChildren: ReactNode;
+  disabled?: boolean;
 }
 
-const InputPills = ({ onChange, className, placeholder, label }: Props) => {
-  const [pills, setPills] = useState<string[]>([]);
+const InputPills = ({
+  onChange,
+  className,
+  placeholder,
+  label,
+  pills,
+  addBtnChildren,
+  disabled,
+}: Props) => {
+  const [inputValue, setInputValue] = useState("");
 
-  const handleAddPills = (value: string) => {
-    setPills((prevState) => {
-      const newState = [...prevState, value];
-      onChange(newState);
-      return newState;
-    });
+  const handleAddPills = () => {
+    if (!inputValue.trim().length) return;
+
+    onChange([...pills, inputValue.trim()]);
+    setInputValue("");
   };
 
   const handleDeletePill = (pill: string) => {
-    setPills((prevState) => {
-      const newState = [...prevState].filter((item) => item !== pill);
-      onChange(newState);
-      return newState;
-    });
+    const filtered = pills.filter((item) => item !== pill);
+    onChange(filtered);
   };
 
   return (
-    <div className={twMerge(className, "flex flex-col")}>
-      <Input
-        placeholder={placeholder}
-        type="text"
-        onEnter={handleAddPills}
-        maxLength={40}
-        label={label}
-      />
-      <div className="mt-5 flex min-h-[34px] flex-row flex-wrap items-start justify-end gap-2">
+    <div className={twMerge(className, "flex w-full flex-col")}>
+      {!disabled && (
+        <div className="mb-5 flex flex-row items-center gap-2">
+          <Input
+            placeholder={placeholder}
+            type="text"
+            maxLength={40}
+            label={label}
+            defaultValue={inputValue}
+            onChange={setInputValue}
+            disabled={disabled}
+          />
+          <Button onClick={handleAddPills} disabled={disabled}>
+            {addBtnChildren}
+          </Button>
+        </div>
+      )}
+      <div className="flex min-h-[34px] flex-row flex-wrap items-start justify-end gap-2">
         {pills.map((pill, idx) => (
           <div
             key={idx}
             className="group bg-primary relative max-w-[230px] cursor-default rounded-full px-[10px] py-[5px] text-center font-bold text-wrap wrap-break-word text-white"
           >
             {pill}
-            <button
-              className="invisible absolute top-[-7px] right-[-7px] flex h-[24px] w-[24px] cursor-pointer items-center justify-center rounded-full bg-violet-900 group-hover:visible"
-              onClick={() => handleDeletePill(pill)}
-            >
-              <FontAwesomeIcon className="text-light" icon={faXmark} />
-            </button>
+            {!disabled && (
+              <button
+                className="invisible absolute top-[-7px] right-[-7px] flex h-[24px] w-[24px] cursor-pointer items-center justify-center rounded-full bg-violet-900 group-hover:visible"
+                onClick={() => handleDeletePill(pill)}
+              >
+                <FontAwesomeIcon className="text-light" icon={faXmark} />
+              </button>
+            )}
           </div>
         ))}
       </div>

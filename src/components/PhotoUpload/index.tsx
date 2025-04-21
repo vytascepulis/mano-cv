@@ -2,20 +2,18 @@ import React, { useRef, useState } from "react";
 import Button from "@/components/ui/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
-import { getDomainUrl } from "@/utils/subdomain";
 import CropModal from "@/components/PhotoUpload/CropModal";
-import { fileToUrl } from "@/components/PhotoUpload/utils";
+import { fileToImageState, fileToUrl } from "@/components/PhotoUpload/utils";
+import { SettingsState } from "@/contexts/SettingsContext/types";
 
 interface Props {
-  initialPhoto: string;
-  onUpload: (file: Blob | null) => void;
+  image: SettingsState["image"];
+  onUpload: (data: SettingsState["image"]) => void;
+  disabled?: boolean;
 }
 
-const genericUserPhoto = `${getDomainUrl()}/generic-user.png`;
-
-const PhotoUpload = ({ initialPhoto, onUpload }: Props) => {
+const PhotoUpload = ({ image, onUpload, disabled }: Props) => {
   const [uploadedSrc, setUploadedSrc] = useState<string | null>(null);
-  const [finalSrc, setFinalSrc] = useState<string>(initialPhoto);
   const [cropModal, setCropModal] = useState(false);
 
   const refFileInput = useRef<HTMLInputElement>(null);
@@ -25,14 +23,12 @@ const PhotoUpload = ({ initialPhoto, onUpload }: Props) => {
   };
 
   const handleRemoveClick = () => {
-    setFinalSrc(genericUserPhoto);
+    onUpload(fileToImageState(null));
     setUploadedSrc(null);
 
     if (refFileInput.current) {
       refFileInput.current.value = "";
     }
-
-    onUpload(null);
   };
 
   const handleOnUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,15 +45,14 @@ const PhotoUpload = ({ initialPhoto, onUpload }: Props) => {
   };
 
   const handleOnCropSubmit = (file: Blob) => {
-    setFinalSrc(fileToUrl(file));
+    onUpload(fileToImageState(file));
     setCropModal(false);
-    onUpload(file);
   };
 
   return (
     <div className="card">
       <img
-        src={finalSrc}
+        src={image.url}
         alt="User's image"
         className="h-[200px] w-[200px] rounded-xs"
       />
@@ -68,12 +63,21 @@ const PhotoUpload = ({ initialPhoto, onUpload }: Props) => {
         onChange={handleOnUpload}
         accept="image/png, image/jpeg, image/jpg"
       />
-      <div className="align-center mt-3 flex justify-center gap-3">
-        <Button onClick={handleUploadClick}>Įkelti</Button>
-        <Button variant="link" onClick={handleRemoveClick} color="danger">
-          <FontAwesomeIcon icon={faTrashCan} size="xl" />
-        </Button>
-      </div>
+      {!disabled && (
+        <div className="align-center mt-3 flex justify-center gap-3">
+          <Button onClick={handleUploadClick} disabled={disabled}>
+            Įkelti
+          </Button>
+          <Button
+            variant="link"
+            onClick={handleRemoveClick}
+            color="danger"
+            disabled={disabled}
+          >
+            <FontAwesomeIcon icon={faTrashCan} size="xl" />
+          </Button>
+        </div>
+      )}
       {uploadedSrc && (
         <CropModal
           isOpen={cropModal}

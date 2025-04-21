@@ -101,15 +101,17 @@ const EditCardModal = ({
           name="subtitle"
           disabled={state?.mode === "delete"}
         />
-        <Input
-          type="textarea"
-          label={options.descriptionLabel}
-          placeholder={options.descriptionPlaceholder}
-          required
-          defaultValue={state?.selectedCard?.description}
-          name="description"
-          disabled={state?.mode === "delete"}
-        />
+        {options.descriptionLabel && options.descriptionPlaceholder && (
+          <Input
+            type="textarea"
+            label={options.descriptionLabel}
+            placeholder={options.descriptionPlaceholder}
+            required
+            defaultValue={state?.selectedCard?.description}
+            name="description"
+            disabled={state?.mode === "delete"}
+          />
+        )}
         <div className="flex flex-col gap-4 sm:flex-row">
           <InputDate
             selectedDate={dateFrom}

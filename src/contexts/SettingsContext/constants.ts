@@ -1,5 +1,12 @@
+import { getGenericUserPhoto } from "@/utils/user";
+import { WebsiteDesigns } from "@/types/supabase.enums";
+
 export const initialSettings = {
-  image: null,
+  image: {
+    url: getGenericUserPhoto(),
+    blob: null,
+  },
+  imageBlob: null,
   fullName: "",
   phoneNumber: "",
   email: "",
@@ -10,6 +17,6 @@ export const initialSettings = {
   experience: [],
   education: [],
   desiredPosition: [],
-  expectedSalary: { amount: 0, currency: "" },
-  websiteDesign: "",
+  expectedSalary: "",
+  websiteDesign: WebsiteDesigns.CLASSIC,
 };

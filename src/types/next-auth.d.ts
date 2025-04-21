@@ -7,12 +7,14 @@ declare module "next-auth" {
       googleId: string;
       status: UserData["status"];
       subdomainSlug?: Subdomain["slug"];
+      id: UserData["id"];
     } & DefaultSession["user"];
   }
 
   interface User {
     status: UserData["status"];
     subdomainSlug?: Subdomain["slug"];
+    id: UserData["id"];
   }
 }
 
@@ -22,5 +24,6 @@ declare module "next-auth/jwt" {
     userStatus: UserData["status"];
     subdomainSlug?: Subdomain["slug"];
     image?: string | null;
+    id: UserData["id"];
   }
 }

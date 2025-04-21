@@ -5,20 +5,29 @@ import { twMerge } from "tailwind-merge";
 
 interface Props {
   card: IToggleCard;
-  handleSelect: (card: IToggleCard) => void;
+  handleSelect?: (card: IToggleCard) => void;
   options?: ToggleOptions;
   isSelected: boolean;
+  disabled?: boolean;
 }
 
-const ToggleCard = ({ card, handleSelect, options, isSelected }: Props) => {
+const ToggleCard = ({
+  card,
+  handleSelect,
+  options,
+  isSelected,
+  disabled,
+}: Props) => {
   const handleOnViewClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     options?.onView?.(card);
   };
 
+  if (!card) return null;
+
   return (
     <div
-      onClick={() => handleSelect(card)}
+      onClick={() => (disabled ? null : handleSelect?.(card))}
       className={twMerge("card", isSelected && "outline-primary outline-4")}
     >
       <div className="flex flex-row items-start justify-between">

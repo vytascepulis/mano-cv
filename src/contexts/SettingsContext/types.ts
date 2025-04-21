@@ -1,7 +1,11 @@
 import { Card } from "@/components/InfoCards/types";
+import { WebsiteDesigns } from "@/types/supabase.enums";
 
 export interface SettingsState {
-  image: File | null;
+  image: {
+    blob: Blob | null;
+    url: string;
+  };
   fullName: string;
   phoneNumber: string;
   email: string;
@@ -12,8 +16,8 @@ export interface SettingsState {
   experience: Card[];
   education: Card[];
   desiredPosition: string[];
-  expectedSalary: { amount: number; currency: string };
-  websiteDesign: string;
+  expectedSalary: string;
+  websiteDesign: WebsiteDesigns;
 }
 
 export interface Context {
@@ -26,5 +30,6 @@ export interface Context {
     field: K,
     value: SettingsState[K],
   ) => void;
+  handleOnDesignPreview: (slug: string) => void;
   settings: SettingsState;
 }

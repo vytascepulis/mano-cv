@@ -1,8 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import {
-  registerSlugMutation,
-  updateUserSubdomainMutation,
-} from "@/lib/supabase";
+import { registerSlugMutation } from "@/lib/supabase";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { ErrorResponse, RegisterData } from "@/types/types";
@@ -29,29 +26,16 @@ export default async function handler(
       return buildErrorResponse(res, HttpError.NOT_LOGGED_IN);
     }
 
-    const { data: registerSlugData, error: registerSlugError } =
-      await registerSlugMutation({
-        slug,
-      });
-
-    if (registerSlugError) {
-      return buildErrorResponse(res, HttpError.INTERNAL_ERROR);
-    }
-
-    const { data: updateSubdomainData, error: updateSubdomainError } =
-      await updateUserSubdomainMutation({
-        hashedGoogleId: session.user.googleId,
-        subdomainUuid: registerSlugData.id,
-      });
-
-    if (updateSubdomainError || !updateSubdomainData?.subdomain) {
-      return buildErrorResponse(res, HttpError.INTERNAL_ERROR);
-    }
-
-    return res.status(200).json({
-      id: updateSubdomainData.subdomain.id,
-      slug: updateSubdomainData.subdomain.slug,
+    const { data, error } = await registerSlugMutation({
+      slug,
+      userId: session.user.id,
     });
+
+    if (error) {
+      return buildErrorResponse(res, HttpError.INTERNAL_ERROR);
+    }
+
+    return res.status(200).json(data);
   }
 
   return buildErrorResponse(res, HttpError.METHOD_NOT_ALLOWED);

@@ -3,7 +3,7 @@ import NotFoundPage from "@/pages/404";
 import CodePage from "@/pages/subdomains/[slug]/code";
 import { useRouter } from "next/router";
 import useFetch from "@/hooks/useFetch";
-import { SubdomainData, UserData } from "@/types/types";
+import { SubdomainData } from "@/types/types";
 
 const SubdomainPage = () => {
   const router = useRouter();
@@ -12,8 +12,9 @@ const SubdomainPage = () => {
     endpoint: "subdomain",
     method: "POST",
   });
-  const [subdomainData, setSubdomainData] =
-    useState<UserData["subdomain"]>(null);
+  const [subdomainData, setSubdomainData] = useState<SubdomainData | null>(
+    null,
+  );
   const [isPageLoading, setIsPageLoading] = useState(true);
 
   useEffect(() => {
@@ -43,7 +44,7 @@ const SubdomainPage = () => {
   return (
     <h1>
       {}
-      Welcome to {slug}. Theme is {subdomainData.style}
+      Welcome to {slug}. Theme is {subdomainData.subdomain.status}
     </h1>
   );
 };

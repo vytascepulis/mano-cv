@@ -1,5 +1,7 @@
+import { WebsiteDesigns } from "@/types/supabase.enums";
+
 export interface IToggleCard {
-  id: string;
+  slug: WebsiteDesigns;
   title: string;
   description: string;
 }
