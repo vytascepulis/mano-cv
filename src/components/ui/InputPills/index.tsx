@@ -62,7 +62,7 @@ const InputPills = ({
           </Button>
         </div>
       )}
-      <div className="flex min-h-[34px] flex-row flex-wrap items-start justify-end gap-2">
+      <div className="flex min-h-[34px] flex-row flex-wrap items-start gap-2 lg:justify-end">
         {pills.map((pill, idx) => (
           <div
             key={idx}

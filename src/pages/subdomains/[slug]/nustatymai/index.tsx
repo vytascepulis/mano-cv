@@ -48,7 +48,6 @@ const SettingsPage = () => {
   return (
     <SettingsProvider settingsData={data}>
       <SettingsPageLayout>
-        <ControlBar />
         <SettingsList />
       </SettingsPageLayout>
     </SettingsProvider>

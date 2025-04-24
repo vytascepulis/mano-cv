@@ -1,6 +1,7 @@
 import { getDomainUrl } from "@/utils/subdomain";
 import logo from "@/assets/mano-cv-logo.png";
 import UserBtn from "@/components/Navbar/UserBtn";
+import ControlBar from "@/pages/subdomains/[slug]/nustatymai/ControlBar";
 
 interface Props {
   children: React.ReactNode;
@@ -10,8 +11,8 @@ const SettingsPageLayout = ({ children }: Props) => {
   return (
     <div className="min-h-screen bg-violet-50">
       <div className="mx-auto max-w-7xl">
-        <div className="pt-0 lg:px-5 lg:pt-(--navbar-top)">
-          <nav className={`flex h-(--navbar-height) justify-between px-4`}>
+        <div className="px-5 pt-0 lg:pt-(--navbar-top)">
+          <nav className={`flex h-(--navbar-height) justify-between`}>
             <a
               href={getDomainUrl()}
               className="place-self-center lg:self-center lg:justify-self-start"
@@ -26,7 +27,8 @@ const SettingsPageLayout = ({ children }: Props) => {
             <UserBtn hiddenIds={["settings"]} />
           </nav>
         </div>
-        <div className="px-5 pt-2 lg:pt-5">{children}</div>
+        <ControlBar />
+        <div className="px-5">{children}</div>
       </div>
     </div>
   );

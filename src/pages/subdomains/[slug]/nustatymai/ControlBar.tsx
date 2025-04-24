@@ -12,7 +12,7 @@ const ControlBar = () => {
   } = useSettings();
 
   return (
-    <div className="bg-dark text-light sticky top-[5px] z-50 flex flex-col items-start justify-between gap-4 rounded-lg px-5 py-4 shadow-md sm:flex-row sm:items-center">
+    <div className="bg-dark text-light sticky top-0 z-50 mt-2 flex flex-col items-start justify-between gap-4 px-5 py-4 shadow-md sm:flex-row sm:items-center lg:top-[5px] lg:mx-5 lg:mt-5 lg:rounded-lg">
       <Toggle
         initialValue={isWebsiteActive}
         onChange={handleSetIsWebsiteActive}
