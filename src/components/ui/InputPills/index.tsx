@@ -2,7 +2,7 @@ import Input from "@/components/ui/Input";
 import { twMerge } from "tailwind-merge";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { useState, ReactNode } from "react";
+import { useState, ReactNode, FormEvent } from "react";
 import Button from "@/components/ui/Button";
 
 interface Props {
@@ -26,10 +26,13 @@ const InputPills = ({
 }: Props) => {
   const [inputValue, setInputValue] = useState("");
 
-  const handleAddPills = () => {
-    if (!inputValue.trim().length) return;
+  const handleAddPills = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const value = inputValue.trim();
 
-    onChange([...pills, inputValue.trim()]);
+    if (!value.length) return;
+
+    onChange([...pills, value]);
     setInputValue("");
   };
 
@@ -39,7 +42,10 @@ const InputPills = ({
   };
 
   return (
-    <div className={twMerge(className, "flex w-full flex-col")}>
+    <form
+      onSubmit={handleAddPills}
+      className={twMerge(className, "flex w-full flex-col")}
+    >
       {!disabled && (
         <div className="mb-5 flex flex-row items-center gap-2">
           <Input
@@ -51,7 +57,7 @@ const InputPills = ({
             onChange={setInputValue}
             disabled={disabled}
           />
-          <Button onClick={handleAddPills} disabled={disabled}>
+          <Button type="submit" disabled={disabled}>
             {addBtnChildren}
           </Button>
         </div>
@@ -74,7 +80,7 @@ const InputPills = ({
           </div>
         ))}
       </div>
-    </div>
+    </form>
   );
 };
 
