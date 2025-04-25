@@ -107,7 +107,7 @@ const EditCardModal = ({
             label={options.descriptionLabel}
             placeholder={options.descriptionPlaceholder}
             required
-            defaultValue={state?.selectedCard?.description}
+            defaultValue={state?.selectedCard?.description || ""}
             name="description"
             disabled={state?.mode === "delete"}
           />
