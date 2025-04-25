@@ -5,6 +5,7 @@ import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import CropModal from "@/components/PhotoUpload/CropModal";
 import { fileToImageState, fileToUrl } from "@/components/PhotoUpload/utils";
 import { SettingsState } from "@/contexts/SettingsContext/types";
+import { twMerge } from "tailwind-merge";
 
 interface Props {
   image: SettingsState["image"];
@@ -50,7 +51,7 @@ const PhotoUpload = ({ image, onUpload, disabled }: Props) => {
   };
 
   return (
-    <div className="card">
+    <div className={twMerge("card", "p-[4px]")}>
       <img
         src={image.url}
         alt="User's image"
@@ -64,7 +65,7 @@ const PhotoUpload = ({ image, onUpload, disabled }: Props) => {
         accept="image/png, image/jpeg, image/jpg"
       />
       {!disabled && (
-        <div className="align-center mt-3 flex justify-center gap-3">
+        <div className="align-center mt-[4px] flex justify-center gap-3">
           <Button onClick={handleUploadClick} disabled={disabled}>
             Įkelti
           </Button>

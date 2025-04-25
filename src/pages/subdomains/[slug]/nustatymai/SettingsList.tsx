@@ -184,7 +184,7 @@ const SettingsList = () => {
             placeholder="XXXX"
             className="lg:max-w-[300px]"
             disabled={!isEditing}
-            defaultValue={settings.expectedSalary.toString()}
+            defaultValue={settings.expectedSalary}
           />
         )}
         {!isEditing && textLg(`${settings.expectedSalary}€`)}

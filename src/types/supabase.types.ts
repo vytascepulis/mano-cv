@@ -106,6 +106,7 @@ export type Database = {
           expectedSalary: string
           fullName: string
           id: string
+          image: string
           intro: string
           languages: string[]
           phoneNumber: string
@@ -121,6 +122,7 @@ export type Database = {
           expectedSalary: string
           fullName: string
           id?: string
+          image?: string
           intro: string
           languages: string[]
           phoneNumber: string
@@ -136,6 +138,7 @@ export type Database = {
           expectedSalary?: string
           fullName?: string
           id?: string
+          image?: string
           intro?: string
           languages?: string[]
           phoneNumber?: string

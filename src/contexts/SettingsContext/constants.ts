@@ -1,5 +1,9 @@
 import { getGenericUserPhoto } from "@/utils/user";
-import { WebsiteDesigns } from "@/types/supabase.enums";
+import {
+  SubdomainStatus,
+  UserStatus,
+  WebsiteDesigns,
+} from "@/types/supabase.enums";
 
 export const initialSettings = {
   image: {
@@ -19,4 +23,6 @@ export const initialSettings = {
   desiredPosition: [],
   expectedSalary: "",
   websiteDesign: WebsiteDesigns.CLASSIC,
+  subdomainStatus: SubdomainStatus.ACTIVE,
+  userStatus: UserStatus.ACTIVE,
 };

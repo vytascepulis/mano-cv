@@ -6,9 +6,9 @@ import { HttpError } from "@/constants/http";
 import NotFoundPage from "@/pages/404";
 import InternalErrorPage from "@/pages/500";
 import SettingsPageLayout from "@/components/layouts/SettingsPageLayout";
-import ControlBar from "@/pages/subdomains/[slug]/nustatymai/ControlBar";
 import { SettingsProvider } from "@/contexts/SettingsContext";
 import SettingsList from "@/pages/subdomains/[slug]/nustatymai/SettingsList";
+import { ToastProvider } from "@/contexts/ToastContext";
 
 const notFoundErrors = [
   HttpError.NOT_FOUND,
@@ -46,11 +46,13 @@ const SettingsPage = () => {
   }
 
   return (
-    <SettingsProvider settingsData={data}>
-      <SettingsPageLayout>
-        <SettingsList />
-      </SettingsPageLayout>
-    </SettingsProvider>
+    <ToastProvider>
+      <SettingsProvider settingsData={data}>
+        <SettingsPageLayout>
+          <SettingsList />
+        </SettingsPageLayout>
+      </SettingsProvider>
+    </ToastProvider>
   );
 };
 

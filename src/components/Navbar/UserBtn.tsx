@@ -105,7 +105,7 @@ const UserBtn = ({ hiddenIds = [] }: Props) => {
       {isMenuOpen && (
         <div
           ref={refMenuElement}
-          className="absolute top-[65px] right-0 z-[999] min-w-[180px] rounded-sm border-1 border-violet-200 bg-violet-100 shadow-sm lg:right-[-16px]"
+          className="absolute top-[65px] right-0 z-[60] min-w-[180px] rounded-sm border-1 border-violet-200 bg-violet-100 shadow-sm lg:right-[-16px]"
         >
           {menu
             .filter((item) => !hiddenIds.includes(item.id))

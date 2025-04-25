@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { Database } from "@/types/supabase.types";
+import { SubdomainStatus } from "@/types/supabase.enums";
 
 export const supabase = createClient<Database>(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -13,7 +14,7 @@ export const userSubdomainQuery = ({ subdomain }: { subdomain: string }) =>
       `userStatus:status, subdomain:subdomains!inner(code, status),
       education:educations(title, subtitle, description, dateFrom, dateTo, isCurrent),
       experience:experiences(title, subtitle, description, dateFrom, dateTo, isCurrent),
-      settings(fullName, phoneNumber, email, address, intro, skills, languages, desiredPosition, expectedSalary, websiteDesign)`,
+      settings(fullName, phoneNumber, email, address, intro, skills, languages, desiredPosition, expectedSalary, websiteDesign, image)`,
     )
     .eq("subdomains.slug", subdomain)
     .limit(1)
@@ -32,11 +33,40 @@ export const userSettingsQuery = ({
       `userStatus:status, userId:id, subdomain:subdomains!inner(status),
       education:educations(id, title, subtitle, description, dateFrom, dateTo, isCurrent),
       experience:experiences(id, title, subtitle, description, dateFrom, dateTo, isCurrent),
-      settings(fullName, phoneNumber, email, address, intro, skills, languages, desiredPosition, expectedSalary, websiteDesign)`,
+      settings(fullName, phoneNumber, email, address, intro, skills, languages, desiredPosition, expectedSalary, websiteDesign, image)`,
     )
     .eq("id", id)
     .eq("googleId", googleId)
     .limit(1)
+    .single();
+
+export const subdomainStatusQuery = ({
+  id,
+  googleId,
+}: {
+  id: string;
+  googleId: string;
+}) =>
+  supabase
+    .from("users")
+    .select(`userStatus:status, subdomain:subdomains!inner(status)`)
+    .eq("id", id)
+    .eq("googleId", googleId)
+    .limit(1)
+    .single();
+
+export const subdomainStatusMutation = ({
+  id,
+  status,
+}: {
+  id: string;
+  status: SubdomainStatus;
+}) =>
+  supabase
+    .from("subdomains")
+    .update({ status })
+    .eq("user", id)
+    .select("status")
     .single();
 
 export const userDataByGoogleIdQuery = ({

@@ -1,20 +1,23 @@
 import { SettingsData } from "@/types/types";
 import { SettingsState } from "@/contexts/SettingsContext/types";
 import { initialSettings } from "@/contexts/SettingsContext/constants";
-import { getUserImage } from "@/utils/user";
-import { WebsiteDesigns } from "@/types/supabase.enums";
+import {
+  SubdomainStatus,
+  UserStatus,
+  WebsiteDesigns,
+} from "@/types/supabase.enums";
 
 export const buildSettings = (data: SettingsData): SettingsState => {
-  const { settings, education, experience, userId } = data;
+  const { settings, education, experience, subdomain, userStatus } = data;
 
   if (!settings) return initialSettings;
 
   return {
+    ...settings,
     image: {
-      url: getUserImage(userId),
+      url: settings.image,
       blob: null,
     },
-    ...settings,
     websiteDesign: settings.websiteDesign as WebsiteDesigns,
     education: education.map((item) => ({
       ...item,
@@ -26,5 +29,7 @@ export const buildSettings = (data: SettingsData): SettingsState => {
       dateFrom: new Date(item.dateFrom),
       dateTo: item.dateTo ? new Date(item.dateTo) : null,
     })),
+    subdomainStatus: subdomain.status as SubdomainStatus,
+    userStatus: userStatus as UserStatus,
   };
 };

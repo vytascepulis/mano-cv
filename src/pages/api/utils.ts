@@ -24,6 +24,10 @@ export const handleCors = (req: NextApiRequest, res: NextApiResponse) => {
   return false; // Request should continue to API logic
 };
 
-export const buildErrorResponse = (res: NextApiResponse, code: HttpError) => {
-  res.status(code).json({ message: HttpError[code] });
+export const buildErrorResponse = (
+  res: NextApiResponse,
+  code: HttpError,
+  customMessage: string | null = null,
+) => {
+  res.status(code).json({ message: customMessage, code: HttpError[code] });
 };

@@ -1,5 +1,9 @@
 import { Card } from "@/components/InfoCards/types";
-import { WebsiteDesigns } from "@/types/supabase.enums";
+import {
+  SubdomainStatus,
+  UserStatus,
+  WebsiteDesigns,
+} from "@/types/supabase.enums";
 
 export interface SettingsState {
   image: {
@@ -18,18 +22,20 @@ export interface SettingsState {
   desiredPosition: string[];
   expectedSalary: string;
   websiteDesign: WebsiteDesigns;
+  subdomainStatus: SubdomainStatus;
+  userStatus: UserStatus;
 }
 
 export interface Context {
+  isSubdomainToggleDisabled: boolean;
   isEditing: boolean;
   toggleIsEditing: () => void;
   handleSaveSettings: () => void;
-  isWebsiteActive: boolean;
-  handleSetIsWebsiteActive: (val: boolean) => void;
   handleOnChange: <K extends keyof SettingsState>(
     field: K,
     value: SettingsState[K],
   ) => void;
   handleOnDesignPreview: (slug: string) => void;
+  handleSetActive: (val: boolean) => void;
   settings: SettingsState;
 }
