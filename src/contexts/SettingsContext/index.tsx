@@ -2,11 +2,10 @@ import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { SettingsData, SubdomainStatusMutationResponse } from "@/types/types";
 import { SettingsState, Context } from "@/contexts/SettingsContext/types";
 import { initialSettings } from "@/contexts/SettingsContext/constants";
-import { isSettingsValid } from "@/utils/user";
 import { useToast } from "@/contexts/ToastContext";
 import useFetch from "@/hooks/useFetch";
 import { SubdomainStatus } from "@/types/supabase.enums";
-import { buildSettings } from "@/utils/settings";
+import { buildSettings, isSettingsValid } from "@/utils/settings";
 
 interface Props {
   children: React.ReactNode;

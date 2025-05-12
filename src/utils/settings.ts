@@ -33,3 +33,21 @@ export const buildSettings = (data: SettingsData): SettingsState => {
     userStatus: userStatus as UserStatus,
   };
 };
+
+export const isSettingsValid = (settings: SettingsState) => {
+  return (
+    (settings.image.blob || settings.image.url) &&
+    settings.fullName.trim() &&
+    settings.email.trim() &&
+    settings.phoneNumber.trim() &&
+    settings.address.trim() &&
+    settings.intro.trim() &&
+    settings.skills.length > 0 &&
+    settings.languages.length > 0 &&
+    settings.experience.length > 0 &&
+    settings.education.length > 0 &&
+    settings.desiredPosition.length > 0 &&
+    settings.expectedSalary.trim() &&
+    settings.websiteDesign
+  );
+};

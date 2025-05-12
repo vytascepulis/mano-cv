@@ -7,8 +7,7 @@ import { buildErrorResponse } from "@/pages/api/utils";
 import { HttpError } from "@/constants/http";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { isSettingsValid } from "@/utils/user";
-import { buildSettings } from "@/utils/settings";
+import { buildSettings, isSettingsValid } from "@/utils/settings";
 
 interface ResponseError {
   message: string;
