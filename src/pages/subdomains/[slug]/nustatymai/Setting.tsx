@@ -13,7 +13,7 @@ const Setting = ({ title, subtitle, optional, children }: Props) => {
         {!optional && <span className="text-red-500">*</span>}
       </h2>
       <div className="flex flex-col items-start justify-between lg:flex-row">
-        <p className="mb-3 shrink-0 text-[15px] font-light lg:max-w-[250px]">
+        <p className="mb-3 shrink-0 text-[17px] font-light lg:max-w-[250px]">
           {subtitle}
         </p>
         <div className="flex w-full max-w-[400px] grow lg:justify-end">

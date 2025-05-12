@@ -19,7 +19,7 @@ const notFoundErrors = [
 const SettingsPage = () => {
   const { fetch, error, isLoading, data } = useFetch<SettingsData>({
     endpoint: "settings",
-    method: "POST",
+    method: "GET",
   });
 
   useEffect(() => {

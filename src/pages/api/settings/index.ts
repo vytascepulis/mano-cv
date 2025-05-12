@@ -14,13 +14,38 @@ export default async function handler(
   res: NextApiResponse<Response>,
 ) {
   const method = req.method;
-  const subdomain = getSubdomainFromUrl(req.headers.origin);
+  const subdomain = getSubdomainFromUrl(req.headers.host);
 
-  if (method === "POST") {
-    if (!subdomain) {
+  if (!subdomain) {
+    return buildErrorResponse(res, HttpError.INTERNAL_ERROR);
+  }
+
+  if (method === "GET") {
+    const session = await getServerSession(req, res, authOptions);
+
+    if (!session) {
+      return buildErrorResponse(res, HttpError.NOT_LOGGED_IN);
+    }
+
+    const { googleId, id } = session.user;
+
+    const { data, error } = await userSettingsQuery({
+      id,
+      googleId,
+    });
+
+    if (error) {
       return buildErrorResponse(res, HttpError.INTERNAL_ERROR);
     }
 
+    if (!data || !data.subdomain) {
+      return buildErrorResponse(res, HttpError.NOT_FOUND);
+    }
+
+    return res.status(200).json({ ...data });
+  }
+
+  if (method === "POST") {
     const session = await getServerSession(req, res, authOptions);
 
     if (!session) {
