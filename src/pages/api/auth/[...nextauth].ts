@@ -50,6 +50,7 @@ export const authOptions: AuthOptions = {
 
       if (userData) {
         user.userId = userData.id;
+        user.userStatus = userData.status;
         user.subdomainSlug = userData.subdomainSlug;
         user.image = userData.image;
       }
@@ -64,6 +65,7 @@ export const authOptions: AuthOptions = {
           return false;
         }
 
+        user.userStatus = createData.status;
         user.userId = createData.id;
       }
 
@@ -76,6 +78,7 @@ export const authOptions: AuthOptions = {
         });
 
         if (userData) {
+          token.userStatus = userData.status;
           token.subdomainSlug = userData.subdomainSlug;
           token.image = userData.image;
         }
@@ -93,6 +96,7 @@ export const authOptions: AuthOptions = {
     async session({ session, token }) {
       if (session.user && token) {
         session.user.googleId = token.googleId;
+        session.user.userStatus = token.userStatus;
         session.user.subdomainSlug = token.subdomainSlug;
         session.user.userId = token.userId;
         session.user.image = token.image;

@@ -5,6 +5,7 @@ declare module "next-auth" {
   interface Session {
     user: {
       googleId: IUser["googleId"];
+      userStatus: IUser["status"];
       subdomainSlug?: ISubdomain["slug"];
       userId: string;
       image?: ISettings["image"];
@@ -12,6 +13,7 @@ declare module "next-auth" {
   }
 
   interface User {
+    userStatus: IUser["status"];
     subdomainSlug?: ISubdomain["slug"];
     userId: string;
     image?: ISettings["image"];
@@ -21,6 +23,7 @@ declare module "next-auth" {
 declare module "next-auth/jwt" {
   interface JWT {
     googleId: IUser["googleId"];
+    userStatus: IUser["status"];
     subdomainSlug?: ISubdomain["slug"];
     userId: string;
     image?: ISettings["image"];
