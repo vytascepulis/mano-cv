@@ -9,7 +9,7 @@ const HeroSection = () => {
   const { toggleLoginModal } = useGlobalContext();
 
   const handleCtaOnClick = () => {
-    if (!data || data.user.status === UserStatus.INITIALIZED) {
+    if (!data || data.user.userStatus === UserStatus.INITIALIZED) {
       return toggleLoginModal();
     }
   };
