@@ -2,12 +2,16 @@ import { getDomainUrl } from "@/utils/subdomain";
 import logo from "@/assets/mano-cv-logo.png";
 import UserBtn from "@/components/Navbar/UserBtn";
 import ControlBar from "@/pages/subdomains/[slug]/nustatymai/ControlBar";
+import { useSettings } from "@/contexts/SettingsContext";
+import BlockedBar from "@/pages/subdomains/[slug]/nustatymai/BlockedBar";
 
 interface Props {
   children: React.ReactNode;
 }
 
 const SettingsPageLayout = ({ children }: Props) => {
+  const { render } = useSettings();
+
   return (
     <div className="min-h-screen bg-violet-50">
       <div className="mx-auto max-w-7xl">
@@ -24,9 +28,10 @@ const SettingsPageLayout = ({ children }: Props) => {
                 className="h-[25px] object-contain"
               />
             </a>
-            <UserBtn hiddenIds={["settings"]} />
+            <UserBtn key={render} hiddenIds={["settings"]} />
           </nav>
         </div>
+        <BlockedBar />
         <ControlBar />
         <div className="px-5">{children}</div>
       </div>

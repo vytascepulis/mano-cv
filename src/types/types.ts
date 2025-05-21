@@ -1,40 +1,43 @@
-import type { Tables } from "./supabase.types.ts";
-import { QueryData } from "@supabase/supabase-js";
-import {
-  registerSlugMutation,
-  subdomainStatusMutation,
-  userSettingsQuery,
-  userSubdomainQuery,
-} from "@/lib/supabase";
-import { HttpError } from "@/constants/http";
+import { Card } from "@/components/InfoCards/types";
+import { ISubdomain } from "@/pages/api/types";
+import { SubdomainStatus, UserStatus, WebsiteDesigns } from "@/types/enums";
 
-export type Subdomain = Tables<"subdomains">;
-export type User = Tables<"users">;
-
-export type UserSubdomainQueryResponse = QueryData<
-  ReturnType<typeof userSubdomainQuery>
->;
-
-export type UserSettingsQueryResponse = QueryData<
-  ReturnType<typeof userSettingsQuery>
->;
-
-export type RegisterSlugMutationResponse = QueryData<
-  ReturnType<typeof registerSlugMutation>
->;
-
-export type SubdomainStatusMutationResponse = QueryData<
-  ReturnType<typeof subdomainStatusMutation>
->;
-
-export interface ErrorResponse {
-  message: HttpError;
+export interface SettingsData {
+  address: string | null;
+  desiredPositions: string[];
+  expectedSalary: string | null;
+  intro: string | null;
+  image: string | null;
+  email: string | null;
+  fullName: string | null;
+  phoneNumber: string | null;
+  websiteDesign: string | null;
+  subdomainCode: string | null;
+  experience: Card[];
+  education: Card[];
+  skills: string[];
+  languages: string[];
+  userStatus: UserStatus;
+  subdomainStatus: SubdomainStatus;
 }
 
-export type SettingsData = UserSettingsQueryResponse;
+export interface RegisterData {
+  id: string;
+  slug: ISubdomain["slug"];
+}
 
-export type SubdomainData = Omit<UserSubdomainQueryResponse, "subdomain"> & {
-  subdomain: Omit<UserSubdomainQueryResponse["subdomain"], "code">;
-};
-
-export type RegisterData = RegisterSlugMutationResponse;
+export interface SubdomainData {
+  address: string;
+  desiredPositions: string[];
+  expectedSalary: string | null;
+  intro: string;
+  image: string | null;
+  email: string | null;
+  fullName: string;
+  phoneNumber: string;
+  websiteDesign: WebsiteDesigns;
+  experience: Card[];
+  education: Card[];
+  skills: string[];
+  languages: string[];
+}

@@ -1,28 +1,28 @@
 import { DefaultSession } from "next-auth";
-import { User as UserData, Subdomain } from "@/types/types";
+import { ISettings, ISubdomain, IUser } from "@/pages/api/types";
 
 declare module "next-auth" {
   interface Session {
     user: {
-      googleId: string;
-      status: UserData["status"];
-      subdomainSlug?: Subdomain["slug"];
-      id: UserData["id"];
+      googleId: IUser["googleId"];
+      subdomainSlug?: ISubdomain["slug"];
+      userId: string;
+      image?: ISettings["image"];
     } & DefaultSession["user"];
   }
 
   interface User {
-    status: UserData["status"];
-    subdomainSlug?: Subdomain["slug"];
-    id: UserData["id"];
+    subdomainSlug?: ISubdomain["slug"];
+    userId: string;
+    image?: ISettings["image"];
   }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
-    googleId: string;
-    userStatus: UserData["status"];
-    subdomainSlug?: Subdomain["slug"];
-    id: UserData["id"];
+    googleId: IUser["googleId"];
+    subdomainSlug?: ISubdomain["slug"];
+    userId: string;
+    image?: ISettings["image"];
   }
 }

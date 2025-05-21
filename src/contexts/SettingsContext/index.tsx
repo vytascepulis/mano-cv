@@ -1,11 +1,17 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
-import { SettingsData, SubdomainStatusMutationResponse } from "@/types/types";
+import { SettingsData } from "@/types/types";
 import { SettingsState, Context } from "@/contexts/SettingsContext/types";
 import { initialSettings } from "@/contexts/SettingsContext/constants";
 import { useToast } from "@/contexts/ToastContext";
 import useFetch from "@/hooks/useFetch";
-import { SubdomainStatus } from "@/types/supabase.enums";
-import { buildSettings, isSettingsValid } from "@/utils/settings";
+import { SubdomainStatus } from "@/types/enums";
+import {
+  buildFormData,
+  buildSettings,
+  isSettingsValid,
+} from "@/utils/settings";
+import { UpdateSubdomainStatusResponse } from "@/pages/api/types";
+import { useSession } from "next-auth/react";
 
 interface Props {
   children: React.ReactNode;
@@ -15,15 +21,18 @@ interface Props {
 const SettingsContext = createContext<Context>({
   isSubdomainToggleDisabled: false,
   isEditing: false,
+  isSaveLoading: false,
   toggleIsEditing: () => {},
   handleSaveSettings: () => {},
   handleOnChange: () => {},
   handleOnDesignPreview: () => {},
   handleSetActive: () => {},
   settings: initialSettings,
+  render: 0,
 });
 
 const SettingsProvider = ({ children, settingsData }: Props) => {
+  const { update } = useSession();
   const { fireToast, firePromiseToast } = useToast();
   const [isSubdomainToggleDisabled, setIsSubdomainToggleDisabled] =
     useState(false);
@@ -31,12 +40,19 @@ const SettingsProvider = ({ children, settingsData }: Props) => {
   const [settings, setSettings] = useState<SettingsState>(
     buildSettings(settingsData),
   );
+  const [render, setRender] = useState(0);
   const defaultSettings = useRef<SettingsData>(settingsData);
 
-  const { fetch: setActive } = useFetch<SubdomainStatusMutationResponse>({
+  const { fetch: setActive } = useFetch<UpdateSubdomainStatusResponse>({
     endpoint: "subdomain/status",
-    method: "POST",
+    method: "PUT",
   });
+
+  const { fetch: updateSettings, isLoading: isUpdateSettingsLoading } =
+    useFetch<SettingsData>({
+      endpoint: "settings",
+      method: "PUT",
+    });
 
   const toggleIsEditing = () =>
     setIsEditing((prevState) => {
@@ -48,8 +64,34 @@ const SettingsProvider = ({ children, settingsData }: Props) => {
     });
 
   const handleSaveSettings: Context["handleSaveSettings"] = () => {
-    console.log("save settings");
-    // Update defaultSettings ref
+    const isValid = isSettingsValid(settings);
+
+    if (!isValid) {
+      fireToast({ type: "error", message: "Užpildyk būtinus CV laukelius" });
+      return;
+    }
+
+    const formData = buildFormData(settings);
+    formData.delete("image");
+
+    if (settings.image.blob) {
+      formData.append("imageBlob", settings.image.blob);
+    }
+
+    updateSettings({
+      body: formData,
+      onSuccess: async (data) => {
+        fireToast({ type: "success", message: "Išsaugota sėkmingai" });
+        setSettings(buildSettings(data));
+        defaultSettings.current = data;
+        setIsEditing(false);
+        await update();
+        setRender((prevState) => prevState + 1);
+      },
+      onError: (err) => {
+        fireToast({ type: "error", message: err.message });
+      },
+    });
   };
 
   const handleOnChange: Context["handleOnChange"] = (field, value) => {
@@ -69,7 +111,7 @@ const SettingsProvider = ({ children, settingsData }: Props) => {
         status: val ? SubdomainStatus.ACTIVE : SubdomainStatus.HIDDEN,
       },
       onSuccess: ({ status }) => {
-        handleOnChange("subdomainStatus", status as SubdomainStatus);
+        handleOnChange("subdomainStatus", status);
         setIsSubdomainToggleDisabled(false);
       },
       onError: () => {
@@ -97,12 +139,14 @@ const SettingsProvider = ({ children, settingsData }: Props) => {
       value={{
         isSubdomainToggleDisabled,
         isEditing,
+        isSaveLoading: isUpdateSettingsLoading,
         toggleIsEditing,
         handleSaveSettings,
         handleOnChange,
         handleOnDesignPreview,
         handleSetActive,
         settings,
+        render,
       }}
     >
       {children}

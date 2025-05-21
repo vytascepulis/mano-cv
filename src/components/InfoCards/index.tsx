@@ -10,6 +10,7 @@ interface Props {
   options: CardOptions;
   onAdd: (cards: Card[]) => void;
   disabled?: boolean;
+  name: string;
 }
 
 const sortCards = (cards: Card[]) => {
@@ -17,7 +18,7 @@ const sortCards = (cards: Card[]) => {
   return cards.sort((a, b) => b.dateFrom - a.dateFrom);
 };
 
-const InfoCards = ({ cards, options, onAdd, disabled }: Props) => {
+const InfoCards = ({ cards, options, onAdd, disabled, name }: Props) => {
   const [modalState, setModalState] = useState<ModalState | null>(null);
 
   const onEdit = (card: Card) => {
@@ -101,6 +102,7 @@ const InfoCards = ({ cards, options, onAdd, disabled }: Props) => {
         onSubmit={onEditSubmit}
         state={modalState}
         options={options}
+        name={name}
       />
     </div>
   );

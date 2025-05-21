@@ -1,14 +1,13 @@
 import { ReactNode } from "react";
 
-export interface Card {
+export type Card = {
   id: string;
   title: string;
   subtitle: string;
   description: string | null;
   dateFrom: Date;
   dateTo: Date | null;
-  isCurrent: boolean;
-}
+};
 
 export interface CardOptions {
   addNewBtnChildren: ReactNode;

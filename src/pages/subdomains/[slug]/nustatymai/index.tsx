@@ -23,18 +23,15 @@ const SettingsPage = () => {
   });
 
   useEffect(() => {
-    fetch({
-      onSuccess: (data) => {
-        console.log("data: ", data);
-      },
-      onError: (err) => {
-        console.log("error: ", err);
-      },
-    });
+    fetch({});
   }, []);
 
-  if (isLoading) {
-    return <Loader variant="dark" />;
+  if (isLoading || (!error && !data)) {
+    return (
+      <div className="flex h-screen w-screen items-center justify-center">
+        <Loader variant="dark" size="lg" />
+      </div>
+    );
   }
 
   if (error && notFoundErrors.includes(error.code)) {

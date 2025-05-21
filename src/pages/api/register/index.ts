@@ -1,42 +1,50 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { registerSlugMutation } from "@/lib/supabase";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { ErrorResponse, RegisterData } from "@/types/types";
+import { RegisterData } from "@/types/types";
 import { HttpError } from "@/constants/http";
-import { buildErrorResponse } from "@/pages/api/utils";
+import { buildErrorResponse, returnErrorResponse } from "@/pages/api/utils";
+import { ErrorResponse, HandlerWithSession } from "@/pages/api/types";
+import { withSessionCheck } from "@/lib/checks";
+import { createSubdomain } from "@/lib/handlers";
 
 type Response = RegisterData | ErrorResponse;
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Response>,
-) {
+const handler: HandlerWithSession<Response> = async (req, res, session) => {
   const method = req.method;
   const slug = req.body.slug;
 
   if (method === "POST") {
     if (!slug) {
-      return buildErrorResponse(res, HttpError.BAD_REQUEST);
+      return returnErrorResponse(
+        req,
+        res,
+        buildErrorResponse({
+          code: HttpError.BAD_REQUEST,
+          serverMessage: "No slug provided while registering subdomain",
+        }),
+      );
     }
 
-    const session = await getServerSession(req, res, authOptions);
+    const { userId: id } = session.user;
 
-    if (!session) {
-      return buildErrorResponse(res, HttpError.NOT_LOGGED_IN);
-    }
-
-    const { data, error } = await registerSlugMutation({
+    const { data, error } = await createSubdomain({
       slug,
-      userId: session.user.id,
+      userId: id,
     });
 
-    if (error) {
-      return buildErrorResponse(res, HttpError.INTERNAL_ERROR);
+    if (error || !data) {
+      return returnErrorResponse(req, res, error);
     }
 
     return res.status(200).json(data);
   }
 
-  return buildErrorResponse(res, HttpError.METHOD_NOT_ALLOWED);
-}
+  return returnErrorResponse(
+    req,
+    res,
+    buildErrorResponse({
+      code: HttpError.METHOD_NOT_ALLOWED,
+      serverMessage: "Method not allowed",
+    }),
+  );
+};
+
+export default withSessionCheck(handler);

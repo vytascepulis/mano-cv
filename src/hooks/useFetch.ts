@@ -14,11 +14,12 @@ interface FetchError {
 type FetchProps<T> = {
   onSuccess?: (data: T) => void;
   onError?: (error: FetchError) => void;
-  body?: { [key: string]: unknown };
+  // @eslint-disable-next-line @typescript-eslint/no-explicit-any
+  body?: any;
 };
 
 const useFetch = <T>({ endpoint, method = "GET" }: Props) => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<FetchError | null>(null);
   const [data, setData] = useState<T | null>(null);
 
@@ -31,9 +32,6 @@ const useFetch = <T>({ endpoint, method = "GET" }: Props) => {
         url: `/api/${endpoint}`,
         data: body,
         withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
       });
 
       setData(response.data);

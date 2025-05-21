@@ -1,34 +1,32 @@
 import { Card } from "@/components/InfoCards/types";
-import {
-  SubdomainStatus,
-  UserStatus,
-  WebsiteDesigns,
-} from "@/types/supabase.enums";
+import { SubdomainStatus, UserStatus, WebsiteDesigns } from "@/types/enums";
 
 export interface SettingsState {
   image: {
     blob: Blob | null;
-    url: string;
+    url: string | null;
   };
-  fullName: string;
-  phoneNumber: string;
-  email: string;
-  address: string;
-  intro: string;
+  fullName: string | null;
+  phoneNumber: string | null;
+  email: string | null;
+  address: string | null;
+  intro: string | null;
   skills: string[];
   languages: string[];
   experience: Card[];
   education: Card[];
-  desiredPosition: string[];
-  expectedSalary: string;
-  websiteDesign: WebsiteDesigns;
-  subdomainStatus: SubdomainStatus;
-  userStatus: UserStatus;
+  desiredPositions: string[];
+  expectedSalary: string | null;
+  websiteDesign: WebsiteDesigns | null;
+  subdomainStatus: SubdomainStatus | null;
+  subdomainCode: string | null;
+  userStatus: UserStatus | null;
 }
 
 export interface Context {
   isSubdomainToggleDisabled: boolean;
   isEditing: boolean;
+  isSaveLoading: boolean;
   toggleIsEditing: () => void;
   handleSaveSettings: () => void;
   handleOnChange: <K extends keyof SettingsState>(
@@ -38,4 +36,5 @@ export interface Context {
   handleOnDesignPreview: (slug: string) => void;
   handleSetActive: (val: boolean) => void;
   settings: SettingsState;
+  render: number;
 }

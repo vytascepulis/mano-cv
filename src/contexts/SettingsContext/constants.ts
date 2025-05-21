@@ -1,28 +1,22 @@
-import { getGenericUserPhoto } from "@/utils/user";
-import {
-  SubdomainStatus,
-  UserStatus,
-  WebsiteDesigns,
-} from "@/types/supabase.enums";
-
 export const initialSettings = {
   image: {
-    url: getGenericUserPhoto(),
+    url: null,
     blob: null,
   },
   imageBlob: null,
-  fullName: "",
-  phoneNumber: "",
-  email: "",
-  address: "",
-  intro: "",
+  fullName: null,
+  phoneNumber: null,
+  email: null,
+  address: null,
+  intro: null,
   skills: [],
   languages: [],
   experience: [],
   education: [],
-  desiredPosition: [],
-  expectedSalary: "",
-  websiteDesign: WebsiteDesigns.CLASSIC,
-  subdomainStatus: SubdomainStatus.ACTIVE,
-  userStatus: UserStatus.ACTIVE,
+  desiredPositions: [],
+  expectedSalary: null,
+  websiteDesign: null,
+  subdomainStatus: null,
+  subdomainCode: null,
+  userStatus: null,
 };

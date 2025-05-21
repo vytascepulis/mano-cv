@@ -1,74 +1,60 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { getSubdomainFromUrl } from "@/utils/subdomain";
-import { userSettingsQuery } from "@/lib/supabase";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { ErrorResponse, SettingsData } from "@/types/types";
-import { buildErrorResponse } from "@/pages/api/utils";
+import { SettingsData } from "@/types/types";
+import { buildErrorResponse, returnErrorResponse } from "@/pages/api/utils";
+import { withSessionCheck, withSubdomainCheck } from "@/lib/checks";
+import { ErrorResponse, HandlerWithSession } from "@/pages/api/types";
+import { getUserSettings, updateUserSettings } from "@/lib/handlers";
 import { HttpError } from "@/constants/http";
 
 type Response = SettingsData | ErrorResponse;
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Response>,
-) {
-  const method = req.method;
-  const subdomain = getSubdomainFromUrl(req.headers.host);
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
 
-  if (!subdomain) {
-    return buildErrorResponse(res, HttpError.INTERNAL_ERROR);
-  }
+const handler: HandlerWithSession<Response> = async (req, res, session) => {
+  const method = req.method;
 
   if (method === "GET") {
-    const session = await getServerSession(req, res, authOptions);
+    const { googleId, userId: id } = session.user;
 
-    if (!session) {
-      return buildErrorResponse(res, HttpError.NOT_LOGGED_IN);
-    }
-
-    const { googleId, id } = session.user;
-
-    const { data, error } = await userSettingsQuery({
+    const { data, error } = await getUserSettings({
       id,
       googleId,
     });
 
-    if (error) {
-      return buildErrorResponse(res, HttpError.INTERNAL_ERROR);
+    if (error || !data) {
+      return returnErrorResponse(req, res, error);
     }
 
-    if (!data || !data.subdomain) {
-      return buildErrorResponse(res, HttpError.NOT_FOUND);
-    }
-
-    return res.status(200).json({ ...data });
+    return res.status(200).json(data);
   }
 
-  if (method === "POST") {
-    const session = await getServerSession(req, res, authOptions);
+  if (method === "PUT") {
+    const { googleId, userId: id } = session.user;
 
-    if (!session) {
-      return buildErrorResponse(res, HttpError.NOT_LOGGED_IN);
-    }
-
-    const { googleId, id } = session.user;
-
-    const { data, error } = await userSettingsQuery({
+    const { data, error } = await updateUserSettings({
       id,
       googleId,
+      req,
     });
 
-    if (error) {
-      return buildErrorResponse(res, HttpError.INTERNAL_ERROR);
+    if (error || !data) {
+      return returnErrorResponse(req, res, error);
     }
 
-    if (!data || !data.subdomain) {
-      return buildErrorResponse(res, HttpError.NOT_FOUND);
-    }
-
-    return res.status(200).json({ ...data });
+    return res.status(200).json(data);
   }
 
-  return buildErrorResponse(res, HttpError.METHOD_NOT_ALLOWED);
-}
+  return returnErrorResponse(
+    req,
+    res,
+    buildErrorResponse({
+      code: HttpError.METHOD_NOT_ALLOWED,
+      serverMessage: "Method not allowed",
+    }),
+  );
+};
+
+export default withSubdomainCheck(withSessionCheck(handler));

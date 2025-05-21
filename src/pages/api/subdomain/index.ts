@@ -1,77 +1,52 @@
-import type { NextApiRequest, NextApiResponse } from "next";
 import { getSubdomainFromUrl } from "@/utils/subdomain";
-import { sha256 } from "@/utils/crypto";
-import { userSubdomainQuery } from "@/lib/supabase";
-import { SubdomainData } from "@/types/types";
-import { SubdomainStatus, UserStatus } from "@/types/supabase.enums";
-import { ErrorCodes } from "@/constants/postgrest";
-import { buildErrorResponse } from "@/pages/api/utils";
+import {
+  buildErrorResponse,
+  formatSubdomainData,
+  returnErrorResponse,
+} from "@/pages/api/utils";
 import { HttpError } from "@/constants/http";
-import { formatSubdomainData } from "@/utils/apiResponseFormatters";
+import { ErrorResponse, HandlerWithSession } from "@/pages/api/types";
+import { withSubdomainCheck } from "@/lib/checks";
+import { SubdomainData } from "@/types/types";
+import { getSubdomainByCode } from "@/lib/handlers";
 
-interface ResponseError {
-  message: string;
-}
+type Response = SubdomainData | ErrorResponse;
 
-type Response = SubdomainData | ResponseError;
-
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Response>,
-) {
+const handler: HandlerWithSession<Response> = async (req, res) => {
   const method = req.method;
-  const subdomain = getSubdomainFromUrl(req.headers.origin);
+  const subdomainSlug = getSubdomainFromUrl(req.headers.host || "")!;
   const cookiesCode = req.cookies.code;
   const bodyCode = req.body.code;
-  const bodyCodeEncrypted = sha256(bodyCode);
 
   if (method === "POST") {
-    if (!subdomain) {
-      return buildErrorResponse(res, HttpError.BAD_REQUEST);
-    }
-
-    if (!cookiesCode && !bodyCode) {
-      return buildErrorResponse(res, HttpError.NOT_ALLOWED);
-    }
-
-    const { data, error } = await userSubdomainQuery({
-      subdomain,
+    const { data, error } = await getSubdomainByCode({
+      subdomainCode: bodyCode || cookiesCode,
+      subdomainSlug,
     });
 
     if (error) {
-      if (error.code === ErrorCodes.NOT_FOUND) {
-        return buildErrorResponse(res, HttpError.NOT_FOUND);
-      }
-
-      return buildErrorResponse(res, HttpError.INTERNAL_ERROR);
+      return returnErrorResponse(req, res, error);
     }
 
-    if (
-      !data.subdomain ||
-      data.subdomain.status === SubdomainStatus.HIDDEN ||
-      data.userStatus === UserStatus.BLOCKED
-    ) {
-      return buildErrorResponse(res, HttpError.NOT_FOUND);
+    if (bodyCode && !cookiesCode) {
+      const maxAge = 14 * 24 * 60 * 60; // 2 weeks
+
+      res.setHeader(
+        "Set-Cookie",
+        `code=${bodyCode}; HttpOnly; Secure; SameSite=None; Path=/; Max-Age=${maxAge}`,
+      );
     }
 
-    if (
-      bodyCodeEncrypted === data.subdomain.code ||
-      cookiesCode === data.subdomain.code
-    ) {
-      if (bodyCode && !cookiesCode) {
-        const maxAge = 14 * 24 * 60 * 60; // 2 weeks
-
-        res.setHeader(
-          "Set-Cookie",
-          `code=${data.subdomain.code}; HttpOnly; Secure; SameSite=None; Path=/; Max-Age=${maxAge}`,
-        );
-      }
-
-      return res.status(200).json(formatSubdomainData(data));
-    }
-
-    return buildErrorResponse(res, HttpError.NOT_ALLOWED);
+    return res.status(200).json(formatSubdomainData(data));
   }
+  return returnErrorResponse(
+    req,
+    res,
+    buildErrorResponse({
+      code: HttpError.METHOD_NOT_ALLOWED,
+      serverMessage: "Method not allowed",
+    }),
+  );
+};
 
-  return buildErrorResponse(res, HttpError.METHOD_NOT_ALLOWED);
-}
+export default withSubdomainCheck(handler);

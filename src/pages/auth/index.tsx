@@ -1,6 +1,7 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import Loader from "@/components/ui/Loader";
 
 const LoginAuthPage = () => {
   const { data: session, status } = useSession();
@@ -17,7 +18,11 @@ const LoginAuthPage = () => {
     }
   }, [status, session]);
 
-  return null;
+  return (
+    <div className="flex h-screen w-screen items-center justify-center">
+      <Loader variant="dark" size="lg" />
+    </div>
+  );
 };
 
 export default LoginAuthPage;

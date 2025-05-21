@@ -1,15 +1,9 @@
 import { SettingsData } from "@/types/types";
 import { SettingsState } from "@/contexts/SettingsContext/types";
 import { initialSettings } from "@/contexts/SettingsContext/constants";
-import {
-  SubdomainStatus,
-  UserStatus,
-  WebsiteDesigns,
-} from "@/types/supabase.enums";
+import { WebsiteDesigns } from "@/types/enums";
 
-export const buildSettings = (data: SettingsData): SettingsState => {
-  const { settings, education, experience, subdomain, userStatus } = data;
-
+export const buildSettings = (settings: SettingsData): SettingsState => {
   if (!settings) return initialSettings;
 
   return {
@@ -19,35 +13,54 @@ export const buildSettings = (data: SettingsData): SettingsState => {
       blob: null,
     },
     websiteDesign: settings.websiteDesign as WebsiteDesigns,
-    education: education.map((item) => ({
+    education: settings.education.map((item) => ({
       ...item,
       dateFrom: new Date(item.dateFrom),
       dateTo: item.dateTo ? new Date(item.dateTo) : null,
     })),
-    experience: experience.map((item) => ({
+    experience: settings.experience.map((item) => ({
       ...item,
       dateFrom: new Date(item.dateFrom),
       dateTo: item.dateTo ? new Date(item.dateTo) : null,
     })),
-    subdomainStatus: subdomain.status as SubdomainStatus,
-    userStatus: userStatus as UserStatus,
+    subdomainStatus: settings.subdomainStatus,
+    subdomainCode: settings.subdomainCode,
+    userStatus: settings.userStatus,
   };
 };
 
-export const isSettingsValid = (settings: SettingsState) => {
-  return (
-    (settings.image.blob || settings.image.url) &&
-    settings.fullName.trim() &&
-    settings.email.trim() &&
-    settings.phoneNumber.trim() &&
-    settings.address.trim() &&
-    settings.intro.trim() &&
-    settings.skills.length > 0 &&
-    settings.languages.length > 0 &&
-    settings.experience.length > 0 &&
-    settings.education.length > 0 &&
-    settings.desiredPosition.length > 0 &&
-    settings.expectedSalary.trim() &&
-    settings.websiteDesign
+export const isSettingsValid = (settings: Partial<SettingsState>) => {
+  return Boolean(
+    (settings.image?.blob || settings.image?.url) &&
+      settings.fullName?.trim() &&
+      settings.phoneNumber?.trim() &&
+      settings.address?.trim() &&
+      settings.intro?.trim() &&
+      settings.skills?.length &&
+      settings.education?.length &&
+      settings.websiteDesign &&
+      settings.subdomainCode?.length === 4,
   );
 };
+
+export function buildFormData(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: Record<string, any>,
+  form = new FormData(),
+  namespace = "",
+): FormData {
+  for (const key in data) {
+    if (data[key] === undefined || data[key] === null) continue;
+
+    const formKey = namespace ? `${namespace}[${key}]` : key;
+
+    if (data[key] instanceof Blob) {
+      form.append(formKey, data[key]);
+    } else if (Array.isArray(data[key]) || typeof data[key] === "object") {
+      form.append(formKey, JSON.stringify(data[key]));
+    } else {
+      form.append(formKey, data[key]);
+    }
+  }
+  return form;
+}

@@ -1,4 +1,4 @@
-import { WebsiteDesigns } from "@/types/supabase.enums";
+import { WebsiteDesigns } from "@/types/enums";
 
 export interface IToggleCard {
   slug: WebsiteDesigns;

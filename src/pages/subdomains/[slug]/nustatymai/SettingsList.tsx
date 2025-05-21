@@ -4,7 +4,7 @@ import InputPills from "@/components/ui/InputPills";
 import InfoCards from "@/components/InfoCards";
 import ToggleCards from "@/components/ToggleCards";
 import PhotoUpload from "@/components/PhotoUpload";
-import staticData from "./data.json";
+import { settingsData } from "@/staticData/settings";
 import { useSettings } from "@/contexts/SettingsContext";
 import ToggleCard from "@/components/ToggleCards/ToggleCard";
 import { IToggleCard } from "@/components/ToggleCards/types";
@@ -13,12 +13,8 @@ const SettingsList = () => {
   const { handleOnChange, handleOnDesignPreview, settings, isEditing } =
     useSettings();
 
-  const {
-    settings: texts,
-    experienceTexts,
-    educationTexts,
-    designs,
-  } = staticData;
+  const { settingsList, experienceTexts, educationTexts, designs } =
+    settingsData;
 
   const textLg = (text: string) => {
     return <p className="text-xl">{text}</p>;
@@ -30,14 +26,22 @@ const SettingsList = () => {
 
   return (
     <div className="mx-auto box-content flex max-w-[800px] flex-col gap-8 px-0 py-10 lg:px-3 lg:py-24">
-      <Setting title={texts.image.title} subtitle={texts.image.subtitle}>
+      <Setting
+        title={settingsList.image.title}
+        subtitle={settingsList.image.subtitle}
+        optional={settingsList.image.optional}
+      >
         <PhotoUpload
           disabled={!isEditing}
           image={settings.image}
           onUpload={(data) => handleOnChange("image", data)}
         />
       </Setting>
-      <Setting title={texts.fullName.title} subtitle={texts.fullName.subtitle}>
+      <Setting
+        title={settingsList.fullName.title}
+        subtitle={settingsList.fullName.subtitle}
+        optional={settingsList.fullName.optional}
+      >
         {isEditing && (
           <Input
             type="text"
@@ -50,11 +54,12 @@ const SettingsList = () => {
             defaultValue={settings.fullName}
           />
         )}
-        {!isEditing && textLg(settings.fullName)}
+        {!isEditing && textLg(settings.fullName ?? "")}
       </Setting>
       <Setting
-        title={texts.phoneNumber.title}
-        subtitle={texts.phoneNumber.subtitle}
+        title={settingsList.phoneNumber.title}
+        subtitle={settingsList.phoneNumber.subtitle}
+        optional={settingsList.phoneNumber.optional}
       >
         {isEditing && (
           <Input
@@ -68,9 +73,13 @@ const SettingsList = () => {
             defaultValue={settings.phoneNumber}
           />
         )}
-        {!isEditing && textLg(settings.phoneNumber)}
+        {!isEditing && textLg(settings.phoneNumber ?? "")}
       </Setting>
-      <Setting title={texts.email.title} subtitle={texts.email.subtitle}>
+      <Setting
+        title={settingsList.email.title}
+        subtitle={settingsList.email.subtitle}
+        optional={settingsList.email.optional}
+      >
         {isEditing && (
           <Input
             type="email"
@@ -83,9 +92,13 @@ const SettingsList = () => {
             defaultValue={settings.email}
           />
         )}
-        {!isEditing && textLg(settings.email)}
+        {!isEditing && textLg(settings.email ?? "")}
       </Setting>
-      <Setting title={texts.address.title} subtitle={texts.address.subtitle}>
+      <Setting
+        title={settingsList.address.title}
+        subtitle={settingsList.address.subtitle}
+        optional={settingsList.address.optional}
+      >
         {isEditing && (
           <Input
             type="text"
@@ -98,9 +111,13 @@ const SettingsList = () => {
             defaultValue={settings.address}
           />
         )}
-        {!isEditing && textLg(settings.address)}
+        {!isEditing && textLg(settings.address ?? "")}
       </Setting>
-      <Setting title={texts.intro.title} subtitle={texts.intro.subtitle}>
+      <Setting
+        title={settingsList.intro.title}
+        subtitle={settingsList.intro.subtitle}
+        optional={settingsList.intro.optional}
+      >
         {isEditing && (
           <Input
             type="textarea"
@@ -111,9 +128,13 @@ const SettingsList = () => {
             defaultValue={settings.intro}
           />
         )}
-        {!isEditing && textSm(settings.intro)}
+        {!isEditing && textSm(settings.intro ?? "")}
       </Setting>
-      <Setting title={texts.skills.title} subtitle={texts.skills.subtitle}>
+      <Setting
+        title={settingsList.skills.title}
+        subtitle={settingsList.skills.subtitle}
+        optional={settingsList.skills.optional}
+      >
         <InputPills
           pills={settings.skills}
           className="lg:max-w-[300px]"
@@ -124,8 +145,9 @@ const SettingsList = () => {
         />
       </Setting>
       <Setting
-        title={texts.languages.title}
-        subtitle={texts.languages.subtitle}
+        title={settingsList.languages.title}
+        subtitle={settingsList.languages.subtitle}
+        optional={settingsList.languages.optional}
       >
         <InputPills
           pills={settings.languages}
@@ -137,61 +159,67 @@ const SettingsList = () => {
         />
       </Setting>
       <Setting
-        title={texts.experience.title}
-        subtitle={texts.experience.subtitle}
+        title={settingsList.experience.title}
+        subtitle={settingsList.experience.subtitle}
+        optional={settingsList.experience.optional}
       >
         <InfoCards
           onAdd={(cards) => handleOnChange("experience", cards)}
           options={experienceTexts}
           cards={settings.experience}
           disabled={!isEditing}
+          name="experience"
         />
       </Setting>
       <Setting
-        title={texts.education.title}
-        subtitle={texts.education.subtitle}
+        title={settingsList.education.title}
+        subtitle={settingsList.education.subtitle}
+        optional={settingsList.education.optional}
       >
         <InfoCards
           onAdd={(cards) => handleOnChange("education", cards)}
           options={educationTexts}
           cards={settings.education}
           disabled={!isEditing}
+          name="education"
         />
       </Setting>
       <Setting
-        title={texts.desiredPosition.title}
-        subtitle={texts.desiredPosition.subtitle}
+        title={settingsList.desiredPosition.title}
+        subtitle={settingsList.desiredPosition.subtitle}
+        optional={settingsList.desiredPosition.optional}
       >
         <InputPills
-          pills={settings.desiredPosition}
+          pills={settings.desiredPositions}
           className="lg:max-w-[300px]"
-          onChange={(val) => handleOnChange("desiredPosition", val)}
+          onChange={(val) => handleOnChange("desiredPositions", val)}
           placeholder="Programuotojas"
           addBtnChildren="Pridėti"
           disabled={!isEditing}
         />
       </Setting>
       <Setting
-        title={texts.expectedSalary.title}
-        subtitle={texts.expectedSalary.subtitle}
+        title={settingsList.expectedSalary.title}
+        subtitle={settingsList.expectedSalary.subtitle}
+        optional={settingsList.expectedSalary.optional}
       >
         {isEditing && (
           <Input
             type="number"
-            onChange={(val) =>
-              handleOnChange("expectedSalary", Math.floor(+val).toString())
-            }
+            onChange={(val) => handleOnChange("expectedSalary", val)}
             placeholder="XXXX"
             className="lg:max-w-[300px]"
             disabled={!isEditing}
-            defaultValue={settings.expectedSalary}
+            defaultValue={settings.expectedSalary || ""}
           />
         )}
-        {!isEditing && textLg(`${settings.expectedSalary}€`)}
+        {!isEditing &&
+          textLg(settings.expectedSalary ? `${settings.expectedSalary}€` : "")}
       </Setting>
       <Setting
-        title={texts.websiteDesign.title}
-        subtitle={texts.websiteDesign.subtitle}
+        title={settingsList.websiteDesign.title}
+        subtitle={settingsList.websiteDesign.subtitle}
+        optional={settingsList.websiteDesign.optional}
       >
         {!isEditing && settings.websiteDesign && (
           <ToggleCard
@@ -210,9 +238,30 @@ const SettingsList = () => {
               onSelect: ({ slug }) => handleOnChange("websiteDesign", slug),
             }}
             cards={designs as IToggleCard[]}
-            selectedSlug={settings.websiteDesign}
+            selectedSlug={settings.websiteDesign || ""}
           />
         )}
+      </Setting>
+      <Setting
+        title={settingsList.websiteCode.title}
+        subtitle={settingsList.websiteCode.subtitle}
+      >
+        {isEditing && (
+          <Input
+            type="number"
+            onChange={(val) => {
+              if (val.length <= 4) {
+                handleOnChange("subdomainCode", Math.floor(+val).toString());
+              }
+            }}
+            placeholder="XXXX"
+            className="lg:max-w-[300px]"
+            disabled={!isEditing}
+            defaultValue={settings.subdomainCode}
+            maxLength={4}
+          />
+        )}
+        {!isEditing && textLg(settings.subdomainCode ?? "")}
       </Setting>
     </div>
   );

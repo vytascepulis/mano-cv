@@ -11,7 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { twMerge } from "tailwind-merge";
-import { getUserImage } from "@/utils/user";
+import { getGenericUserPhoto } from "@/utils/user";
 
 interface MenuItem {
   id?: string;
@@ -98,7 +98,7 @@ const UserBtn = ({ hiddenIds = [] }: Props) => {
       >
         <img
           alt={data.user.name!}
-          src={getUserImage(data.user.id)}
+          src={data.user.image || getGenericUserPhoto()}
           className="h-[35px] object-contain"
         />
       </button>

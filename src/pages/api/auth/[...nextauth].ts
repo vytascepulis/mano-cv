@@ -1,9 +1,8 @@
 import NextAuth, { AuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { NextApiRequest, NextApiResponse } from "next";
+import { createUser, getUserByGoogleId } from "@/lib/handlers";
 import { sha256 } from "@/utils/crypto";
-import { createUserMutation, userDataByGoogleIdQuery } from "@/lib/supabase";
-import { ErrorCodes } from "@/constants/postgrest";
 
 const sessionTokenName =
   process.env.NODE_ENV === "production"
@@ -45,56 +44,48 @@ export const authOptions: AuthOptions = {
         return false;
       }
 
-      const { data: userData, error } = await userDataByGoogleIdQuery({
+      const { data: userData } = await getUserByGoogleId({
         hashedGoogleId: sha256(profile.sub),
       });
 
-      if (error && error.code !== ErrorCodes.NOT_FOUND) {
-        console.log("query error: ", error);
-        return false;
-      }
-
       if (userData) {
-        user.status = userData.status;
-        user.subdomainSlug = userData.subdomain?.slug;
-        user.id = userData.id;
+        user.userId = userData.id;
+        user.subdomainSlug = userData.subdomainSlug;
+        user.image = userData.image;
       }
 
       if (!userData) {
-        const { data: createData, error: createError } =
-          await createUserMutation({
-            hashedGoogleId: sha256(profile.sub),
-            email: profile.email!,
-          });
+        const { data: createData, error: createError } = await createUser({
+          hashedGoogleId: sha256(profile.sub),
+          email: profile.email!,
+        });
 
         if (createError) {
-          console.log("create error: ", createError);
           return false;
         }
 
-        user.status = createData.status;
-        user.id = createData.id;
+        user.userId = createData.id;
       }
 
       return true;
     },
     async jwt({ token, user, account, profile, trigger }) {
       if (trigger === "update") {
-        const { data: userData } = await userDataByGoogleIdQuery({
+        const { data: userData } = await getUserByGoogleId({
           hashedGoogleId: token.googleId,
         });
 
         if (userData) {
-          token.userStatus = userData.status;
-          token.subdomainSlug = userData.subdomain?.slug;
+          token.subdomainSlug = userData.subdomainSlug;
+          token.image = userData.image;
         }
       }
 
       if (account && profile?.sub) {
         token.googleId = sha256(profile.sub);
-        token.userStatus = user.status;
         token.subdomainSlug = user.subdomainSlug;
-        token.id = user.id;
+        token.userId = user.userId;
+        token.image = user.image;
       }
 
       return token;
@@ -102,9 +93,9 @@ export const authOptions: AuthOptions = {
     async session({ session, token }) {
       if (session.user && token) {
         session.user.googleId = token.googleId;
-        session.user.status = token.userStatus;
         session.user.subdomainSlug = token.subdomainSlug;
-        session.user.id = token.id;
+        session.user.userId = token.userId;
+        session.user.image = token.image;
       }
 
       return session;

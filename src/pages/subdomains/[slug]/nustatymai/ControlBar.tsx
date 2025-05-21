@@ -1,11 +1,12 @@
 import Toggle from "@/components/ui/Toggle";
 import Button from "@/components/ui/Button";
 import { useSettings } from "@/contexts/SettingsContext";
-import { SubdomainStatus, UserStatus } from "@/types/supabase.enums";
+import { SubdomainStatus, UserStatus } from "@/types/enums";
 
 const ControlBar = () => {
   const {
     isEditing,
+    isSaveLoading,
     toggleIsEditing,
     handleSaveSettings,
     settings,
@@ -26,10 +27,16 @@ const ControlBar = () => {
       {!isEditing && <Button onClick={toggleIsEditing}>Redaguoti</Button>}
       {isEditing && (
         <div className="flex gap-3">
-          <Button variant="outline" onClick={toggleIsEditing}>
+          <Button
+            variant="outline"
+            onClick={toggleIsEditing}
+            disabled={isSaveLoading}
+          >
             Atšaukti
           </Button>
-          <Button onClick={handleSaveSettings}>Išsaugoti</Button>
+          <Button onClick={handleSaveSettings} loading={isSaveLoading}>
+            Išsaugoti
+          </Button>
         </div>
       )}
     </div>

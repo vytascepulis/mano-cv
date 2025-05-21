@@ -2,7 +2,7 @@ import Button from "@/components/ui/Button";
 import { useGlobalContext } from "@/contexts/GlobalContext";
 import { useSession } from "next-auth/react";
 import { formatSubdomainUrl } from "@/utils/subdomain";
-import { UserStatus } from "@/types/supabase.enums";
+import { UserStatus } from "@/types/enums";
 
 const HeroSection = () => {
   const { data } = useSession();

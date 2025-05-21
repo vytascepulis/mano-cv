@@ -16,7 +16,7 @@ const LoginBtn = () => {
   const isLoading = session.status === "loading";
   const isUnauthenticated = session.status === "unauthenticated";
   const isAuthenticated = session.status === "authenticated";
-  const isInitialized = session.data?.user.status === "INITIALIZED";
+  const isInitialized = session.data?.user.userStatus === "INITIALIZED";
 
   const { toggleLoginModal, loginModalOpen, setLoginModalOpen } =
     useGlobalContext();

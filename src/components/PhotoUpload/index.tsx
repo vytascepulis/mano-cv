@@ -1,11 +1,10 @@
 import React, { useRef, useState } from "react";
 import Button from "@/components/ui/Button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import CropModal from "@/components/PhotoUpload/CropModal";
 import { fileToImageState, fileToUrl } from "@/components/PhotoUpload/utils";
 import { SettingsState } from "@/contexts/SettingsContext/types";
 import { twMerge } from "tailwind-merge";
+import { getGenericUserPhoto } from "@/utils/user";
 
 interface Props {
   image: SettingsState["image"];
@@ -23,14 +22,14 @@ const PhotoUpload = ({ image, onUpload, disabled }: Props) => {
     refFileInput.current?.click();
   };
 
-  const handleRemoveClick = () => {
-    onUpload(fileToImageState(null));
-    setUploadedSrc(null);
-
-    if (refFileInput.current) {
-      refFileInput.current.value = "";
-    }
-  };
+  // const handleRemoveClick = () => {
+  //   onUpload(fileToImageState(null));
+  //   setUploadedSrc(null);
+  //
+  //   if (refFileInput.current) {
+  //     refFileInput.current.value = "";
+  //   }
+  // };
 
   const handleOnUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -53,7 +52,7 @@ const PhotoUpload = ({ image, onUpload, disabled }: Props) => {
   return (
     <div className={twMerge("card", "p-[4px]")}>
       <img
-        src={image.url}
+        src={image.url || getGenericUserPhoto()}
         alt="User's image"
         className="h-[200px] w-[200px] rounded-xs"
       />
@@ -69,14 +68,14 @@ const PhotoUpload = ({ image, onUpload, disabled }: Props) => {
           <Button onClick={handleUploadClick} disabled={disabled}>
             Įkelti
           </Button>
-          <Button
-            variant="link"
-            onClick={handleRemoveClick}
-            color="danger"
-            disabled={disabled}
-          >
-            <FontAwesomeIcon icon={faTrashCan} size="xl" />
-          </Button>
+          {/*<Button*/}
+          {/*  variant="link"*/}
+          {/*  onClick={handleRemoveClick}*/}
+          {/*  color="danger"*/}
+          {/*  disabled={disabled}*/}
+          {/*>*/}
+          {/*  <FontAwesomeIcon icon={faTrashCan} size="xl" />*/}
+          {/*</Button>*/}
         </div>
       )}
       {uploadedSrc && (

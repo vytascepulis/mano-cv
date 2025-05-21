@@ -3,6 +3,7 @@ import NotFoundPage from "@/pages/404";
 import CodePage from "@/pages/subdomains/[slug]/code";
 import { useRouter } from "next/router";
 import useFetch from "@/hooks/useFetch";
+import Loader from "@/components/ui/Loader";
 import { SubdomainData } from "@/types/types";
 
 const SubdomainPage = () => {
@@ -30,7 +31,11 @@ const SubdomainPage = () => {
   }, []);
 
   if (isPageLoading || isLoading) {
-    return <>loading</>;
+    return (
+      <div className="flex h-screen w-screen items-center justify-center">
+        <Loader variant="dark" size="lg" />
+      </div>
+    );
   }
 
   if (error?.code === 404) {
@@ -43,8 +48,7 @@ const SubdomainPage = () => {
 
   return (
     <h1>
-      {}
-      Welcome to {slug}. Theme is {subdomainData.subdomain.status}
+      Welcome to {slug}. Theme is {subdomainData.websiteDesign}
     </h1>
   );
 };

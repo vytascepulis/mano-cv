@@ -10,7 +10,7 @@ interface GenericProps {
   maxLength?: number;
   minLength?: number;
   label?: React.ReactNode;
-  defaultValue?: string;
+  defaultValue?: string | null;
   required?: boolean;
   name?: string;
 }
@@ -52,14 +52,20 @@ const Input = (props: Props) => {
   const handleOnChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    setValue(e.target.value);
+    if (maxLength && value.length >= maxLength) {
+      setValue((prevState) => {
+        return prevState.slice(0, maxLength);
+      });
+    } else {
+      setValue(e.target.value);
+    }
 
     if (!onEnter) {
       onChange?.(e.target.value);
     }
   };
 
-  const handleOnEnter = (
+  const handleOnKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     if (onEnter && e.key === "Enter") {
@@ -94,7 +100,7 @@ const Input = (props: Props) => {
           placeholder={placeholder}
           disabled={disabled}
           value={value}
-          onKeyDown={handleOnEnter}
+          onKeyDown={handleOnKeyDown}
         />
         <span className="shrink-0 pr-3 pl-1">{suffix}</span>
       </span>
@@ -123,7 +129,7 @@ const Input = (props: Props) => {
           placeholder={placeholder}
           disabled={disabled}
           value={value}
-          onKeyDown={handleOnEnter}
+          onKeyDown={handleOnKeyDown}
           maxLength={maxLength}
           required={required}
           name={name}
@@ -149,11 +155,12 @@ const Input = (props: Props) => {
         placeholder={placeholder}
         disabled={disabled}
         value={value}
-        onKeyDown={handleOnEnter}
+        onKeyDown={handleOnKeyDown}
         maxLength={maxLength}
         minLength={minLength}
         required={required}
         name={name}
+        inputMode={type === "number" ? "numeric" : undefined}
       />
     </label>
   );

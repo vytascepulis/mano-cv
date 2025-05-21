@@ -12,6 +12,7 @@ interface Props {
   handleClose: () => void;
   onSubmit: (card: Card) => void;
   options: CardOptions;
+  name: string;
 }
 
 const EditCardModal = ({
@@ -20,10 +21,16 @@ const EditCardModal = ({
   onSubmit,
   handleClose,
   options,
+  name,
 }: Props) => {
   const [dateFrom, setDateFrom] = useState<Date | null>(null);
   const [dateTo, setDateTo] = useState<Date | null>(null);
   const [isCurrent, setIsCurrent] = useState(false);
+  const [title, setTitle] = useState(state?.selectedCard?.title || "");
+  const [subtitle, setSubtitle] = useState(state?.selectedCard?.subtitle || "");
+  const [description, setDescription] = useState(
+    state?.selectedCard?.description || "",
+  );
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -40,7 +47,6 @@ const EditCardModal = ({
       description,
       dateFrom: dateFrom!,
       dateTo,
-      isCurrent,
     });
   };
 
@@ -54,7 +60,10 @@ const EditCardModal = ({
   useEffect(() => {
     setDateFrom(state?.selectedCard?.dateFrom || null);
     setDateTo(state?.selectedCard?.dateTo || null);
-    setIsCurrent(Boolean(state?.selectedCard?.isCurrent));
+    setIsCurrent(state?.selectedCard?.dateTo === null);
+    setTitle(state?.selectedCard?.title || "");
+    setSubtitle(state?.selectedCard?.subtitle || "");
+    setDescription(state?.selectedCard?.description || "");
   }, [state]);
 
   const submitBtnColor = state?.mode === "delete" ? "danger" : "primary";
@@ -88,7 +97,8 @@ const EditCardModal = ({
           label={options.titleLabel}
           placeholder={options.titlePlaceholder}
           required
-          defaultValue={state?.selectedCard?.title}
+          defaultValue={title}
+          onChange={setTitle}
           name="title"
           disabled={state?.mode === "delete"}
         />
@@ -97,7 +107,8 @@ const EditCardModal = ({
           label={options.subtitleLabel}
           placeholder={options.subtitlePlaceholder}
           required
-          defaultValue={state?.selectedCard?.subtitle}
+          defaultValue={subtitle}
+          onChange={setSubtitle}
           name="subtitle"
           disabled={state?.mode === "delete"}
         />
@@ -107,7 +118,8 @@ const EditCardModal = ({
             label={options.descriptionLabel}
             placeholder={options.descriptionPlaceholder}
             required
-            defaultValue={state?.selectedCard?.description || ""}
+            defaultValue={description}
+            onChange={setDescription}
             name="description"
             disabled={state?.mode === "delete"}
           />
@@ -133,7 +145,7 @@ const EditCardModal = ({
             {state?.mode !== "delete" && (
               <Checkbox
                 label={options.dateNowLabel}
-                name="current-checkbox"
+                name={`${name}-current-checkbox`}
                 checked={isCurrent}
                 onChange={handleCheckboxChange}
               />
