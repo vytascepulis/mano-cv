@@ -89,6 +89,7 @@ export const authOptions: AuthOptions = {
         token.subdomainSlug = user.subdomainSlug;
         token.userId = user.userId;
         token.image = user.image;
+        token.userStatus = user.userStatus;
       }
 
       return token;
