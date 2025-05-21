@@ -14,8 +14,7 @@ interface FetchError {
 type FetchProps<T> = {
   onSuccess?: (data: T) => void;
   onError?: (error: FetchError) => void;
-  // @eslint-disable-next-line @typescript-eslint/no-explicit-any
-  body?: any;
+  body?: unknown;
 };
 
 const useFetch = <T>({ endpoint, method = "GET" }: Props) => {
