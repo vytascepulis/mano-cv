@@ -584,6 +584,7 @@ export const getSubdomainByCode = async ({
         error: buildErrorResponse({
           code: HttpError.BAD_REQUEST,
           serverMessage: `Subdomain code is incorrect for slug: ${subdomainSlug}`,
+          clientMessage: "Svetainės kodas neteisingas",
         }),
       };
     }

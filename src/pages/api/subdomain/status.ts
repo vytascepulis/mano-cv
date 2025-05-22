@@ -19,7 +19,7 @@ const handler: HandlerWithSession<Response> = async (req, res, session) => {
   const status = req.body.status;
 
   if (method === "PUT") {
-    const maxRequests = await isMaxRequests({ req, maxCount: 2 });
+    const maxRequests = await isMaxRequests({ req, maxCount: 15 });
 
     if (maxRequests) {
       return returnErrorResponse(req, res, maxRequests);
