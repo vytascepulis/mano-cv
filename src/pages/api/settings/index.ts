@@ -1,6 +1,10 @@
 import { SettingsData } from "@/types/types";
 import { buildErrorResponse, returnErrorResponse } from "@/pages/api/utils";
-import { withSessionCheck, withSubdomainCheck } from "@/lib/checks";
+import {
+  isMaxRequests,
+  withSessionCheck,
+  withSubdomainCheck,
+} from "@/lib/checks";
 import { ErrorResponse, HandlerWithSession } from "@/pages/api/types";
 import { getUserSettings, updateUserSettings } from "@/lib/handlers";
 import { HttpError } from "@/constants/http";
@@ -20,6 +24,12 @@ const handler: HandlerWithSession<Response> = async (req, res, session) => {
   const subdomainSlug = getSubdomainFromUrl(req.headers.host || "")!;
 
   if (method === "GET") {
+    const maxRequests = await isMaxRequests({ req, maxCount: 150 });
+
+    if (maxRequests) {
+      return returnErrorResponse(req, res, maxRequests);
+    }
+
     const { googleId, userId: id } = session.user;
 
     const { data, error } = await getUserSettings({
@@ -36,6 +46,12 @@ const handler: HandlerWithSession<Response> = async (req, res, session) => {
   }
 
   if (method === "PUT") {
+    const maxRequests = await isMaxRequests({ req, maxCount: 50 });
+
+    if (maxRequests) {
+      return returnErrorResponse(req, res, maxRequests);
+    }
+
     const { googleId, userId: id } = session.user;
 
     const { data, error } = await updateUserSettings({

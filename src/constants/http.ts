@@ -4,5 +4,6 @@ export enum HttpError {
   "NOT_ALLOWED" = 403,
   "NOT_FOUND" = 404,
   "METHOD_NOT_ALLOWED" = 405,
+  "TOO_MANY_REQUESTS" = 429,
   "INTERNAL_ERROR" = 500,
 }

@@ -8,6 +8,8 @@ import { ErrorResponse, HandlerWithSession } from "@/pages/api/types";
 import { db } from "@/lib/firebase";
 import { firestore } from "firebase-admin";
 import DocumentReference = firestore.DocumentReference;
+import { rateLimit } from "@/lib/cache";
+import requestIp from "request-ip";
 
 export function withSubdomainCheck<T>(
   handler: HandlerWithSession<T>,
@@ -64,6 +66,33 @@ export function withSessionCheck<T>(
     return handler(req, res, session);
   };
 }
+
+export const isMaxRequests = async ({
+  req,
+  maxCount,
+}: {
+  req: NextApiRequest;
+  maxCount: number;
+}): Promise<ErrorResponse | null> => {
+  const method = req.method || "UNKNOWN";
+  const endpoint = req.url || "UNKNOWN";
+  const ip = requestIp.getClientIp(req) || "UNKNOWN";
+
+  const key = `${ip}:${method}:${endpoint}`;
+
+  const current = rateLimit.get(key) || 0;
+
+  if (current >= maxCount) {
+    return buildErrorResponse({
+      code: HttpError.TOO_MANY_REQUESTS,
+      serverMessage: `Too many requests from ip ${ip} for endpoint ${method}:${endpoint}`,
+      clientMessage: `Too many requests from ip ${ip} for endpoint ${method}:${endpoint}`,
+    });
+  }
+
+  rateLimit.set(key, current + 1);
+  return null;
+};
 
 export const checkGoogleId = async ({
   id,

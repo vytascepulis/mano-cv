@@ -5,7 +5,11 @@ import {
   HandlerWithSession,
   UpdateSubdomainStatusResponse,
 } from "@/pages/api/types";
-import { withSessionCheck, withSubdomainCheck } from "@/lib/checks";
+import {
+  isMaxRequests,
+  withSessionCheck,
+  withSubdomainCheck,
+} from "@/lib/checks";
 import { updateSubdomainStatus } from "@/lib/handlers";
 
 type Response = UpdateSubdomainStatusResponse | ErrorResponse;
@@ -15,6 +19,12 @@ const handler: HandlerWithSession<Response> = async (req, res, session) => {
   const status = req.body.status;
 
   if (method === "PUT") {
+    const maxRequests = await isMaxRequests({ req, maxCount: 2 });
+
+    if (maxRequests) {
+      return returnErrorResponse(req, res, maxRequests);
+    }
+
     const { googleId, userId: id } = session.user;
 
     const { data, error } = await updateSubdomainStatus({

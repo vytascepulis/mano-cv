@@ -6,7 +6,7 @@ import {
 } from "@/pages/api/utils";
 import { HttpError } from "@/constants/http";
 import { ErrorResponse, HandlerWithSession } from "@/pages/api/types";
-import { withSubdomainCheck } from "@/lib/checks";
+import { isMaxRequests, withSubdomainCheck } from "@/lib/checks";
 import { SubdomainData } from "@/types/types";
 import { getSubdomainByCode } from "@/lib/handlers";
 
@@ -19,6 +19,12 @@ const handler: HandlerWithSession<Response> = async (req, res) => {
   const bodyCode = req.body.code;
 
   if (method === "POST") {
+    const maxRequests = await isMaxRequests({ req, maxCount: 200 });
+
+    if (maxRequests) {
+      return returnErrorResponse(req, res, maxRequests);
+    }
+
     const { data, error } = await getSubdomainByCode({
       subdomainCode: bodyCode || cookiesCode,
       subdomainSlug,
