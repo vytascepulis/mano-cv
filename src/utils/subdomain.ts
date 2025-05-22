@@ -23,3 +23,8 @@ export const getDomainUrl = () => {
 
   return `${protocol}://${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
 };
+
+export function isSlugValid(subdomain: string) {
+  const alphaRegex = /^[A-Za-z]+$/;
+  return typeof subdomain === "string" && alphaRegex.test(subdomain);
+}

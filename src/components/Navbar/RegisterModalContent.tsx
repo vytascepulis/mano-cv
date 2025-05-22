@@ -4,8 +4,11 @@ import Button from "@/components/ui/Button";
 import useFetch from "@/hooks/useFetch";
 import { RegisterData } from "@/types/types";
 import { useSession } from "next-auth/react";
+import { useToast } from "@/contexts/ToastContext";
+import { isSlugValid } from "@/utils/subdomain";
 
 const RegisterModalContent = () => {
+  const { fireToast } = useToast();
   const { update } = useSession();
   const refSlugValue = useRef("");
   const [loading, setLoading] = useState(false);
@@ -18,10 +21,36 @@ const RegisterModalContent = () => {
   const handleRegisterSlug = (e: FormEvent) => {
     e.preventDefault();
 
+    const value = refSlugValue.current.trim();
+
+    if (!isSlugValid(value)) {
+      fireToast({
+        type: "error",
+        message: "Svetainės pavadinimas negali turėti skaičių ar simbolių",
+      });
+      return;
+    }
+
+    if (value.length < 4) {
+      fireToast({
+        type: "error",
+        message: "Svetainės pavadinimas turi būti ilgesnis nei 4 simboliai",
+      });
+      return;
+    }
+
+    if (value.length > 16) {
+      fireToast({
+        type: "error",
+        message: "Svetainės pavadinimas turi būti trumpesnis nei 16 simbolių",
+      });
+      return;
+    }
+
     setLoading(true);
     fetch({
       body: {
-        slug: refSlugValue.current,
+        slug: value,
       },
       onSuccess: async () => {
         setLoading(false);

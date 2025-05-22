@@ -20,6 +20,7 @@ interface MenuItem {
   onClick?: () => void;
   href?: string;
   className?: string;
+  target?: "_blank";
 }
 
 interface Props {
@@ -31,6 +32,7 @@ const MenuBtn = ({ item }: { item: MenuItem }) => {
     <a
       onClick={item.onClick}
       href={item.href}
+      target={item.target}
       className={twMerge(
         item?.className,
         "text-dark flex w-full cursor-pointer items-center gap-2 px-4 py-3 font-semibold transition-colors hover:bg-violet-200",
@@ -67,6 +69,7 @@ const UserBtn = ({ hiddenIds = [] }: Props) => {
       icon: faGlobe,
       href: formatSubdomainUrl(data.user.subdomainSlug!),
       className: "block md:hidden",
+      target: "_blank",
     },
     {
       id: "settings",

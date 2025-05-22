@@ -23,6 +23,7 @@ import { SubdomainStatus, UserStatus } from "@/types/enums";
 import { firestore } from "firebase-admin";
 import FieldValue = firestore.FieldValue;
 import { buildSettings, isSettingsValid } from "@/utils/settings";
+import { isSlugValid } from "@/utils/subdomain";
 
 export const getUserSettings = async ({
   id,
@@ -316,6 +317,36 @@ export const createSubdomain = async ({
   userId: string;
 }): FirestoreResponse<RegisterData> => {
   try {
+    if (!isSlugValid(slug)) {
+      return {
+        data: null,
+        error: buildErrorResponse({
+          code: HttpError.BAD_REQUEST,
+          serverMessage: `Subdomain is invalid: ${slug}`,
+        }),
+      };
+    }
+
+    if (slug.length < 4) {
+      return {
+        data: null,
+        error: buildErrorResponse({
+          code: HttpError.BAD_REQUEST,
+          serverMessage: `Subdomain is too short: ${slug}`,
+        }),
+      };
+    }
+
+    if (slug.length > 16) {
+      return {
+        data: null,
+        error: buildErrorResponse({
+          code: HttpError.BAD_REQUEST,
+          serverMessage: `Subdomain is too long: ${slug}`,
+        }),
+      };
+    }
+
     const userRef = db.collection("users").doc(userId);
 
     const subUserSnap = await db

@@ -9,7 +9,7 @@ type Response = RegisterData | ErrorResponse;
 
 const handler: HandlerWithSession<Response> = async (req, res, session) => {
   const method = req.method;
-  const slug = req.body.slug;
+  const slug = req.body.slug?.trim();
 
   if (method === "POST") {
     const maxRequests = await isMaxRequests({ req, maxCount: 20 });
