@@ -6,20 +6,12 @@ interface Toast {
   message: string;
 }
 
-interface PromiseToast {
-  promise: Promise<unknown>;
-  successMessage: string;
-  errorMessage: string;
-}
-
 interface Context {
   fireToast: (toast: Toast) => void;
-  firePromiseToast: (toast: PromiseToast) => void;
 }
 
 const ToastContext = createContext<Context>({
   fireToast: () => {},
-  firePromiseToast: () => {},
 });
 
 const ToastProvider = ({ children }: { children: ReactNode }) => {
@@ -33,23 +25,10 @@ const ToastProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const firePromiseToast = ({
-    promise,
-    successMessage,
-    errorMessage,
-  }: PromiseToast) => {
-    toast.promise(promise, {
-      loading: "Kraunasi...",
-      success: successMessage,
-      error: errorMessage,
-    });
-  };
-
   return (
     <ToastContext.Provider
       value={{
         fireToast,
-        firePromiseToast,
       }}
     >
       {children}

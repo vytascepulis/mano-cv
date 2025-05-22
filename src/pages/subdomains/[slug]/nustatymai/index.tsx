@@ -8,7 +8,6 @@ import InternalErrorPage from "@/pages/500";
 import SettingsPageLayout from "@/components/layouts/SettingsPageLayout";
 import { SettingsProvider } from "@/contexts/SettingsContext";
 import SettingsList from "@/pages/subdomains/[slug]/nustatymai/SettingsList";
-import { ToastProvider } from "@/contexts/ToastContext";
 
 const notFoundErrors = [
   HttpError.NOT_FOUND,
@@ -43,13 +42,11 @@ const SettingsPage = () => {
   }
 
   return (
-    <ToastProvider>
-      <SettingsProvider settingsData={data}>
-        <SettingsPageLayout>
-          <SettingsList />
-        </SettingsPageLayout>
-      </SettingsProvider>
-    </ToastProvider>
+    <SettingsProvider settingsData={data}>
+      <SettingsPageLayout>
+        <SettingsList />
+      </SettingsPageLayout>
+    </SettingsProvider>
   );
 };
 

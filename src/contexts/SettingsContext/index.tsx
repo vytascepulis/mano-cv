@@ -22,6 +22,7 @@ const SettingsContext = createContext<Context>({
   isSubdomainToggleDisabled: false,
   isEditing: false,
   isSaveLoading: false,
+  isSubdomainStatusLoading: false,
   toggleIsEditing: () => {},
   handleSaveSettings: () => {},
   handleOnChange: () => {},
@@ -33,7 +34,7 @@ const SettingsContext = createContext<Context>({
 
 const SettingsProvider = ({ children, settingsData }: Props) => {
   const { update } = useSession();
-  const { fireToast, firePromiseToast } = useToast();
+  const { fireToast } = useToast();
   const [isSubdomainToggleDisabled, setIsSubdomainToggleDisabled] =
     useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -43,12 +44,13 @@ const SettingsProvider = ({ children, settingsData }: Props) => {
   const [render, setRender] = useState(0);
   const defaultSettings = useRef<SettingsData>(settingsData);
 
-  const { fetch: setActive } = useFetch<UpdateSubdomainStatusResponse>({
-    endpoint: "subdomain/status",
-    method: "PUT",
-  });
+  const { fetch: setActive, isLoading: isSubdomainStatusLoading } =
+    useFetch<UpdateSubdomainStatusResponse>({
+      endpoint: "subdomain/status",
+      method: "PUT",
+    });
 
-  const { fetch: updateSettings, isLoading: isUpdateSettingsLoading } =
+  const { fetch: updateSettings, isLoading: isSaveLoading } =
     useFetch<SettingsData>({
       endpoint: "settings",
       method: "PUT",
@@ -106,23 +108,22 @@ const SettingsProvider = ({ children, settingsData }: Props) => {
 
     setIsSubdomainToggleDisabled(true);
 
-    const promise = setActive({
+    setActive({
       body: {
         status: val ? SubdomainStatus.ACTIVE : SubdomainStatus.HIDDEN,
       },
       onSuccess: ({ status }) => {
         handleOnChange("subdomainStatus", status);
         setIsSubdomainToggleDisabled(false);
+        fireToast({
+          type: "success",
+          message: val ? "Svetainė aktyvuota" : "Svetainė paslėpta",
+        });
       },
-      onError: () => {
+      onError: (error) => {
         setIsSubdomainToggleDisabled(false);
+        fireToast({ type: "error", message: error.message });
       },
-    });
-
-    firePromiseToast({
-      promise,
-      successMessage: val ? "Svetainė aktyvuota" : "Svetainė paslėpta",
-      errorMessage: "Kažkas nepavyko",
     });
   };
 
@@ -139,7 +140,8 @@ const SettingsProvider = ({ children, settingsData }: Props) => {
       value={{
         isSubdomainToggleDisabled,
         isEditing,
-        isSaveLoading: isUpdateSettingsLoading,
+        isSaveLoading,
+        isSubdomainStatusLoading,
         toggleIsEditing,
         handleSaveSettings,
         handleOnChange,

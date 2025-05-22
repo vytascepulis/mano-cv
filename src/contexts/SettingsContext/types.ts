@@ -27,6 +27,7 @@ export interface Context {
   isSubdomainToggleDisabled: boolean;
   isEditing: boolean;
   isSaveLoading: boolean;
+  isSubdomainStatusLoading: boolean;
   toggleIsEditing: () => void;
   handleSaveSettings: () => void;
   handleOnChange: <K extends keyof SettingsState>(

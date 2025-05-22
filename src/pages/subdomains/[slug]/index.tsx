@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import useFetch from "@/hooks/useFetch";
 import Loader from "@/components/ui/Loader";
 import { SubdomainData } from "@/types/types";
-import { getCookie } from "@/utils/cookies";
 
 const SubdomainPage = () => {
   const router = useRouter();
@@ -20,12 +19,6 @@ const SubdomainPage = () => {
   const [isPageLoading, setIsPageLoading] = useState(true);
 
   useEffect(() => {
-    const codeCookie = getCookie("code");
-    if (!codeCookie) {
-      setIsPageLoading(false);
-      return;
-    }
-
     fetch({
       onSuccess: (data) => {
         setSubdomainData(data);

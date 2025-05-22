@@ -7,6 +7,7 @@ const ControlBar = () => {
   const {
     isEditing,
     isSaveLoading,
+    isSubdomainStatusLoading,
     toggleIsEditing,
     handleSaveSettings,
     settings,
@@ -23,6 +24,7 @@ const ControlBar = () => {
         checked={settings.subdomainStatus === SubdomainStatus.ACTIVE}
         onChange={handleSetActive}
         label={`Svetainė ${settings.subdomainStatus === SubdomainStatus.ACTIVE ? "rodoma" : "paslėpta"}`}
+        loading={isSubdomainStatusLoading}
       />
       {!isEditing && <Button onClick={toggleIsEditing}>Redaguoti</Button>}
       {isEditing && (

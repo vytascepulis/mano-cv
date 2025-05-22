@@ -6,12 +6,14 @@ import logo from "@/assets/mano-cv-logo.png";
 import Button from "@/components/ui/Button";
 import { useRouter } from "next/router";
 import Input from "@/components/ui/Input";
+import { useToast } from "@/contexts/ToastContext";
 
 interface Props {
   setSubdomainData: (data: SubdomainData) => void;
 }
 
 export default function CodePage({ setSubdomainData }: Props) {
+  const { fireToast } = useToast();
   const router = useRouter();
   const slug = router.query.slug;
   const { fetch, isLoading } = useFetch<SubdomainData>({
@@ -28,8 +30,8 @@ export default function CodePage({ setSubdomainData }: Props) {
       onSuccess: (data) => {
         setSubdomainData(data);
       },
-      onError: (error) => {
-        console.error(error);
+      onError: () => {
+        fireToast({ type: "error", message: "Kodas neteisingas" });
       },
     });
   };

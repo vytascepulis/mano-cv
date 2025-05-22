@@ -7,6 +7,7 @@ import { Outfit } from "next/font/google";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { GlobalProvider } from "@/contexts/GlobalContext";
+import { ToastProvider } from "@/contexts/ToastContext";
 
 export type NextPageWithLayout<P = unknown, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -29,9 +30,11 @@ export default function App({
   return (
     <GlobalProvider>
       <SessionProvider session={session} refetchOnWindowFocus={false}>
-        <main className={outfit.className}>
-          {getLayout(<Component {...pageProps} />)}
-        </main>
+        <ToastProvider>
+          <main className={outfit.className}>
+            {getLayout(<Component {...pageProps} />)}
+          </main>
+        </ToastProvider>
       </SessionProvider>
     </GlobalProvider>
   );

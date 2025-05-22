@@ -86,6 +86,7 @@ export const isMaxRequests = async ({
     return buildErrorResponse({
       code: HttpError.TOO_MANY_REQUESTS,
       serverMessage: `Too many requests from ip ${ip} for endpoint ${method}:${endpoint}`,
+      clientMessage: "Per daug užklausų. Šiek tiek palauk",
     });
   }
 
