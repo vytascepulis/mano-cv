@@ -4,6 +4,7 @@ import { withSessionCheck, withSubdomainCheck } from "@/lib/checks";
 import { ErrorResponse, HandlerWithSession } from "@/pages/api/types";
 import { getUserSettings, updateUserSettings } from "@/lib/handlers";
 import { HttpError } from "@/constants/http";
+import { getSubdomainFromUrl } from "@/utils/subdomain";
 
 type Response = SettingsData | ErrorResponse;
 
@@ -16,12 +17,15 @@ export const config = {
 const handler: HandlerWithSession<Response> = async (req, res, session) => {
   const method = req.method;
 
+  const subdomainSlug = getSubdomainFromUrl(req.headers.host || "")!;
+
   if (method === "GET") {
     const { googleId, userId: id } = session.user;
 
     const { data, error } = await getUserSettings({
       id,
       googleId,
+      subdomainSlug,
     });
 
     if (error || !data) {

@@ -27,9 +27,11 @@ import { buildSettings, isSettingsValid } from "@/utils/settings";
 export const getUserSettings = async ({
   id,
   googleId,
+  subdomainSlug,
 }: {
   id: string;
   googleId: string;
+  subdomainSlug: string;
 }): FirestoreResponse<SettingsData> => {
   const { userRef, error: validationErr } = await checkGoogleId({
     id,
@@ -67,10 +69,20 @@ export const getUserSettings = async ({
 
   const subdomainSnap = await db
     .collection("subdomains")
-    .select("status")
+    .select("status", "slug")
     .where("user", "==", userRef)
     .limit(1)
     .get();
+
+  if (subdomainSnap.docs[0].data().slug !== subdomainSlug) {
+    return {
+      data: null,
+      error: buildErrorResponse({
+        code: HttpError.NOT_ALLOWED,
+        serverMessage: `Subdomain ${subdomainSlug} does not belong to user ${id}`,
+      }),
+    };
+  }
 
   const userSnap = await userRef?.get();
 

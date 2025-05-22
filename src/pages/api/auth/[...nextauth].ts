@@ -71,17 +71,15 @@ export const authOptions: AuthOptions = {
 
       return true;
     },
-    async jwt({ token, user, account, profile, trigger }) {
-      if (trigger === "update") {
-        const { data: userData } = await getUserByGoogleId({
-          hashedGoogleId: token.googleId,
-        });
+    async jwt({ token, user, account, profile }) {
+      const { data: userData } = await getUserByGoogleId({
+        hashedGoogleId: token.googleId,
+      });
 
-        if (userData) {
-          token.userStatus = userData.status;
-          token.subdomainSlug = userData.subdomainSlug;
-          token.image = userData.image;
-        }
+      if (userData) {
+        token.userStatus = userData.status;
+        token.subdomainSlug = userData.subdomainSlug;
+        token.image = userData.image;
       }
 
       if (account && profile?.sub) {

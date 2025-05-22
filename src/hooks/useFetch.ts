@@ -6,7 +6,7 @@ interface Props {
   method?: string;
 }
 
-interface FetchError {
+export interface FetchError {
   code: number;
   message: string;
 }

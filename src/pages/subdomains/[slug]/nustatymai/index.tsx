@@ -39,7 +39,7 @@ const SettingsPage = () => {
   }
 
   if (error || !data) {
-    return <InternalErrorPage />;
+    return <InternalErrorPage error={error} />;
   }
 
   return (
