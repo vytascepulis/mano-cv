@@ -12,7 +12,7 @@ ReactModal.setAppElement("#__next"); // Your root element ID
 const outfit = Outfit({ subsets: ["latin"] });
 
 const MobileMenu = () => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleClose = () => {
     setIsOpen(false);
@@ -25,7 +25,7 @@ const MobileMenu = () => {
 
   return (
     <>
-      <Button variant="link" onClick={() => setIsOpen(false)}>
+      <Button variant="link" onClick={() => setIsOpen(true)}>
         <FontAwesomeIcon size="xl" icon={faBars} />
       </Button>
 

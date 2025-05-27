@@ -33,7 +33,7 @@ const Modal = ({ isOpen, handleClose, children }: Props) => {
         base: twMerge(
           style.modal,
           outfit.className,
-          "mx-auto mt-5 max-w-[700px] rounded-lg bg-violet-100 px-3 py-5 sm:mt-40",
+          "mx-auto mt-5 max-w-[700px] rounded-lg bg-violet-100 px-3 py-2 sm:mt-40",
         ),
         afterOpen: style["modal--after-open"],
         beforeClose: style["modal--before-close"],

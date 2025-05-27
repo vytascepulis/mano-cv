@@ -4,14 +4,13 @@ import Button from "@/components/ui/Button";
 import useFetch from "@/hooks/useFetch";
 import { RegisterData } from "@/types/types";
 import { useSession } from "next-auth/react";
-import { useToast } from "@/contexts/ToastContext";
 import { isSlugValid } from "@/utils/subdomain";
 
 const RegisterModalContent = () => {
-  const { fireToast } = useToast();
   const { update } = useSession();
   const refSlugValue = useRef("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const { fetch } = useFetch<RegisterData>({
     endpoint: "register",
@@ -20,49 +19,39 @@ const RegisterModalContent = () => {
 
   const handleRegisterSlug = (e: FormEvent) => {
     e.preventDefault();
+    setError(null);
 
     const value = refSlugValue.current.trim();
 
-    if (!isSlugValid(value)) {
-      fireToast({
-        type: "error",
-        message: "Svetainės pavadinimas negali turėti skaičių ar simbolių",
-      });
-      return;
-    }
-
     if (value.length < 4) {
-      fireToast({
-        type: "error",
-        message: "Svetainės pavadinimas turi būti ilgesnis nei 4 simboliai",
-      });
+      setError("Svetainės pavadinimas turi būti ilgesnis nei 4 simboliai");
       return;
     }
 
     if (value.length > 16) {
-      fireToast({
-        type: "error",
-        message: "Svetainės pavadinimas turi būti trumpesnis nei 16 simbolių",
-      });
+      setError("Svetainės pavadinimas turi būti trumpesnis nei 16 simbolių");
+      return;
+    }
+
+    if (!isSlugValid(value)) {
+      setError("Svetainės pavadinimas negali turėti skaičių ar simbolių");
       return;
     }
 
     setLoading(true);
+
     fetch({
       body: {
         slug: value,
       },
       onSuccess: async () => {
-        setLoading(false);
-        await update();
+        update().then(() => {
+          setLoading(false);
+        });
       },
       onError: (error) => {
+        setError(error.message);
         setLoading(false);
-        fireToast({
-          type: "error",
-          message: error.message,
-        });
-        console.error(error);
       },
     });
   };
@@ -92,6 +81,12 @@ const RegisterModalContent = () => {
           Sukurti
         </Button>
       </form>
+
+      {error && (
+        <div className="text-dark mt-4 w-full rounded-xs bg-red-300 px-4 py-2 text-start text-sm font-semibold shadow-sm sm:w-[400px]">
+          {error}
+        </div>
+      )}
     </div>
   );
 };
