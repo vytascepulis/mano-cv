@@ -5,6 +5,7 @@ import Button from "@/components/ui/Button";
 import InputDate from "@/components/ui/InputDate";
 import { useEffect, useState } from "react";
 import Checkbox from "@/components/ui/Checkbox";
+import { formatDate } from "@/utils/date";
 
 interface Props {
   state: ModalState | null;
@@ -23,8 +24,8 @@ const EditCardModal = ({
   options,
   name,
 }: Props) => {
-  const [dateFrom, setDateFrom] = useState<Date | null>(null);
-  const [dateTo, setDateTo] = useState<Date | null>(null);
+  const [dateFrom, setDateFrom] = useState<string | null>(null);
+  const [dateTo, setDateTo] = useState<string | null>(null);
   const [isCurrent, setIsCurrent] = useState(false);
   const [title, setTitle] = useState(state?.selectedCard?.title || "");
   const [subtitle, setSubtitle] = useState(state?.selectedCard?.subtitle || "");
@@ -126,8 +127,8 @@ const EditCardModal = ({
         )}
         <div className="flex flex-col gap-4 sm:flex-row">
           <InputDate
-            selectedDate={dateFrom}
-            onChange={setDateFrom}
+            selectedDate={dateFrom ? new Date(dateFrom) : null}
+            onChange={(val) => setDateFrom(formatDate(val))}
             required
             label={options.dateFromLabel}
             placeholder="MMMM-mm"
@@ -135,8 +136,8 @@ const EditCardModal = ({
           />
           <div className="flex flex-col gap-2">
             <InputDate
-              selectedDate={dateTo}
-              onChange={setDateTo}
+              selectedDate={dateTo ? new Date(dateTo) : null}
+              onChange={(val) => setDateTo(formatDate(val))}
               required
               label={options.dateToLabel}
               placeholder="MMMM-mm"

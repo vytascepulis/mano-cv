@@ -1,24 +1,29 @@
 import { Card } from "@/components/InfoCards/types";
-import { ISubdomain } from "@/pages/api/types";
+import { ISettings, ISubdomain } from "@/pages/api/types";
 import { SubdomainStatus, UserStatus, WebsiteDesigns } from "@/types/enums";
 
-export interface SettingsData {
-  address: string | null;
-  desiredPositions: string[];
-  expectedSalary: string | null;
-  intro: string | null;
-  image: string | null;
-  email: string | null;
-  fullName: string | null;
-  phoneNumber: string | null;
-  websiteDesign: string | null;
-  subdomainCode: string | null;
-  experience: Card[];
-  education: Card[];
-  skills: string[];
-  languages: string[];
+export interface SettingsData extends ISettings {
   userStatus: UserStatus;
   subdomainStatus: SubdomainStatus;
+}
+
+export const LanguageLevel = {
+  BEGINNER: "Pagrindai",
+  INTERMEDIATE: "Vidutinis",
+  ADVANCED: "Pažengęs",
+  NATIVE: "Gimtoji",
+};
+
+export interface LanguageEntry {
+  id: string;
+  language: string;
+  level: keyof typeof LanguageLevel;
+}
+
+export interface DrivingLicence {
+  id: string;
+  issuedAt: string;
+  category: string;
 }
 
 export interface RegisterData {
@@ -39,5 +44,6 @@ export interface SubdomainData {
   experience: Card[];
   education: Card[];
   skills: string[];
-  languages: string[];
+  languages: LanguageEntry[];
+  drivingLicences: DrivingLicence[];
 }

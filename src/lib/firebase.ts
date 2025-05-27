@@ -9,7 +9,7 @@ const serviceAccount = JSON.parse(
 if (!getApps().length) {
   initializeApp({
     credential: cert(serviceAccount),
-    storageBucket: process.env.FIREBASE_BUCKET_NAME as string,
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_BUCKET_NAME as string,
   });
 }
 

@@ -4,17 +4,23 @@ export async function uploadFileBuffer(
   buffer: Buffer,
   destinationPath: string,
   contentType: string,
+  previousPath?: string,
 ): Promise<string> {
-  const file = bucket.file(destinationPath);
+  if (previousPath) {
+    const oldFile = bucket.file(previousPath);
+    await oldFile.delete();
+  }
 
+  const file = bucket.file(destinationPath);
   await file.save(buffer, {
     metadata: {
       contentType,
-      cacheControl: "no-cache, no-store, must-revalidate, max-age=0",
+      cacheControl: "public, max-age=31536000, immutable",
     },
     resumable: false,
   });
 
   await file.makePublic();
-  return file.publicUrl();
+
+  return destinationPath;
 }

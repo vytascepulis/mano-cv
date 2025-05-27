@@ -63,6 +63,7 @@ export const getUserSettings = async ({
       "skills",
       "languages",
       "websiteDesign",
+      "drivingLicences",
     )
     .where("user", "==", userRef) // compare with the reference
     .limit(1)
@@ -168,8 +169,9 @@ export const updateUserSettings = async ({
 
     url = await uploadFileBuffer(
       fileBuffer,
-      `${id}/user-image.jpg`,
+      `${id}/user-image-${Date.now()}.jpg`,
       "image/jpeg",
+      settingsSnapshot.docs[0].data().image,
     );
   }
 
@@ -411,6 +413,7 @@ export const createSubdomain = async ({
       websiteDesign: null,
       subdomainCode: null,
       desiredPositions: [],
+      drivingLicences: [],
       createdAt: FieldValue.serverTimestamp(),
     });
 
@@ -604,6 +607,7 @@ export const getSubdomainByCode = async ({
         "skills",
         "languages",
         "websiteDesign",
+        "drivingLicences",
       )
       .where("subdomainCode", "==", subdomainCode) // compare with the reference
       .limit(1)

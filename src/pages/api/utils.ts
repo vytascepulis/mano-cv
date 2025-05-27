@@ -4,7 +4,13 @@ import { ErrorResponse, ParsedSettingsData } from "@/pages/api/types";
 import formidable from "formidable";
 import { WebsiteDesigns } from "@/types/enums";
 import { Card } from "@/components/InfoCards/types";
-import { SettingsData, SubdomainData } from "@/types/types";
+import {
+  DrivingLicence,
+  LanguageEntry,
+  SettingsData,
+  SubdomainData,
+} from "@/types/types";
+import DrivingLicenceInput from "@/components/DrivingLicenceInput";
 
 export const buildErrorResponse = ({
   code,
@@ -84,8 +90,10 @@ export function validateSettingsData(fields: formidable.Fields): {
     education: parseJson<Card[]>(fields?.education?.[0]) ?? [],
     experience: parseJson<Card[]>(fields?.experience?.[0]) ?? [],
     skills: parseJson<string[]>(fields?.skills?.[0]) ?? [],
-    languages: parseJson<string[]>(fields?.languages?.[0]) ?? [],
+    languages: parseJson<LanguageEntry[]>(fields?.languages?.[0]) ?? [],
     expectedSalary: fields?.expectedSalary?.[0] ?? null,
+    drivingLicences:
+      parseJson<DrivingLicence[]>(fields?.drivingLicences?.[0]) ?? [],
   };
 
   const isValid = Boolean(
@@ -131,6 +139,7 @@ export function formatSettingsData(data: SettingsData): SettingsData {
     languages: data.languages,
     userStatus: data.userStatus,
     subdomainStatus: data.subdomainStatus,
+    drivingLicences: data.drivingLicences,
   };
 }
 
@@ -149,5 +158,6 @@ export function formatSubdomainData(data: SubdomainData): SubdomainData {
     education: data.education,
     skills: data.skills,
     languages: data.languages,
+    drivingLicences: data.drivingLicences,
   };
 }

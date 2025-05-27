@@ -8,6 +8,8 @@ import { settingsData } from "@/staticData/settings";
 import { useSettings } from "@/contexts/SettingsContext";
 import ToggleCard from "@/components/ToggleCards/ToggleCard";
 import { IToggleCard } from "@/components/ToggleCards/types";
+import LanguageSelect from "@/components/LanguageSelect";
+import DrivingLicence from "../../../../components/DrivingLicenceInput";
 
 const SettingsList = () => {
   const { handleOnChange, handleOnDesignPreview, settings, isEditing } =
@@ -144,20 +146,7 @@ const SettingsList = () => {
           disabled={!isEditing}
         />
       </Setting>
-      <Setting
-        title={settingsList.languages.title}
-        subtitle={settingsList.languages.subtitle}
-        optional={settingsList.languages.optional}
-      >
-        <InputPills
-          pills={settings.languages}
-          className="lg:max-w-[300px]"
-          onChange={(val) => handleOnChange("languages", val)}
-          placeholder="Lietuvių - gimtoji"
-          addBtnChildren="Pridėti"
-          disabled={!isEditing}
-        />
-      </Setting>
+
       <Setting
         title={settingsList.experience.title}
         subtitle={settingsList.experience.subtitle}
@@ -183,6 +172,20 @@ const SettingsList = () => {
           disabled={!isEditing}
           name="education"
         />
+      </Setting>
+      <Setting
+        title={settingsList.languages.title}
+        subtitle={settingsList.languages.subtitle}
+        optional={settingsList.languages.optional}
+      >
+        <LanguageSelect />
+      </Setting>
+      <Setting
+        title={settingsList.drivingLicences.title}
+        subtitle={settingsList.drivingLicences.subtitle}
+        optional={settingsList.drivingLicences.optional}
+      >
+        <DrivingLicence />
       </Setting>
       <Setting
         title={settingsList.desiredPosition.title}

@@ -11,7 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { twMerge } from "tailwind-merge";
-import { getGenericUserPhoto } from "@/utils/user";
+import { getGenericUserPhoto, getUserPhoto } from "@/utils/user";
 
 interface MenuItem {
   id?: string;
@@ -92,7 +92,7 @@ const UserBtn = ({ hiddenIds = [] }: Props) => {
         href={formatSubdomainUrl(data.user.subdomainSlug)}
         target="_blank"
       >
-        {data.user.subdomainSlug}
+        {data.user.subdomainSlug}.mano-cv.lt
       </Button>
       <button
         className="outline-primary min-h-[35px] min-w-[35px] cursor-pointer overflow-hidden rounded-full outline-3"
@@ -101,7 +101,11 @@ const UserBtn = ({ hiddenIds = [] }: Props) => {
       >
         <img
           alt={data.user.name!}
-          src={data.user.image || getGenericUserPhoto()}
+          src={
+            data.user.image
+              ? getUserPhoto(data.user.image)
+              : getGenericUserPhoto()
+          }
           className="h-[35px] object-contain"
         />
       </button>

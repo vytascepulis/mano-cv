@@ -98,7 +98,7 @@ const Select = ({
         ref={refOptionsNode}
         className={twMerge(
           optionsVisible ? "visible" : "invisible",
-          "absolute top-[calc(100%+3px)] max-h-[160px] w-full overflow-y-auto rounded-xs bg-violet-100",
+          "absolute top-[calc(100%+3px)] z-10 max-h-[160px] w-full overflow-y-auto rounded-xs bg-violet-100",
         )}
       >
         {filteredOptions.map((option) => (

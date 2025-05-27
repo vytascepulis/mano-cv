@@ -1,26 +1,10 @@
-import { Card } from "@/components/InfoCards/types";
-import { SubdomainStatus, UserStatus, WebsiteDesigns } from "@/types/enums";
+import { SettingsData } from "@/types/types";
 
-export interface SettingsState {
+export interface SettingsState extends Omit<SettingsData, "image"> {
   image: {
     blob: Blob | null;
     url: string | null;
   };
-  fullName: string | null;
-  phoneNumber: string | null;
-  email: string | null;
-  address: string | null;
-  intro: string | null;
-  skills: string[];
-  languages: string[];
-  experience: Card[];
-  education: Card[];
-  desiredPositions: string[];
-  expectedSalary: string | null;
-  websiteDesign: WebsiteDesigns | null;
-  subdomainStatus: SubdomainStatus | null;
-  subdomainCode: string | null;
-  userStatus: UserStatus | null;
 }
 
 export interface Context {

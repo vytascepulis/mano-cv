@@ -86,13 +86,13 @@ export const settingsData: {
         "Nurodykite savo mokymosi įstaigas, studijų programas ir įgytus laipsnius.",
     },
     desiredPosition: {
-      title: "Pageidaujamos pareigos",
+      title: "Ieškomos pareigos",
       subtitle:
         "Įrašykite pareigas, kurios jus domina. Tai padeda darbdaviams geriau jus suprasti.",
       optional: true,
     },
     expectedSalary: {
-      title: "Norimas atlygis",
+      title: "Pageidaujamas atlygis",
       subtitle: "Nurodykite eurais, kokio atlyginimo į rankas tikitės.",
       optional: true,
     },
@@ -104,6 +104,11 @@ export const settingsData: {
     websiteCode: {
       title: "Svetainės kodas",
       subtitle: "Keturių skaičių kodas, kurį įvedus atsidarys jūsų CV svetainė",
+    },
+    drivingLicences: {
+      title: "Vairuotojo pažymėjimas",
+      subtitle: "Nurodykite vairavimo kategorijas bei įgijimo datą",
+      optional: true,
     },
   },
   experienceTexts: {

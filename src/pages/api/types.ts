@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { HttpError } from "@/constants/http";
 import { SubdomainStatus, UserStatus, WebsiteDesigns } from "@/types/enums";
 import { Card } from "@/components/InfoCards/types";
-import { SettingsData } from "@/types/types";
+import { DrivingLicence, LanguageEntry, SettingsData } from "@/types/types";
 
 export type FirestoreResponse<T> = Promise<
   { data: T; error: null } | { data: null; error: ErrorResponse }
@@ -38,20 +38,21 @@ export interface ISubdomain {
 }
 
 export interface ISettings {
-  address: string;
+  address: string | null;
   desiredPositions: string[];
   expectedSalary: string | null;
-  intro: string;
+  intro: string | null;
   image: string | null;
   email: string | null;
-  fullName: string;
-  phoneNumber: string;
-  websiteDesign: WebsiteDesigns;
+  fullName: string | null;
+  phoneNumber: string | null;
+  websiteDesign: WebsiteDesigns | null;
   experience: Card[];
   education: Card[];
   skills: string[];
-  languages: string[];
-  subdomainCode: string;
+  languages: LanguageEntry[];
+  drivingLicences: DrivingLicence[];
+  subdomainCode: string | null;
 }
 
 export interface GetUserByGoogleIdResponse {

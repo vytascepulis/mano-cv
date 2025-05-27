@@ -67,7 +67,7 @@ export async function renderCroppedImage(
           throw new Error("Failed to convert canvas to Blob");
         }
       },
-      "image/webp",
+      "image/jpeg",
       0.8, // Adjust quality for compression (0 to 1)
     );
   });

@@ -1,3 +1,5 @@
+import { SubdomainStatus, UserStatus } from "@/types/enums";
+
 export const initialSettings = {
   image: {
     url: null,
@@ -16,7 +18,8 @@ export const initialSettings = {
   desiredPositions: [],
   expectedSalary: null,
   websiteDesign: null,
-  subdomainStatus: null,
+  drivingLicences: [],
+  subdomainStatus: SubdomainStatus.ACTIVE,
   subdomainCode: null,
-  userStatus: null,
+  userStatus: UserStatus.ACTIVE,
 };

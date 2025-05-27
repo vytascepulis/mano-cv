@@ -47,7 +47,9 @@ const InfoCard = ({ card, onEdit, onDelete, disabled }: Props) => {
         </span>
       </p>
       {card.description && (
-        <p className="mt-[5px] text-[15px] text-gray-500">{card.description}</p>
+        <p className="mt-[5px] text-[15px] whitespace-pre-line text-gray-500">
+          {card.description}
+        </p>
       )}
     </div>
   );

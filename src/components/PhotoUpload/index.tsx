@@ -66,7 +66,7 @@ const PhotoUpload = ({ image, onUpload, disabled }: Props) => {
       {!disabled && (
         <div className="align-center mt-[4px] flex justify-center gap-3">
           <Button onClick={handleUploadClick} disabled={disabled}>
-            Įkelti
+            Įkelti naują
           </Button>
           {/*<Button*/}
           {/*  variant="link"*/}

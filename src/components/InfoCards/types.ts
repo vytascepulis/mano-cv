@@ -5,8 +5,8 @@ export type Card = {
   title: string;
   subtitle: string;
   description: string | null;
-  dateFrom: Date;
-  dateTo: Date | null;
+  dateFrom: string;
+  dateTo: string | null;
 };
 
 export interface CardOptions {

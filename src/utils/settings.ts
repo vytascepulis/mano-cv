@@ -1,7 +1,7 @@
 import { SettingsData } from "@/types/types";
 import { SettingsState } from "@/contexts/SettingsContext/types";
 import { initialSettings } from "@/contexts/SettingsContext/constants";
-import { WebsiteDesigns } from "@/types/enums";
+import { getUserPhoto } from "@/utils/user";
 
 export const buildSettings = (settings: SettingsData): SettingsState => {
   if (!settings) return initialSettings;
@@ -9,23 +9,9 @@ export const buildSettings = (settings: SettingsData): SettingsState => {
   return {
     ...settings,
     image: {
-      url: settings.image,
+      url: settings.image ? getUserPhoto(settings.image) : null,
       blob: null,
     },
-    websiteDesign: settings.websiteDesign as WebsiteDesigns,
-    education: settings.education.map((item) => ({
-      ...item,
-      dateFrom: new Date(item.dateFrom),
-      dateTo: item.dateTo ? new Date(item.dateTo) : null,
-    })),
-    experience: settings.experience.map((item) => ({
-      ...item,
-      dateFrom: new Date(item.dateFrom),
-      dateTo: item.dateTo ? new Date(item.dateTo) : null,
-    })),
-    subdomainStatus: settings.subdomainStatus,
-    subdomainCode: settings.subdomainCode,
-    userStatus: settings.userStatus,
   };
 };
 
