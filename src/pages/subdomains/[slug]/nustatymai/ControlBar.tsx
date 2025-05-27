@@ -52,7 +52,7 @@ const ControlBar = () => {
             className="block md:hidden"
             variant="link"
             color="light"
-            href={formatSubdomainUrl(data!.user.subdomainSlug!)}
+            href={formatSubdomainUrl(data?.user.subdomainSlug ?? "")}
             target="_blank"
           >
             {data?.user.subdomainSlug}.mano-cv.lt
