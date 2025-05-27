@@ -13,6 +13,7 @@ interface GenericProps {
   defaultValue?: string | null;
   required?: boolean;
   name?: string;
+  inputMode?: "numeric" | "text" | "none" | "tel" | "search" | "email" | "url";
 }
 
 interface TextProps extends GenericProps {
@@ -45,6 +46,7 @@ const Input = (props: Props) => {
     defaultValue,
     required,
     name,
+    inputMode,
   } = props;
 
   const [value, setValue] = useState(defaultValue || "");
@@ -160,7 +162,7 @@ const Input = (props: Props) => {
         minLength={minLength}
         required={required}
         name={name}
-        inputMode={type === "number" ? "numeric" : undefined}
+        inputMode={inputMode}
       />
     </label>
   );

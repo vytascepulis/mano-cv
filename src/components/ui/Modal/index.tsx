@@ -46,7 +46,7 @@ const Modal = ({ isOpen, handleClose, children }: Props) => {
     >
       <button
         onClick={handleClose}
-        className="absolute top-2 right-3 cursor-pointer"
+        className="absolute top-0 right-0 cursor-pointer p-3"
       >
         <FontAwesomeIcon icon={faXmark} />
       </button>

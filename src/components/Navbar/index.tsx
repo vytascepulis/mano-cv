@@ -9,7 +9,7 @@ const Navbar = () => {
   return (
     <div className="sticky top-0 z-50 lg:top-(--navbar-top) lg:px-5">
       <nav
-        className={`grid h-(--navbar-height) grid-cols-[1fr_2fr_1fr] content-center border border-violet-200 bg-violet-100/95 px-4 shadow-md lg:rounded-lg`}
+        className={`grid h-(--navbar-height) grid-cols-[1fr_2fr_1fr] content-center items-center border border-violet-200 bg-violet-100/95 px-4 shadow-md lg:rounded-lg`}
       >
         <div className="self-center lg:hidden">
           <MobileMenu />

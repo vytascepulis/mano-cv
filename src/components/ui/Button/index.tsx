@@ -4,7 +4,7 @@ import Link from "next/link";
 import Loader from "@/components/ui/Loader";
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
-  color?: "primary" | "secondary" | "danger";
+  color?: "primary" | "secondary" | "danger" | "light";
   variant?: "default" | "outline" | "link";
   size?: "sm" | "md" | "lg";
   onClick?: () => void;
@@ -52,6 +52,12 @@ const Button = ({
     "bg-transparent text-red-500 border-3 border-red-500 hover:bg-red-500 hover:text-gray-50 disabled:bg-red-500/50 disabled:border-none disabled:text-gray-50";
   const dangerLinkClasses = "text-red-500 hover:text-red-700";
 
+  const lightDefaultClasses =
+    "bg-gray-50 text-violet-600 hover:bg-gray-200 disabled:bg-gray-50/50";
+  const lightOutlineClasses =
+    "bg-transparent text-gray-50 border-3 border-gray-50 hover:bg-gray-200 hover:text-gray-200 disabled:bg-gray-200/50 disabled:border-none disabled:text-gray-50";
+  const lightLinkClasses = "text-gray-50 hover:text-gray-200";
+
   const buttonClass = twMerge(
     defaultClasses,
     className,
@@ -65,6 +71,10 @@ const Button = ({
     variant === "default" && color === "danger" && dangerDefaultClasses,
     variant === "outline" && color === "danger" && dangerOutlineClasses,
     variant === "link" && color === "danger" && dangerLinkClasses,
+
+    variant === "default" && color === "light" && lightDefaultClasses,
+    variant === "outline" && color === "light" && lightOutlineClasses,
+    variant === "link" && color === "light" && lightLinkClasses,
     size === "lg" && "text-lg",
     size === "sm" && "text-sm",
     (variant === "default" || variant === "outline") &&

@@ -208,7 +208,8 @@ const SettingsList = () => {
       >
         {isEditing && (
           <Input
-            type="number"
+            type="text"
+            inputMode="numeric"
             onChange={(val) => handleOnChange("expectedSalary", val)}
             placeholder="XXXX"
             className="lg:max-w-[300px]"
@@ -251,10 +252,11 @@ const SettingsList = () => {
       >
         {isEditing && (
           <Input
-            type="number"
+            type="text"
+            inputMode="numeric"
             onChange={(val) => {
               if (val.length <= 4) {
-                handleOnChange("subdomainCode", Math.floor(+val).toString());
+                handleOnChange("subdomainCode", val);
               }
             }}
             placeholder="XXXX"

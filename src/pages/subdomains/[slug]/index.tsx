@@ -65,8 +65,6 @@ const SubdomainPage = () => {
     URL.revokeObjectURL(url);
   };
 
-  console.log(subdomainData);
-
   return (
     <>
       <h1>

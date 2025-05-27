@@ -25,10 +25,13 @@ const MobileMenu = () => {
 
   return (
     <>
-      <Button variant="link" onClick={() => setIsOpen(true)}>
+      <Button
+        className="ml-[-16px] p-4!"
+        variant="link"
+        onClick={() => setIsOpen(true)}
+      >
         <FontAwesomeIcon size="xl" icon={faBars} />
       </Button>
-
       <ReactModal
         isOpen={isOpen}
         onRequestClose={handleClose}
@@ -50,7 +53,11 @@ const MobileMenu = () => {
         }}
       >
         <div className="p-4">
-          <Button variant="link" onClick={handleClose}>
+          <Button
+            className="mt-[-16px] ml-[-16px] p-4!"
+            variant="link"
+            onClick={handleClose}
+          >
             <FontAwesomeIcon size="2xl" icon={faXmark} />
           </Button>
         </div>

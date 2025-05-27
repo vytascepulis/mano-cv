@@ -51,7 +51,10 @@ export const validateSettingsState = (settings: Partial<SettingsState>) => {
     errorFields.push("websiteDesign");
   }
 
-  if (settings.subdomainCode?.length !== 4) {
+  if (
+    settings.subdomainCode?.length !== 4 ||
+    !/^\d+$/.test(settings.subdomainCode)
+  ) {
     errorFields.push("subdomainCode");
   }
 
@@ -66,7 +69,6 @@ export const validateSettingsState = (settings: Partial<SettingsState>) => {
 export const parseErrorFields = (errorFields: string[]) => {
   const { settingsList: texts } = settingsData;
   return errorFields.map((field) => {
-    console.log(field);
     return texts[field].title;
   });
 };

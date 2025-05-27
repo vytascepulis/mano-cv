@@ -8,7 +8,7 @@ interface Props {
 const Setting = ({ title, subtitle, optional, children }: Props) => {
   return (
     <div>
-      <h2 className="text-dark mb-3 text-[32px] font-semibold">
+      <h2 className="text-dark mb-3 text-[32px] leading-[36px] font-semibold">
         {title}
         {optional && (
           <span className="ml-2 text-[20px] text-gray-600">(nebūtina)</span>

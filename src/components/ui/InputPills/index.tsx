@@ -66,12 +66,12 @@ const InputPills = ({
         {pills.map((pill, idx) => (
           <div
             key={idx}
-            className="group bg-primary relative max-w-[230px] cursor-default rounded-full px-[10px] py-[5px] text-center font-bold text-wrap wrap-break-word text-white"
+            className="bg-primary relative max-w-[230px] cursor-default rounded-full px-[10px] py-[5px] text-center font-bold text-wrap wrap-break-word text-white"
           >
             {pill}
             {!disabled && (
               <button
-                className="invisible absolute top-[-7px] right-[-7px] flex h-[24px] w-[24px] cursor-pointer items-center justify-center rounded-full bg-violet-900 group-hover:visible"
+                className="absolute top-[-7px] right-[-7px] flex h-[24px] w-[24px] cursor-pointer items-center justify-center rounded-full bg-violet-900"
                 onClick={() => handleDeletePill(pill)}
               >
                 <FontAwesomeIcon className="text-light" icon={faXmark} />
