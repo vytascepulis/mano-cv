@@ -25,7 +25,7 @@ const MobileMenu = () => {
 
   return (
     <>
-      <Button variant="link" onClick={() => setIsOpen(true)}>
+      <Button variant="link" onClick={() => setIsOpen(false)}>
         <FontAwesomeIcon size="xl" icon={faBars} />
       </Button>
 
