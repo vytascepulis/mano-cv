@@ -60,7 +60,7 @@ export const settingsData: {
       subtitle: "Įrašykite miestą, kuriame šiuo metu gyvenate.",
     },
     intro: {
-      title: "Trumpas pristatymas",
+      title: "Trumpas prisistatymas",
       subtitle:
         "Trumpai aprašykite save, savo stipriąsias puses ir karjeros tikslus.",
     },

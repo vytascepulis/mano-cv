@@ -22,7 +22,7 @@ const LoginAuthPage = () => {
   return (
     <>
       <Head>
-        <title>Mano-cv.lt - autentifikacija</title>
+        <title>mano-cv.lt - autentifikacija</title>
       </Head>
       <div className="flex h-screen w-screen items-center justify-center bg-violet-50">
         <Loader variant="dark" size="lg" />

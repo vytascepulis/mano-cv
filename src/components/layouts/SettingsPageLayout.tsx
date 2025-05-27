@@ -16,7 +16,7 @@ const SettingsPageLayout = ({ children }: Props) => {
   return (
     <>
       <Head>
-        <title>Mano-cv.lt - nustatymai</title>
+        <title>mano-cv.lt - nustatymai</title>
       </Head>
       <div className="min-h-screen bg-violet-50">
         <div className="mx-auto max-w-7xl">

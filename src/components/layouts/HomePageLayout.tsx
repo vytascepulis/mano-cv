@@ -9,7 +9,7 @@ const HomePageLayout = ({ children }: Props) => {
   return (
     <>
       <Head>
-        <title>Mano-cv.lt - susikurk savo CV svetainę</title>
+        <title>mano-cv.lt - susikurk savo CV svetainę</title>
       </Head>
       <div className="bg-light min-h-screen">
         <div className="absolute z-10 min-h-screen min-w-screen bg-gray-900 shadow-md md:min-h-2/3"></div>

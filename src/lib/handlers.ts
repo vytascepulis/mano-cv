@@ -22,7 +22,7 @@ import { db } from "@/lib/firebase";
 import { SubdomainStatus, UserStatus } from "@/types/enums";
 import { firestore } from "firebase-admin";
 import FieldValue = firestore.FieldValue;
-import { buildSettings, isSettingsValid } from "@/utils/settings";
+import { buildSettings, validateSettingsState } from "@/utils/settings";
 import { isSlugValid } from "@/utils/subdomain";
 
 export const getUserSettings = async ({
@@ -490,18 +490,17 @@ export const updateSubdomainStatus = async ({
       .limit(1)
       .get();
 
-    if (
-      status === SubdomainStatus.ACTIVE &&
-      !isSettingsValid(
-        buildSettings(settingsSnap.docs[0]?.data() as SettingsData),
-      )
-    ) {
+    const { isValid, errorMessage, errorFields } = validateSettingsState(
+      buildSettings(settingsSnap.docs[0]?.data() as SettingsData),
+    );
+
+    if (status === SubdomainStatus.ACTIVE && !isValid) {
       return {
         data: null,
         error: buildErrorResponse({
           code: HttpError.NOT_ALLOWED,
-          clientMessage: "Užpildyk būtinus CV laukelius",
-          serverMessage: `Cannot activate subdomain for user: ${id}`,
+          clientMessage: errorMessage!,
+          serverMessage: `Cannot activate subdomain for user: ${id}, missing fields: ${errorFields.join(", ")}`,
         }),
       };
     }

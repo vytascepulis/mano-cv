@@ -2,6 +2,7 @@ import { SettingsData } from "@/types/types";
 import { SettingsState } from "@/contexts/SettingsContext/types";
 import { initialSettings } from "@/contexts/SettingsContext/constants";
 import { getUserPhoto } from "@/utils/user";
+import { settingsData } from "@/staticData/settings";
 
 export const buildSettings = (settings: SettingsData): SettingsState => {
   if (!settings) return initialSettings;
@@ -15,18 +16,58 @@ export const buildSettings = (settings: SettingsData): SettingsState => {
   };
 };
 
-export const isSettingsValid = (settings: Partial<SettingsState>) => {
-  return Boolean(
-    (settings.image?.blob || settings.image?.url) &&
-      settings.fullName?.trim() &&
-      settings.phoneNumber?.trim() &&
-      settings.address?.trim() &&
-      settings.intro?.trim() &&
-      settings.skills?.length &&
-      settings.education?.length &&
-      settings.websiteDesign &&
-      settings.subdomainCode?.length === 4,
-  );
+export const validateSettingsState = (settings: Partial<SettingsState>) => {
+  const errorFields = [];
+
+  if (!settings.image?.blob && !settings.image?.url) {
+    errorFields.push("image");
+  }
+
+  if (!settings.fullName?.trim()) {
+    errorFields.push("fullName");
+  }
+
+  if (!settings.phoneNumber?.trim()) {
+    errorFields.push("phoneNumber");
+  }
+
+  if (!settings.address?.trim()) {
+    errorFields.push("address");
+  }
+
+  if (!settings.intro?.trim()) {
+    errorFields.push("intro");
+  }
+
+  if (!settings.skills?.length) {
+    errorFields.push("skills");
+  }
+
+  if (!settings.education?.length) {
+    errorFields.push("education");
+  }
+
+  if (!settings.websiteDesign) {
+    errorFields.push("websiteDesign");
+  }
+
+  if (settings.subdomainCode?.length !== 4) {
+    errorFields.push("subdomainCode");
+  }
+
+  const errorMessage =
+    errorFields.length > 0
+      ? `Užpildyk būtinus CV laukelius: \n${parseErrorFields(errorFields).join("\n")}`
+      : null;
+
+  return { isValid: Boolean(!errorFields.length), errorFields, errorMessage };
+};
+
+export const parseErrorFields = (errorFields: string[]) => {
+  const { settingsList: texts } = settingsData;
+  return errorFields.map((field) => {
+    return texts[field].title;
+  });
 };
 
 export function buildFormData(

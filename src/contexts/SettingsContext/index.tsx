@@ -8,7 +8,7 @@ import { SubdomainStatus } from "@/types/enums";
 import {
   buildFormData,
   buildSettings,
-  isSettingsValid,
+  validateSettingsState,
 } from "@/utils/settings";
 import { UpdateSubdomainStatusResponse } from "@/pages/api/types";
 import { useSession } from "next-auth/react";
@@ -66,10 +66,10 @@ const SettingsProvider = ({ children, settingsData }: Props) => {
     });
 
   const handleSaveSettings: Context["handleSaveSettings"] = () => {
-    const isValid = isSettingsValid(settings);
+    const { isValid, errorMessage } = validateSettingsState(settings);
 
     if (!isValid) {
-      fireToast({ type: "error", message: "Užpildyk būtinus CV laukelius" });
+      fireToast({ type: "error", message: errorMessage! });
       return;
     }
 
@@ -101,8 +101,10 @@ const SettingsProvider = ({ children, settingsData }: Props) => {
   };
 
   const handleSetActive = (val: boolean) => {
-    if (val && !isSettingsValid(buildSettings(defaultSettings.current))) {
-      fireToast({ type: "error", message: "Užpildyk būtinus CV laukelius" });
+    const { isValid, errorMessage } = validateSettingsState(settings);
+
+    if (val && !isValid) {
+      fireToast({ type: "error", message: errorMessage! });
       return;
     }
 

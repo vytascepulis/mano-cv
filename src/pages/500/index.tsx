@@ -26,7 +26,7 @@ export default function InternalErrorPage({
 
 InternalErrorPage.getLayout = function getLayout(page: ReactElement) {
   return (
-    <PlainPageLayout title="Mano-cv.lt - nenumatyta klaida">
+    <PlainPageLayout title="mano-cv.lt - nenumatyta klaida">
       {page}
     </PlainPageLayout>
   );

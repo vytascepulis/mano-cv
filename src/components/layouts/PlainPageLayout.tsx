@@ -14,7 +14,6 @@ const PlainPageLayout = ({
       <Head>
         <title>{title}</title>
       </Head>
-
       <div className="mx-auto flex max-w-7xl flex-col items-start">
         <a href={getDomainUrl()}>
           <img
