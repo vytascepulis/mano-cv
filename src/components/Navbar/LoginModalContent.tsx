@@ -16,7 +16,7 @@ const LoginModalContent = () => {
           onClick={() => signIn("google", { callbackUrl: "/auth" })}
         />
         <p className="text-dark mt-2 text-xs font-light">
-          Registruodamasis sutinki su mūsų{" "}
+          Registruojantis sutinki su mūsų{" "}
           <Button variant="link" href="/">
             slapukų politika
           </Button>

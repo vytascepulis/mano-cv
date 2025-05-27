@@ -1,13 +1,22 @@
+import { useState } from "react";
+import Loader from "@/components/ui/Loader";
+
 interface Props {
   onClick: () => void;
 }
 
 const GoogleButton = ({ onClick }: Props) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   return (
     <button
       className="gsi-material-button"
       style={{ width: "200px" }}
-      onClick={onClick}
+      onClick={() => {
+        onClick();
+        setIsLoading(true);
+      }}
+      disabled={isLoading}
     >
       <div className="gsi-material-button-state"></div>
       <div className="gsi-material-button-content-wrapper">
@@ -40,6 +49,11 @@ const GoogleButton = ({ onClick }: Props) => {
         <span className="gsi-material-button-contents">
           Prisijungti su &#34;Google&#34;
         </span>
+        {isLoading && (
+          <div className="ml-3 flex content-center items-center">
+            <Loader variant={"dark"} size="sm" />
+          </div>
+        )}
         <span style={{ display: "none" }}>Sign in with Google</span>
       </div>
     </button>

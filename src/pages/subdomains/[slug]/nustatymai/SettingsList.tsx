@@ -246,8 +246,8 @@ const SettingsList = () => {
         )}
       </Setting>
       <Setting
-        title={settingsList.websiteCode.title}
-        subtitle={settingsList.websiteCode.subtitle}
+        title={settingsList.subdomainCode.title}
+        subtitle={settingsList.subdomainCode.subtitle}
       >
         {isEditing && (
           <Input

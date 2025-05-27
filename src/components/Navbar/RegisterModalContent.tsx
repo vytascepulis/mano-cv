@@ -58,6 +58,10 @@ const RegisterModalContent = () => {
       },
       onError: (error) => {
         setLoading(false);
+        fireToast({
+          type: "error",
+          message: error.message,
+        });
         console.error(error);
       },
     });

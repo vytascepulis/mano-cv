@@ -101,7 +101,7 @@ export const settingsData: {
       subtitle:
         "Pasirinkite CV dizainą, kuris geriausiai atspindi jūsų asmenybę ir profesinį stilių.",
     },
-    websiteCode: {
+    subdomainCode: {
       title: "Svetainės kodas",
       subtitle: "Keturių skaičių kodas, kurį įvedus atsidarys jūsų CV svetainė",
     },

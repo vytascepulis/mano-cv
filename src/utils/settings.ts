@@ -66,6 +66,7 @@ export const validateSettingsState = (settings: Partial<SettingsState>) => {
 export const parseErrorFields = (errorFields: string[]) => {
   const { settingsList: texts } = settingsData;
   return errorFields.map((field) => {
+    console.log(field);
     return texts[field].title;
   });
 };

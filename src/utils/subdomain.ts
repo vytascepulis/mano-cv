@@ -25,6 +25,6 @@ export const getDomainUrl = () => {
 };
 
 export function isSlugValid(subdomain: string) {
-  const alphaRegex = /^[A-Za-z]+$/;
+  const alphaRegex = /^[a-z]+$/;
   return typeof subdomain === "string" && alphaRegex.test(subdomain);
 }
