@@ -30,9 +30,3 @@
   opacity: 0;
   transform: translateY(20%);
 }
-
-body.ReactModal__Body--open {
-  overflow: hidden !important;
-  position: fixed; /* optional: locks content better on mobile */
-  width: 100%;
-}

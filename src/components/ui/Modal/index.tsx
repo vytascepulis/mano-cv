@@ -20,7 +20,8 @@ const outfit = Outfit({ subsets: ["latin"] });
 
 const Modal = ({ isOpen, handleClose, children }: Props) => {
   useEffect(() => {
-    document.body.style.overflowY = isOpen ? "hidden" : "unset";
+    document.body.classList.toggle("disable-scroll", isOpen);
+    return () => document.body.classList.remove("disable-scroll");
   }, [isOpen]);
 
   return (
