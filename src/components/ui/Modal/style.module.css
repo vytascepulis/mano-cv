@@ -1,42 +1,38 @@
-/* Open state of the dialog  */
-.modal:open {
+.modal-overlay {
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0);
+  transition: background-color 0.2s ease-in-out;
+}
+
+.modal-overlay--after-open {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal-overlay--before-close {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.modal {
+  opacity: 0;
+  transform: translateY(40%);
+  transition: all 0.2s ease-in-out;
+  outline: none;
+}
+
+.modal--after-open {
   opacity: 1;
   transform: translateY(0%);
 }
 
-/* Closed state of the dialog   */
-.modal {
+.modal--before-close {
   opacity: 0;
   transform: translateY(20%);
-  transition: all 0.3s allow-discrete;
 }
 
-/* Before open state  */
-/* Needs to be after the previous dialog:open rule to take effect,
-    as the specificity is the same */
-@starting-style {
-  .modal:open {
-    opacity: 0;
-    transform: translateY(40%);
-  }
-}
-
-/* Transition the :backdrop when the dialog modal is promoted to the top layer */
-.modal::backdrop {
-  background-color: rgb(0 0 0 / 0%);
-  /*transition: display 0.7s allow-discrete, overlay 0.7s allow-discrete, background-color 0.7s;*/
-  transition: all 0.3s allow-discrete;
-}
-
-.modal:open::backdrop {
-  background-color: rgb(0 0 0 / 60%);
-}
-
-/* This starting-style rule cannot be nested inside the above selector
-because the nesting selector cannot represent pseudo-elements. */
-
-@starting-style {
-  .modal:open::backdrop {
-    background-color: rgb(0 0 0 / 0%);
-  }
+body.ReactModal__Body--open {
+  overflow: hidden !important;
+  position: fixed; /* optional: locks content better on mobile */
+  width: 100%;
 }

@@ -1,6 +1,5 @@
 import { getDomainUrl } from "@/utils/subdomain";
 import Button from "@/components/ui/Button";
-import { ReactElement } from "react";
 import PlainPageLayout from "@/components/layouts/PlainPageLayout";
 
 export default function NotFoundPage() {

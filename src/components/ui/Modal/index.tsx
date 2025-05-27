@@ -1,8 +1,10 @@
-import { useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { twMerge } from "tailwind-merge";
 import style from "./style.module.css";
+import ReactModal from "react-modal";
+import { Outfit } from "next/font/google";
+import { useEffect } from "react";
 
 export interface ModalProps {
   isOpen: boolean;
@@ -13,43 +15,42 @@ interface Props extends ModalProps {
   children: React.ReactNode;
 }
 
-const Modal = ({ isOpen, handleClose, children }: Props) => {
-  const refDialog = useRef<HTMLDialogElement>(null);
+ReactModal.setAppElement("#__next");
+const outfit = Outfit({ subsets: ["latin"] });
 
+const Modal = ({ isOpen, handleClose, children }: Props) => {
   useEffect(() => {
-    if (isOpen) {
-      refDialog.current?.showModal();
-      document.body.classList.add("disable-scroll");
-    } else {
-      refDialog.current?.close();
-      document.body.classList.remove("disable-scroll");
-    }
+    document.body.style.overflowY = isOpen ? "hidden" : "unset";
   }, [isOpen]);
 
   return (
-    <dialog
-      ref={refDialog}
-      className={twMerge(
-        style.modal,
-        "mx-auto mt-5 w-[700px] rounded-lg bg-violet-100 sm:mt-40",
-      )}
-      onClick={handleClose}
+    <ReactModal
+      isOpen={isOpen}
+      onRequestClose={handleClose}
+      closeTimeoutMS={200}
+      className={{
+        base: twMerge(
+          style.modal,
+          outfit.className,
+          "mx-auto mt-5 max-w-[700px] rounded-lg bg-violet-100 px-3 py-5 sm:mt-40",
+        ),
+        afterOpen: style["modal--after-open"],
+        beforeClose: style["modal--before-close"],
+      }}
+      overlayClassName={{
+        base: twMerge(style["modal-overlay"]),
+        afterOpen: style["modal-overlay--after-open"],
+        beforeClose: style["modal-overlay--before-close"],
+      }}
     >
-      <div
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
-        className="p-5"
+      <button
+        onClick={handleClose}
+        className="absolute top-2 right-3 cursor-pointer"
       >
-        <button
-          onClick={handleClose}
-          className="absolute top-2 right-3 cursor-pointer"
-        >
-          <FontAwesomeIcon icon={faXmark} />
-        </button>
-        {children}
-      </div>
-    </dialog>
+        <FontAwesomeIcon icon={faXmark} />
+      </button>
+      {children}
+    </ReactModal>
   );
 };
 
