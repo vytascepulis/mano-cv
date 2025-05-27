@@ -12,6 +12,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { twMerge } from "tailwind-merge";
 import { getGenericUserPhoto, getUserPhoto } from "@/utils/user";
+import Loader from "@/components/ui/Loader";
 
 interface MenuItem {
   id?: string;
@@ -21,6 +22,7 @@ interface MenuItem {
   href?: string;
   className?: string;
   target?: "_blank";
+  loading?: boolean;
 }
 
 interface Props {
@@ -30,8 +32,8 @@ interface Props {
 const MenuBtn = ({ item }: { item: MenuItem }) => {
   return (
     <a
-      onClick={item.onClick}
-      href={item.href}
+      onClick={item.loading ? () => {} : item.onClick}
+      href={item.loading ? undefined : item.href}
       target={item.target}
       className={twMerge(
         item?.className,
@@ -40,6 +42,7 @@ const MenuBtn = ({ item }: { item: MenuItem }) => {
     >
       <FontAwesomeIcon className="text-violet-900" icon={item.icon} size="lg" />
       {item.title}
+      {item.loading && <Loader size="sm" variant="dark" />}
     </a>
   );
 };
@@ -52,6 +55,7 @@ const UserBtn = ({ hiddenIds = [] }: Props) => {
   const toggleIsMenuOpen = () => {
     setIsMenuOpen((prevState) => !prevState);
   };
+  const [isSignOutLoading, setIsSignOutLoading] = useState(false);
 
   useClickOutside({
     element: refMenuElement,
@@ -80,7 +84,11 @@ const UserBtn = ({ hiddenIds = [] }: Props) => {
     {
       title: "Atsijungti",
       icon: faArrowRightFromBracket,
-      onClick: () => signOut(),
+      onClick: () => {
+        setIsSignOutLoading(true);
+        signOut();
+      },
+      loading: isSignOutLoading,
     },
   ];
 

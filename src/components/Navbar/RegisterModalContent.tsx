@@ -1,5 +1,5 @@
 import Input from "@/components/ui/Input";
-import { FormEvent, useRef, useState } from "react";
+import { FormEvent, useState } from "react";
 import Button from "@/components/ui/Button";
 import useFetch from "@/hooks/useFetch";
 import { RegisterData } from "@/types/types";
@@ -8,9 +8,9 @@ import { isSlugValid } from "@/utils/subdomain";
 
 const RegisterModalContent = () => {
   const { update } = useSession();
-  const refSlugValue = useRef("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [slug, setSlug] = useState("");
 
   const { fetch } = useFetch<RegisterData>({
     endpoint: "register",
@@ -21,7 +21,7 @@ const RegisterModalContent = () => {
     e.preventDefault();
     setError(null);
 
-    const value = refSlugValue.current.trim();
+    const value = slug.trim();
 
     if (value.length < 4) {
       setError("Svetainės pavadinimas turi būti ilgesnis nei 4 simboliai");
@@ -71,7 +71,8 @@ const RegisterModalContent = () => {
       >
         <Input
           type="suffix"
-          onChange={(val) => (refSlugValue.current = val)}
+          onChange={(val) => setSlug(val.toLowerCase())}
+          defaultValue={slug}
           suffix=".mano-cv.lt"
           placeholder="Pavadinimas"
           disabled={loading}
