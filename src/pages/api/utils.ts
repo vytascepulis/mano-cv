@@ -10,7 +10,6 @@ import {
   SettingsData,
   SubdomainData,
 } from "@/types/types";
-import DrivingLicenceInput from "@/components/DrivingLicenceInput";
 
 export const buildErrorResponse = ({
   code,

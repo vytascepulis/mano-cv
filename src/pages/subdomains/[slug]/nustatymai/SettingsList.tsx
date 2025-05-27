@@ -9,7 +9,7 @@ import { useSettings } from "@/contexts/SettingsContext";
 import ToggleCard from "@/components/ToggleCards/ToggleCard";
 import { IToggleCard } from "@/components/ToggleCards/types";
 import LanguageSelect from "@/components/LanguageSelect";
-import DrivingLicence from "../../../../components/DrivingLicenceInput";
+import DrivingLicence from "@/components/DrivingLicenceInput";
 
 const SettingsList = () => {
   const { handleOnChange, handleOnDesignPreview, settings, isEditing } =

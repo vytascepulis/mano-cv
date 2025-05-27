@@ -70,9 +70,10 @@ const styles = StyleSheet.create({
     width: 230,
     flex: "0 0 200px",
     paddingRight: 30,
+    marginTop: 10,
   },
   sidebarContent: {
-    marginTop: 30,
+    marginTop: 20,
   },
   imageWrapper: {
     display: "flex",
@@ -184,6 +185,33 @@ const PdfDocument = ({
   return (
     <Document>
       <Page size="A4" style={styles.page}>
+        <View
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            backgroundColor: "#7f22fe",
+            padding: 2,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 7,
+              color: "#fff",
+              fontWeight: 400,
+              textAlign: "center",
+            }}
+          >
+            Sukurta su{" "}
+            <Link
+              style={{ color: "#FFF", textDecoration: "none" }}
+              src={process.env.NEXT_PUBLIC_ROOT_DOMAIN}
+            >
+              mano-cv.lt
+            </Link>
+          </Text>
+        </View>
         <View style={styles.sidebar}>
           <View style={styles.imageWrapper}>
             <View style={styles.imageBackground}>
@@ -330,7 +358,6 @@ const PdfDocument = ({
             </View>
             <Text style={styles.contentBody}>{userData.intro}</Text>
           </View>
-
           {userData.experience.length > 0 && (
             <View style={styles.contentItem}>
               <View style={styles.contentTitle}>
