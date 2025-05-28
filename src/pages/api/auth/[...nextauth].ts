@@ -3,6 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import { NextApiRequest, NextApiResponse } from "next";
 import { createUser, getUserByGoogleId } from "@/lib/handlers";
 import { sha256 } from "@/utils/crypto";
+import { HttpError } from "@/constants/http";
 
 const sessionTokenName =
   process.env.NODE_ENV === "production"
@@ -39,6 +40,7 @@ export const authOptions: AuthOptions = {
   },
   callbacks: {
     async signIn({ profile, user }) {
+      console.log("sign in");
       if (!profile?.sub) {
         console.log("no profile sub: ", profile);
         return false;
@@ -67,20 +69,24 @@ export const authOptions: AuthOptions = {
 
         user.userStatus = createData.status;
         user.userId = createData.id;
+        user.image = null;
       }
 
       return true;
     },
-    async jwt({ token, user, account, profile }) {
-      const { data: userData } = await getUserByGoogleId({
-        hashedGoogleId: token.googleId,
-      });
+    async jwt({ token, user, account, profile, trigger }) {
+      if (trigger === "update") {
+        const { data: userData } = await getUserByGoogleId({
+          hashedGoogleId: token.googleId,
+        });
 
-      if (userData) {
-        token.userId = userData.id;
-        token.userStatus = userData.status;
-        token.subdomainSlug = userData.subdomainSlug;
-        token.image = userData.image;
+        if (userData) {
+          token.userId = userData.id;
+          token.userStatus = userData.status;
+          token.subdomainSlug = userData.subdomainSlug;
+          token.image = userData.image;
+          console.log("NEW TOKEN: ", token);
+        }
       }
 
       if (account && profile?.sub) {
@@ -95,6 +101,7 @@ export const authOptions: AuthOptions = {
     },
     async session({ session, token }) {
       if (session.user && token) {
+        console.log("session token: ", token);
         session.user.googleId = token.googleId;
         session.user.userStatus = token.userStatus;
         session.user.subdomainSlug = token.subdomainSlug;

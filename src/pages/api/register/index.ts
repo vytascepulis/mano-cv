@@ -12,7 +12,7 @@ const handler: HandlerWithSession<Response> = async (req, res, session) => {
   const slug = req.body.slug?.trim();
 
   if (method === "POST") {
-    const maxRequests = await isMaxRequests({ req, maxCount: 20 });
+    const maxRequests = await isMaxRequests({ req, maxCount: 10 });
 
     if (maxRequests) {
       return returnErrorResponse(req, res, maxRequests);

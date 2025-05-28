@@ -87,7 +87,9 @@ const SettingsProvider = ({ children, settingsData }: Props) => {
         setSettings(buildSettings(data));
         defaultSettings.current = data;
         setIsEditing(false);
-        await update();
+        update().then((session) => {
+          console.log("update", session);
+        });
         setRender((prevState) => prevState + 1);
       },
       onError: (err) => {

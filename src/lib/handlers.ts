@@ -256,7 +256,7 @@ export const getUserByGoogleId = async ({
     return {
       data: null,
       error: buildErrorResponse({
-        code: HttpError.NOT_FOUND,
+        code: HttpError.INTERNAL_ERROR,
         serverMessage: `Error getting user by googleId: ${err}`,
       }),
     };
