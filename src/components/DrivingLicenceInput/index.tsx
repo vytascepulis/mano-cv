@@ -43,11 +43,11 @@ const DrivingLicenceInput = () => {
   };
 
   return (
-    <div className="flex w-full flex-col">
+    <div className="flex w-full flex-col md:w-auto">
       {isEditing && (
         <form
           onSubmit={handleSubmit}
-          className="mb-5 flex w-full flex-col gap-2 md:flex-row"
+          className="mb-5 flex w-full flex-col gap-2 md:w-auto md:flex-row lg:justify-end"
         >
           <Input
             type="text"
@@ -55,7 +55,7 @@ const DrivingLicenceInput = () => {
             onChange={setCategory}
             defaultValue={category}
             required
-            className="shrink-0 basis-0 md:basis-[120px]"
+            className="md:max-w-[150px]"
           />
           <div>
             <InputDate

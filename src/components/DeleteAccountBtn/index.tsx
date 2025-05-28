@@ -38,7 +38,11 @@ const DeleteAccountBtn = () => {
       <Button onClick={() => setConfirmModal(true)} color="danger">
         Pašalinti
       </Button>
-      <Modal isOpen={confirmModal} handleClose={() => setConfirmModal(false)}>
+      <Modal
+        isOpen={confirmModal}
+        handleClose={() => setConfirmModal(false)}
+        className="max-w-[400px]"
+      >
         <div className="p-3">
           <h1 className="text-dark mb-[10px] text-2xl font-semibold">
             Ištrinti paskyrą

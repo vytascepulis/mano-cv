@@ -1,9 +1,9 @@
-import { ButtonHTMLAttributes } from "react";
+import React, { ReactNode, forwardRef } from "react";
 import { twMerge } from "tailwind-merge";
 import Link from "next/link";
 import Loader from "@/components/ui/Loader";
 
-interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps {
   color?: "primary" | "secondary" | "danger" | "light";
   variant?: "default" | "outline" | "link";
   size?: "sm" | "md" | "lg";
@@ -14,101 +14,110 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   target?: string;
   className?: string;
   type?: "button" | "submit";
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
-const Button = ({
-  color = "primary",
-  variant = "default",
-  size = "md",
-  onClick,
-  disabled,
-  href,
-  loading,
-  target,
-  className,
-  type = "button",
-  children,
-}: Props) => {
-  const defaultClasses =
-    "cursor-pointer justify-center px-3 h-[35px] rounded-xs transition-colors shadow-sm font-semibold disabled:cursor-not-allowed flex gap-2 items-center";
-  const linkClasses = "font-bold shadow-none px-0 h-auto";
+const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
+  (
+    {
+      color = "primary",
+      variant = "default",
+      size = "md",
+      onClick,
+      disabled,
+      href,
+      loading,
+      target,
+      className,
+      type = "button",
+      children,
+    },
+    ref,
+  ) => {
+    const defaultClasses =
+      "cursor-pointer justify-center px-3 h-[35px] rounded-xs transition-colors shadow-sm font-semibold disabled:cursor-not-allowed flex gap-2 items-center";
+    const linkClasses = "font-bold shadow-none px-0 h-auto";
 
-  const primaryDefaultClasses =
-    "bg-violet-600 text-gray-50 hover:bg-violet-700 disabled:bg-violet-600/50";
-  const primaryOutlineClasses =
-    "bg-transparent text-violet-500 border-3 border-violet-600 hover:bg-violet-600 hover:text-gray-50 disabled:bg-violet-600/50 disabled:border-none disabled:text-gray-50";
-  const primaryLinkClasses = "text-violet-600 hover:text-violet-800";
+    const primaryDefaultClasses =
+      "bg-violet-600 text-gray-50 hover:bg-violet-700 disabled:bg-violet-600/50";
+    const primaryOutlineClasses =
+      "bg-transparent text-violet-500 border-3 border-violet-600 hover:bg-violet-600 hover:text-gray-50 disabled:bg-violet-600/50 disabled:border-none disabled:text-gray-50";
+    const primaryLinkClasses =
+      "text-violet-600 hover:text-violet-800 disabled:text-gray-400";
 
-  const secondaryDefaultClasses =
-    "bg-gray-900 text-gray-50 hover:bg-gray-800 disabled:bg-gray-900/50";
-  const secondaryOutlineClasses =
-    "bg-transparent text-gray-900 border-3 border-gray-900 hover:bg-gray-900 hover:text-gray-50 disabled:bg-gray-900/50 disabled:border-none disabled:text-gray-50";
-  const secondaryLinkClasses = "text-gray-900 hover:text-gray-700";
+    const secondaryDefaultClasses =
+      "bg-gray-900 text-gray-50 hover:bg-gray-800 disabled:bg-gray-900/50";
+    const secondaryOutlineClasses =
+      "bg-transparent text-gray-900 border-3 border-gray-900 hover:bg-gray-900 hover:text-gray-50 disabled:bg-gray-900/50 disabled:border-none disabled:text-gray-50";
+    const secondaryLinkClasses = "text-gray-900 hover:text-gray-700";
 
-  const dangerDefaultClasses =
-    "bg-red-500 text-gray-50 hover:bg-red-600 disabled:bg-red-500/50";
-  const dangerOutlineClasses =
-    "bg-transparent text-red-500 border-3 border-red-500 hover:bg-red-500 hover:text-gray-50 disabled:bg-red-500/50 disabled:border-none disabled:text-gray-50";
-  const dangerLinkClasses = "text-red-500 hover:text-red-700";
+    const dangerDefaultClasses =
+      "bg-red-500 text-gray-50 hover:bg-red-600 disabled:bg-red-500/50";
+    const dangerOutlineClasses =
+      "bg-transparent text-red-500 border-3 border-red-500 hover:bg-red-500 hover:text-gray-50 disabled:bg-red-500/50 disabled:border-none disabled:text-gray-50";
+    const dangerLinkClasses = "text-red-500 hover:text-red-700";
 
-  const lightDefaultClasses =
-    "bg-gray-50 text-violet-600 hover:bg-gray-200 disabled:bg-gray-50/50";
-  const lightOutlineClasses =
-    "bg-transparent text-gray-50 border-3 border-gray-50 hover:bg-gray-200 hover:text-gray-200 disabled:bg-gray-200/50 disabled:border-none disabled:text-gray-50";
-  const lightLinkClasses = "text-gray-50 hover:text-gray-200";
+    const lightDefaultClasses =
+      "bg-gray-50 text-violet-600 hover:bg-gray-200 disabled:bg-gray-50/50";
+    const lightOutlineClasses =
+      "bg-transparent text-gray-50 border-3 border-gray-50 hover:bg-gray-200 hover:text-gray-200 disabled:bg-gray-200/50 disabled:border-none disabled:text-gray-50";
+    const lightLinkClasses = "text-gray-50 hover:text-gray-200";
 
-  const buttonClass = twMerge(
-    defaultClasses,
-    className,
-    variant === "link" && linkClasses,
-    variant === "default" && color === "primary" && primaryDefaultClasses,
-    variant === "outline" && color === "primary" && primaryOutlineClasses,
-    variant === "link" && color === "primary" && primaryLinkClasses,
-    variant === "default" && color === "secondary" && secondaryDefaultClasses,
-    variant === "outline" && color === "secondary" && secondaryOutlineClasses,
-    variant === "link" && color === "secondary" && secondaryLinkClasses,
-    variant === "default" && color === "danger" && dangerDefaultClasses,
-    variant === "outline" && color === "danger" && dangerOutlineClasses,
-    variant === "link" && color === "danger" && dangerLinkClasses,
+    const buttonClass = twMerge(
+      defaultClasses,
+      className,
+      variant === "link" && linkClasses,
+      variant === "default" && color === "primary" && primaryDefaultClasses,
+      variant === "outline" && color === "primary" && primaryOutlineClasses,
+      variant === "link" && color === "primary" && primaryLinkClasses,
+      variant === "default" && color === "secondary" && secondaryDefaultClasses,
+      variant === "outline" && color === "secondary" && secondaryOutlineClasses,
+      variant === "link" && color === "secondary" && secondaryLinkClasses,
+      variant === "default" && color === "danger" && dangerDefaultClasses,
+      variant === "outline" && color === "danger" && dangerOutlineClasses,
+      variant === "link" && color === "danger" && dangerLinkClasses,
+      variant === "default" && color === "light" && lightDefaultClasses,
+      variant === "outline" && color === "light" && lightOutlineClasses,
+      variant === "link" && color === "light" && lightLinkClasses,
+      size === "lg" && "text-lg",
+      size === "sm" && "text-sm",
+      (variant === "default" || variant === "outline") &&
+        size === "lg" &&
+        "h-[45px] px-5",
+      (variant === "default" || variant === "outline") &&
+        size === "sm" &&
+        "h-[25px] px-2",
+    );
 
-    variant === "default" && color === "light" && lightDefaultClasses,
-    variant === "outline" && color === "light" && lightOutlineClasses,
-    variant === "link" && color === "light" && lightLinkClasses,
-    size === "lg" && "text-lg",
-    size === "sm" && "text-sm",
-    (variant === "default" || variant === "outline") &&
-      size === "lg" &&
-      "h-[45px] px-5",
-    (variant === "default" || variant === "outline") &&
-      size === "sm" &&
-      "h-[25px] px-2",
-  );
+    if (href) {
+      return (
+        <Link
+          href={href}
+          target={target}
+          className={buttonClass}
+          onClick={onClick}
+          ref={ref as React.Ref<HTMLAnchorElement>} // 👈 anchor ref
+        >
+          {children}
+        </Link>
+      );
+    }
 
-  if (href) {
     return (
-      <Link
+      <button
+        ref={ref as React.Ref<HTMLButtonElement>}
         className={buttonClass}
-        href={href}
-        target={target}
+        disabled={disabled || loading}
         onClick={onClick}
+        type={type}
       >
         {children}
-      </Link>
+        {loading && <Loader size="sm" />}
+      </button>
     );
-  }
+  },
+);
 
-  return (
-    <button
-      className={buttonClass}
-      disabled={disabled || loading}
-      onClick={onClick}
-      type={type}
-    >
-      {children}
-      {loading && <Loader size="sm" />}
-    </button>
-  );
-};
+Button.displayName = "Button";
 
 export default Button;

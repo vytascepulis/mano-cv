@@ -41,7 +41,11 @@ const LoginBtn = () => {
       )}
       {isAuthenticated && !isInitialized && <UserBtn />}
       {!session.data?.user.subdomainSlug && (
-        <Modal isOpen={loginModalOpen} handleClose={toggleLoginModal}>
+        <Modal
+          isOpen={loginModalOpen}
+          handleClose={toggleLoginModal}
+          className="max-w-[700px]"
+        >
           {isInitialized && <RegisterModalContent />}
           {!isInitialized && <LoginModalContent />}
         </Modal>

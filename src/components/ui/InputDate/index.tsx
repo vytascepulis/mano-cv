@@ -2,6 +2,8 @@ import DatePicker from "react-datepicker";
 import { twMerge } from "tailwind-merge";
 import "react-datepicker/dist/react-datepicker.css";
 import { lt } from "date-fns/locale/lt";
+import { forwardRef } from "react";
+import Button, { ButtonProps } from "@/components/ui/Button";
 
 interface Props {
   selectedDate: Date | null;
@@ -10,7 +12,46 @@ interface Props {
   label?: React.ReactNode;
   required?: boolean;
   disabled?: boolean;
+  variant?: ButtonProps["variant"];
 }
+
+interface CustomInputProps {
+  value?: string;
+  onClick?: () => void;
+  placeholder?: string;
+  variant?: ButtonProps["variant"];
+  disabled?: boolean;
+  required?: boolean;
+}
+
+const CustomInput = forwardRef<HTMLButtonElement, CustomInputProps>(
+  ({ value, onClick, placeholder, variant, disabled, required }, ref) => {
+    return (
+      <div className="relative">
+        {required && (
+          <input
+            className="pointer-events-none absolute bottom-0 left-[50%] h-px w-px opacity-0"
+            type="text"
+            value={value || ""}
+            required
+            disabled={disabled}
+          />
+        )}
+        <Button
+          variant={variant}
+          onClick={onClick}
+          ref={ref}
+          disabled={disabled}
+          className="w-full"
+        >
+          {value || placeholder || "Pasirinkti"}
+        </Button>
+      </div>
+    );
+  },
+);
+
+CustomInput.displayName = "ExampleCustomInput";
 
 const InputDate = ({
   selectedDate,
@@ -19,6 +60,7 @@ const InputDate = ({
   label,
   required,
   disabled,
+  variant,
 }: Props) => {
   return (
     <div
@@ -51,6 +93,14 @@ const InputDate = ({
         required={required}
         disabled={disabled}
         showPopperArrow={false}
+        customInput={
+          <CustomInput
+            placeholder={placeholder}
+            variant={variant}
+            disabled={disabled}
+            required={required}
+          />
+        }
       />
     </div>
   );

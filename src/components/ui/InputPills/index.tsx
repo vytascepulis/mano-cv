@@ -1,9 +1,8 @@
 import Input from "@/components/ui/Input";
 import { twMerge } from "tailwind-merge";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useState, ReactNode, FormEvent } from "react";
 import Button from "@/components/ui/Button";
+import Pill from "@/components/ui/Pill";
 
 interface Props {
   onChange: (pills: string[]) => void;
@@ -64,20 +63,13 @@ const InputPills = ({
       )}
       <div className="flex min-h-[34px] flex-row flex-wrap items-start gap-2 lg:justify-end">
         {pills.map((pill, idx) => (
-          <div
+          <Pill
             key={idx}
-            className="bg-primary relative max-w-[230px] cursor-default rounded-full px-[10px] py-[5px] text-center font-bold text-wrap wrap-break-word text-white"
+            disabled={disabled}
+            onDeleteClick={() => handleDeletePill(pill)}
           >
             {pill}
-            {!disabled && (
-              <button
-                className="absolute top-[-7px] right-[-7px] flex h-[24px] w-[24px] cursor-pointer items-center justify-center rounded-full bg-violet-900"
-                onClick={() => handleDeletePill(pill)}
-              >
-                <FontAwesomeIcon className="text-light" icon={faXmark} />
-              </button>
-            )}
-          </div>
+          </Pill>
         ))}
       </div>
     </form>

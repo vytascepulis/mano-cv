@@ -13,12 +13,13 @@ export interface ModalProps {
 
 interface Props extends ModalProps {
   children: React.ReactNode;
+  className?: string;
 }
 
 ReactModal.setAppElement("#__next");
 const outfit = Outfit({ subsets: ["latin"] });
 
-const Modal = ({ isOpen, handleClose, children }: Props) => {
+const Modal = ({ isOpen, handleClose, children, className }: Props) => {
   useEffect(() => {
     document.body.classList.toggle("disable-scroll", isOpen);
     return () => document.body.classList.remove("disable-scroll");
@@ -31,9 +32,10 @@ const Modal = ({ isOpen, handleClose, children }: Props) => {
       closeTimeoutMS={200}
       className={{
         base: twMerge(
+          className,
           style.modal,
           outfit.className,
-          "mx-auto mt-5 w-fit rounded-lg bg-violet-100 px-3 py-2 sm:mt-40",
+          "mx-auto mt-5 rounded-lg bg-violet-100 px-3 py-2 sm:mt-40",
         ),
         afterOpen: style["modal--after-open"],
         beforeClose: style["modal--before-close"],

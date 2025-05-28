@@ -63,8 +63,8 @@ const CropModal = ({ isOpen, handleClose, onSubmit, imgSrc }: Props) => {
   }, [isOpen]);
 
   return (
-    <Modal isOpen={isOpen} handleClose={handleClose}>
-      <div className="flex flex-col items-center gap-3 p-2">
+    <Modal isOpen={isOpen} handleClose={handleClose} className="max-w-[500px]">
+      <div className="flex flex-col items-center gap-3 p-5">
         <ReactCrop
           crop={crop}
           onChange={(_, percentCrop) => setCrop(percentCrop)}

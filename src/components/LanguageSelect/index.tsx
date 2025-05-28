@@ -3,10 +3,9 @@ import Select from "@/components/ui/Select";
 import { LanguageEntry, LanguageLevel } from "@/types/types";
 import Button from "@/components/ui/Button";
 import { useSettings } from "@/contexts/SettingsContext";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import Pill from "@/components/ui/Pill";
 
 const LanguageSelect = () => {
   const {
@@ -46,11 +45,11 @@ const LanguageSelect = () => {
   };
 
   return (
-    <div className="flex w-full flex-col">
+    <div className="flex w-full flex-col md:w-auto">
       {isEditing && (
         <form
           onSubmit={handleSubmit}
-          className="mb-5 flex w-full flex-col gap-2 md:flex-row"
+          className="mb-5 flex w-full flex-col gap-2 md:w-auto md:flex-row lg:justify-end"
         >
           <Input
             type="text"
@@ -58,34 +57,29 @@ const LanguageSelect = () => {
             onChange={setLangValue}
             defaultValue={langValue}
             required
-            className="shrink-0 basis-0 md:basis-[120px]"
+            className="md:max-w-[150px]"
           />
-          <Select
-            options={langLevelOptions}
-            initialValue={langLevelOptions[1]}
-            onChange={(val) =>
-              setLangLevel(val.value as keyof typeof LanguageLevel)
-            }
-          />
+          <div className="md:max-w-[120px]">
+            <Select
+              options={langLevelOptions}
+              initialValue={langLevelOptions[1]}
+              onChange={(val) =>
+                setLangLevel(val.value as keyof typeof LanguageLevel)
+              }
+            />
+          </div>
           <Button type="submit">Pridėti</Button>
         </form>
       )}
       <div className="flex min-h-[34px] flex-row flex-wrap items-start gap-2 lg:justify-end">
         {languages.map((lang, idx) => (
-          <div
+          <Pill
             key={idx}
-            className="group bg-primary relative max-w-[230px] cursor-default rounded-full px-[10px] py-[5px] text-center font-bold text-wrap wrap-break-word text-white"
+            disabled={!isEditing}
+            onDeleteClick={() => handleDelete(lang)}
           >
             {lang.language} - {LanguageLevel[lang.level]}
-            {isEditing && (
-              <button
-                className="invisible absolute top-[-7px] right-[-7px] flex h-[24px] w-[24px] cursor-pointer items-center justify-center rounded-full bg-violet-900 group-hover:visible"
-                onClick={() => handleDelete(lang)}
-              >
-                <FontAwesomeIcon className="text-light" icon={faXmark} />
-              </button>
-            )}
-          </div>
+          </Pill>
         ))}
       </div>
     </div>
