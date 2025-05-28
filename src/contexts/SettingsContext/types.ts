@@ -21,5 +21,4 @@ export interface Context {
   handleOnDesignPreview: (slug: string) => void;
   handleSetActive: (val: boolean) => void;
   settings: SettingsState;
-  render: number;
 }

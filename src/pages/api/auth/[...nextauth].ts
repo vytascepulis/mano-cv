@@ -39,9 +39,7 @@ export const authOptions: AuthOptions = {
   },
   callbacks: {
     async signIn({ profile, user }) {
-      console.log("sign in");
       if (!profile?.sub) {
-        console.log("no profile sub: ", profile);
         return false;
       }
 
@@ -68,7 +66,6 @@ export const authOptions: AuthOptions = {
 
         user.userStatus = createData.status;
         user.userId = createData.id;
-        user.image = null;
       }
 
       return true;
@@ -84,7 +81,6 @@ export const authOptions: AuthOptions = {
           token.userStatus = userData.status;
           token.subdomainSlug = userData.subdomainSlug;
           token.image = userData.image;
-          console.log("NEW TOKEN: ", token);
         }
       }
 
@@ -100,7 +96,6 @@ export const authOptions: AuthOptions = {
     },
     async session({ session, token }) {
       if (session.user && token) {
-        console.log("session token: ", token);
         session.user.googleId = token.googleId;
         session.user.userStatus = token.userStatus;
         session.user.subdomainSlug = token.subdomainSlug;

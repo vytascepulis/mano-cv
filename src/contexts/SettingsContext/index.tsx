@@ -29,7 +29,6 @@ const SettingsContext = createContext<Context>({
   handleOnDesignPreview: () => {},
   handleSetActive: () => {},
   settings: initialSettings,
-  render: 0,
 });
 
 const SettingsProvider = ({ children, settingsData }: Props) => {
@@ -41,7 +40,6 @@ const SettingsProvider = ({ children, settingsData }: Props) => {
   const [settings, setSettings] = useState<SettingsState>(
     buildSettings(settingsData),
   );
-  const [render, setRender] = useState(0);
   const defaultSettings = useRef<SettingsData>(settingsData);
 
   const { fetch: setActive, isLoading: isSubdomainStatusLoading } =
@@ -87,10 +85,7 @@ const SettingsProvider = ({ children, settingsData }: Props) => {
         setSettings(buildSettings(data));
         defaultSettings.current = data;
         setIsEditing(false);
-        update().then((session) => {
-          console.log("update", session);
-        });
-        setRender((prevState) => prevState + 1);
+        await update();
       },
       onError: (err) => {
         fireToast({ type: "error", message: err.message });
@@ -152,7 +147,6 @@ const SettingsProvider = ({ children, settingsData }: Props) => {
         handleOnDesignPreview,
         handleSetActive,
         settings,
-        render,
       }}
     >
       {children}

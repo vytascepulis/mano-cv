@@ -4,6 +4,7 @@ import LoginBtn from "@/components/Navbar/LoginBtn";
 import { twMerge } from "tailwind-merge";
 import { menuLinks } from "@/components/Navbar/constants";
 import MobileMenu from "@/components/MobileMenu";
+import { SettingsState } from "@/contexts/SettingsContext/types";
 
 const Navbar = () => {
   return (

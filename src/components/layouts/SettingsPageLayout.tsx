@@ -2,7 +2,6 @@ import { getDomainUrl } from "@/utils/subdomain";
 import logo from "@/assets/mano-cv-logo.png";
 import UserBtn from "@/components/Navbar/UserBtn";
 import ControlBar from "@/pages/subdomains/[slug]/nustatymai/ControlBar";
-import { useSettings } from "@/contexts/SettingsContext";
 import BlockedBar from "@/pages/subdomains/[slug]/nustatymai/BlockedBar";
 import Head from "next/head";
 
@@ -11,8 +10,6 @@ interface Props {
 }
 
 const SettingsPageLayout = ({ children }: Props) => {
-  const { render } = useSettings();
-
   return (
     <>
       <Head>
@@ -33,7 +30,7 @@ const SettingsPageLayout = ({ children }: Props) => {
                   className="h-[25px] object-contain"
                 />
               </a>
-              <UserBtn key={render} hiddenIds={["settings"]} />
+              <UserBtn hiddenIds={["settings"]} />
             </nav>
           </div>
           <BlockedBar />
