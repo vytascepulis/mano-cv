@@ -1,13 +1,16 @@
+import { twMerge } from "tailwind-merge";
+
 interface Props {
   title: string;
   subtitle: string;
   optional?: boolean;
+  separated?: boolean;
   children: React.ReactNode;
 }
 
-const Setting = ({ title, subtitle, optional, children }: Props) => {
+const Setting = ({ title, subtitle, optional, separated, children }: Props) => {
   return (
-    <div>
+    <div className={twMerge(separated && "border-t-1 border-t-gray-400 pt-6")}>
       <h2 className="text-dark mb-3 text-[32px] leading-[36px] font-semibold">
         {title}
         {optional && (

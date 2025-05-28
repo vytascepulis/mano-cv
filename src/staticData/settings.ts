@@ -110,6 +110,10 @@ export const settingsData: {
       subtitle: "Nurodykite vairavimo kategorijas bei įgijimo datą",
       optional: true,
     },
+    deleteAccount: {
+      title: "Pašalinti paskyrą",
+      subtitle: "Tai ištrins visus tavo duomenis iš mūsų bazės",
+    },
   },
   experienceTexts: {
     addNewBtnChildren: "Pridėti",

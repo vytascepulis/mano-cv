@@ -10,6 +10,7 @@ import ToggleCard from "@/components/ToggleCards/ToggleCard";
 import { IToggleCard } from "@/components/ToggleCards/types";
 import LanguageSelect from "@/components/LanguageSelect";
 import DrivingLicence from "@/components/DrivingLicenceInput";
+import DeleteAccountBtn from "@/components/DeleteAccountBtn";
 
 const SettingsList = () => {
   const { handleOnChange, handleOnDesignPreview, settings, isEditing } =
@@ -267,6 +268,13 @@ const SettingsList = () => {
           />
         )}
         {!isEditing && textLg(settings.subdomainCode ?? "")}
+      </Setting>
+      <Setting
+        title={settingsList.deleteAccount.title}
+        subtitle={settingsList.deleteAccount.subtitle}
+        separated
+      >
+        <DeleteAccountBtn />
       </Setting>
     </div>
   );

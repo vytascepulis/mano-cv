@@ -18,7 +18,7 @@ import {
 import { HttpError } from "@/constants/http";
 import fs from "fs";
 import { uploadFileBuffer } from "@/lib/upload";
-import { db } from "@/lib/firebase";
+import { bucket, db } from "@/lib/firebase";
 import { SubdomainStatus, UserStatus } from "@/types/enums";
 import { firestore } from "firebase-admin";
 import FieldValue = firestore.FieldValue;
@@ -633,6 +633,58 @@ export const getSubdomainByCode = async ({
       error: buildErrorResponse({
         code: HttpError.INTERNAL_ERROR,
         serverMessage: `Error getting subdomain by code: ${err}`,
+      }),
+    };
+  }
+};
+
+export const deleteUserAccount = async ({
+  id,
+  googleId,
+}: {
+  id: string;
+  googleId: IUser["googleId"];
+}): FirestoreResponse<string> => {
+  const { error: validationErr } = await checkGoogleId({
+    id,
+    googleId,
+  });
+
+  if (validationErr) {
+    return {
+      data: null,
+      error: validationErr,
+    };
+  }
+
+  try {
+    const userRef = db.doc(`users/${id}`);
+    const collectionsToQuery = ["settings", "subdomains"];
+    for (const col of collectionsToQuery) {
+      const snapshot = await db
+        .collection(col)
+        .where("user", "==", userRef)
+        .get();
+
+      const deletions = snapshot.docs.map((doc) => doc.ref.delete());
+      await Promise.all(deletions);
+    }
+
+    await Promise.all([userRef.delete()]);
+
+    const [files] = await bucket.getFiles({ prefix: `${id}/` });
+    await Promise.all(files.map((file) => file.delete()));
+
+    return {
+      data: id,
+      error: null,
+    };
+  } catch (error) {
+    return {
+      data: null,
+      error: buildErrorResponse({
+        code: HttpError.INTERNAL_ERROR,
+        serverMessage: `Error deleting user data: ${error}`,
       }),
     };
   }

@@ -87,6 +87,7 @@ const UserBtn = ({ hiddenIds = [] }: Props) => {
       onClick: () => {
         setIsSignOutLoading(true);
         signOut();
+        window.location.href = process.env.NEXT_PUBLIC_ROOT_DOMAIN!;
       },
       loading: isSignOutLoading,
     },
