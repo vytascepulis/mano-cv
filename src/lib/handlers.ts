@@ -417,9 +417,13 @@ export const createSubdomain = async ({
       createdAt: FieldValue.serverTimestamp(),
     });
 
+    const userSnap = await userRef.get();
+    const googleId = userSnap.data()?.googleId;
+
     return {
       data: {
         id: docRef.id,
+        googleId,
         slug,
       },
       error: null,

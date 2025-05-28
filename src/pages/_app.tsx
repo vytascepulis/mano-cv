@@ -8,6 +8,7 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { GlobalProvider } from "@/contexts/GlobalContext";
 import { ToastProvider } from "@/contexts/ToastContext";
+import { MixpanelProvider } from "@/contexts/MixpanelContext";
 
 export type NextPageWithLayout<P = unknown, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -28,14 +29,16 @@ export default function App({
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
-    <GlobalProvider>
-      <SessionProvider session={session} refetchOnWindowFocus={false}>
-        <ToastProvider>
-          <main className={outfit.className}>
-            {getLayout(<Component {...pageProps} />)}
-          </main>
-        </ToastProvider>
-      </SessionProvider>
-    </GlobalProvider>
+    <MixpanelProvider>
+      <GlobalProvider>
+        <SessionProvider session={session} refetchOnWindowFocus={false}>
+          <ToastProvider>
+            <main className={outfit.className}>
+              {getLayout(<Component {...pageProps} />)}
+            </main>
+          </ToastProvider>
+        </SessionProvider>
+      </GlobalProvider>
+    </MixpanelProvider>
   );
 }

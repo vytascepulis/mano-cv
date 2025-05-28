@@ -5,9 +5,11 @@ import useFetch from "@/hooks/useFetch";
 import { RegisterData } from "@/types/types";
 import { useSession } from "next-auth/react";
 import { isSlugValid } from "@/utils/subdomain";
+import { useMixpanel } from "@/contexts/MixpanelContext";
 
 const RegisterModalContent = () => {
   const { update } = useSession();
+  const { trackEvent } = useMixpanel();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [slug, setSlug] = useState("");
@@ -44,8 +46,9 @@ const RegisterModalContent = () => {
       body: {
         slug: value,
       },
-      onSuccess: async () => {
+      onSuccess: async ({ googleId }) => {
         update().then(() => {
+          trackEvent({ eventName: "Registered slug", googleId });
           setLoading(false);
         });
       },

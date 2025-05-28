@@ -9,10 +9,12 @@ import PdfDocument from "@/components/PdfDocument";
 import { pdf } from "@react-pdf/renderer";
 import Button from "@/components/ui/Button";
 import { ISubdomain } from "@/pages/api/types";
+import { useMixpanel } from "@/contexts/MixpanelContext";
 
 const SubdomainPage = () => {
   const router = useRouter();
   const slug = router.query.slug;
+  const { trackPageView } = useMixpanel();
   const { error, isLoading, fetch } = useFetch<SubdomainData>({
     endpoint: "subdomain",
     method: "POST",
@@ -32,6 +34,8 @@ const SubdomainPage = () => {
         setIsPageLoading(false);
       },
     });
+
+    trackPageView({ name: "Subdomain page" });
   }, []);
 
   if (isPageLoading || isLoading) {

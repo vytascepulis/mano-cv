@@ -1,5 +1,5 @@
 import { Card } from "@/components/InfoCards/types";
-import { ISettings, ISubdomain } from "@/pages/api/types";
+import { ISettings, ISubdomain, IUser } from "@/pages/api/types";
 import { SubdomainStatus, UserStatus, WebsiteDesigns } from "@/types/enums";
 
 export interface SettingsData extends ISettings {
@@ -28,6 +28,7 @@ export interface DrivingLicence {
 
 export interface RegisterData {
   id: string;
+  googleId: IUser["googleId"];
   slug: ISubdomain["slug"];
 }
 
