@@ -1,6 +1,6 @@
 import { useSession, signOut } from "next-auth/react";
 import Button from "@/components/ui/Button";
-import { formatSubdomainUrl } from "@/utils/subdomain";
+import { formatSubdomainUrl, getDomainUrl } from "@/utils/subdomain";
 import { useRef, useState } from "react";
 import useClickOutside from "@/hooks/useClickOutside";
 import {
@@ -86,8 +86,9 @@ const UserBtn = ({ hiddenIds = [] }: Props) => {
       icon: faArrowRightFromBracket,
       onClick: () => {
         setIsSignOutLoading(true);
-        signOut();
-        window.location.href = process.env.NEXT_PUBLIC_ROOT_DOMAIN!;
+        signOut().then(() => {
+          window.location.href = getDomainUrl();
+        });
       },
       loading: isSignOutLoading,
     },
