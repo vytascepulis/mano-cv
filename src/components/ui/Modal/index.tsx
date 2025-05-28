@@ -35,7 +35,7 @@ const Modal = ({ isOpen, handleClose, children, className }: Props) => {
           className,
           style.modal,
           outfit.className,
-          "mx-auto mt-5 rounded-lg bg-violet-100 px-3 py-2 sm:mt-40",
+          "mx-auto mt-5 rounded-lg bg-violet-100 px-3 py-2 md:mt-40",
         ),
         afterOpen: style["modal--after-open"],
         beforeClose: style["modal--before-close"],

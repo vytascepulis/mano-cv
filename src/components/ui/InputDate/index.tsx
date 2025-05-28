@@ -92,7 +92,8 @@ const InputDate = ({
         showFullMonthYearPicker
         required={required}
         disabled={disabled}
-        showPopperArrow={false}
+        showPopperArrow={true}
+        popperPlacement="top-end"
         customInput={
           <CustomInput
             placeholder={placeholder}

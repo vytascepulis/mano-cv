@@ -4,6 +4,7 @@ import { useState } from "react";
 import Checkbox from "@/components/ui/Checkbox";
 import useFetch from "@/hooks/useFetch";
 import { signOut } from "next-auth/react";
+import { getDomainUrl } from "@/utils/subdomain";
 
 const DeleteAccountBtn = () => {
   const [confirmModal, setConfirmModal] = useState(false);
@@ -24,8 +25,9 @@ const DeleteAccountBtn = () => {
 
     fetch({
       onSuccess: () => {
-        signOut();
-        window.location.href = process.env.NEXT_PUBLIC_ROOT_DOMAIN!;
+        signOut().then(() => {
+          window.location.href = getDomainUrl();
+        });
       },
       onError: () => {
         setFakeLoading(false);
