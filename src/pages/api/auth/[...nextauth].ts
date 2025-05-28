@@ -3,7 +3,6 @@ import GoogleProvider from "next-auth/providers/google";
 import { NextApiRequest, NextApiResponse } from "next";
 import { createUser, getUserByGoogleId } from "@/lib/handlers";
 import { sha256 } from "@/utils/crypto";
-import { HttpError } from "@/constants/http";
 
 const sessionTokenName =
   process.env.NODE_ENV === "production"
