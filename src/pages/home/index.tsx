@@ -10,10 +10,13 @@ export default function HomePage() {
     trackPageView({ name: "Home page" });
   }, []);
 
-  throw new Error("Frontend crash test for Sentry");
+  const breakFrontend = () => {
+    throw new Error("Frontend crash test for Sentry");
+  };
 
   return (
     <>
+      <button onClick={breakFrontend}>break</button>
       <HeroSection />
     </>
   );
