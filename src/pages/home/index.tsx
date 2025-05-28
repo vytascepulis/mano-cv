@@ -10,6 +10,8 @@ export default function HomePage() {
     trackPageView({ name: "Home page" });
   }, []);
 
+  throw new Error("Frontend crash test for Sentry");
+
   return (
     <>
       <HeroSection />
