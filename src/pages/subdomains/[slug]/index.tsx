@@ -10,6 +10,7 @@ import { pdf } from "@react-pdf/renderer";
 import Button from "@/components/ui/Button";
 import { ISubdomain } from "@/pages/api/types";
 import { useMixpanel } from "@/contexts/MixpanelContext";
+import { getCookie } from "@/utils/cookies";
 
 const SubdomainPage = () => {
   const router = useRouter();
@@ -25,15 +26,20 @@ const SubdomainPage = () => {
   const [isPageLoading, setIsPageLoading] = useState(true);
 
   useEffect(() => {
-    fetch({
-      onSuccess: (data) => {
-        setSubdomainData(data);
-        setIsPageLoading(false);
-      },
-      onError: () => {
-        setIsPageLoading(false);
-      },
-    });
+    const code = getCookie("code");
+    if (!code) {
+      setIsPageLoading(false);
+    } else {
+      fetch({
+        onSuccess: (data) => {
+          setSubdomainData(data);
+          setIsPageLoading(false);
+        },
+        onError: () => {
+          setIsPageLoading(false);
+        },
+      });
+    }
 
     trackPageView({ name: "Subdomain page" });
   }, []);

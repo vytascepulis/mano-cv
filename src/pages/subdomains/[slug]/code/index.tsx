@@ -56,7 +56,12 @@ export default function CodePage({ setSubdomainData }: Props) {
               Svetainė pasiekiama tik suvedus kodą
             </p>
             <div className="mt-10 flex w-full max-w-[300px] justify-center gap-3">
-              <Input type="text" onChange={setCode} placeholder="Kodas" />
+              <Input
+                type="text"
+                inputMode="numeric"
+                onChange={setCode}
+                placeholder="Kodas"
+              />
               <Button
                 type="button"
                 onClick={handleOnSubmit}

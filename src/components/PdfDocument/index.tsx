@@ -13,7 +13,7 @@ import { LanguageLevel, SubdomainData } from "@/types/types";
 import { getUserPhoto } from "@/utils/user";
 import { Card } from "@/components/InfoCards/types";
 import { formatDate, getYearsSince } from "@/utils/date";
-import { formatSubdomainUrl } from "@/utils/subdomain";
+import { formatSubdomainUrl, getDomainUrl } from "@/utils/subdomain";
 import { ISubdomain } from "@/pages/api/types";
 
 Font.register({
@@ -206,7 +206,7 @@ const PdfDocument = ({
             Sukurta su{" "}
             <Link
               style={{ color: "#FFF", textDecoration: "none" }}
-              src={process.env.NEXT_PUBLIC_ROOT_DOMAIN}
+              src={getDomainUrl()}
             >
               mano-cv.lt
             </Link>

@@ -39,7 +39,7 @@ const handler: HandlerWithSession<Response> = async (req, res) => {
 
       res.setHeader(
         "Set-Cookie",
-        `code=${bodyCode}; HttpOnly; Secure; SameSite=None; Path=/; Max-Age=${maxAge}`,
+        `code=${bodyCode}; Secure; SameSite=None; Path=/; Max-Age=${maxAge}`,
       );
     }
 
