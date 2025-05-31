@@ -425,6 +425,7 @@ export const createSubdomain = async ({
         id: docRef.id,
         googleId,
         slug,
+        userStatus: UserStatus.ACTIVE,
       },
       error: null,
     };

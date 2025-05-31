@@ -85,7 +85,7 @@ const SettingsProvider = ({ children, settingsData }: Props) => {
         setSettings(buildSettings(data));
         defaultSettings.current = data;
         setIsEditing(false);
-        await update();
+        await update({ image: data.image });
       },
       onError: (err) => {
         fireToast({ type: "error", message: err.message });

@@ -46,8 +46,8 @@ const RegisterModalContent = () => {
       body: {
         slug: value,
       },
-      onSuccess: async ({ googleId }) => {
-        update().then(() => {
+      onSuccess: async ({ googleId, slug, userStatus }) => {
+        update({ subdomainSlug: slug, userStatus }).then(() => {
           trackEvent({ eventName: "Registered slug", googleId });
           setLoading(false);
         });

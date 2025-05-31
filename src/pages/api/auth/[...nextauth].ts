@@ -70,18 +70,11 @@ export const authOptions: AuthOptions = {
 
       return true;
     },
-    async jwt({ token, user, account, profile, trigger }) {
+    async jwt({ token, user, account, profile, trigger, session }) {
       if (trigger === "update") {
-        const { data: userData } = await getUserByGoogleId({
-          hashedGoogleId: token.googleId,
-        });
-
-        if (userData) {
-          token.userId = userData.id;
-          token.userStatus = userData.status;
-          token.subdomainSlug = userData.subdomainSlug;
-          token.image = userData.image;
-        }
+        token.userStatus = session.userStatus ?? token.userStatus;
+        token.subdomainSlug = session.subdomainSlug ?? token.subdomainSlug;
+        token.image = session.image ?? token.image;
       }
 
       if (account && profile?.sub) {

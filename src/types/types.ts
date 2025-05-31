@@ -30,6 +30,7 @@ export interface RegisterData {
   id: string;
   googleId: IUser["googleId"];
   slug: ISubdomain["slug"];
+  userStatus: UserStatus;
 }
 
 export interface SubdomainData {
