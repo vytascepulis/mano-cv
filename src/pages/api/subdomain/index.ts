@@ -19,7 +19,7 @@ const handler: HandlerWithSession<Response> = async (req, res) => {
   const bodyCode = req.body.code;
 
   if (method === "POST") {
-    const maxRequests = await isMaxRequests({ req, maxCount: 200 });
+    const maxRequests = await isMaxRequests({ req, maxCount: 30 });
 
     if (maxRequests) {
       return returnErrorResponse(req, res, maxRequests);

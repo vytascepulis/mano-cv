@@ -74,6 +74,13 @@ export const isMaxRequests = async ({
   req: NextApiRequest;
   maxCount: number;
 }): Promise<ErrorResponse | null> => {
+  if (process.env.ENDPOINTS_DISABLED) {
+    return buildErrorResponse({
+      code: HttpError.TOO_MANY_REQUESTS,
+      clientMessage: "Per daug užklausų. Šiek tiek palauk",
+    });
+  }
+
   const method = req.method || "UNKNOWN";
   const endpoint = req.url || "UNKNOWN";
   const ip = requestIp.getClientIp(req) || "UNKNOWN";

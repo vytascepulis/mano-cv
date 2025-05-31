@@ -24,7 +24,7 @@ const handler: HandlerWithSession<Response> = async (req, res, session) => {
   const subdomainSlug = getSubdomainFromUrl(req.headers.host || "")!;
 
   if (method === "GET") {
-    const maxRequests = await isMaxRequests({ req, maxCount: 150 });
+    const maxRequests = await isMaxRequests({ req, maxCount: 30 });
 
     if (maxRequests) {
       return returnErrorResponse(req, res, maxRequests);
@@ -46,7 +46,7 @@ const handler: HandlerWithSession<Response> = async (req, res, session) => {
   }
 
   if (method === "PUT") {
-    const maxRequests = await isMaxRequests({ req, maxCount: 50 });
+    const maxRequests = await isMaxRequests({ req, maxCount: 15 });
 
     if (maxRequests) {
       return returnErrorResponse(req, res, maxRequests);

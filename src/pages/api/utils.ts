@@ -29,7 +29,10 @@ export const returnErrorResponse = (
     console.log("[ERROR]", error.serverMessage);
   }
 
-  if (process.env.NODE_ENV !== "development") {
+  if (
+    process.env.NODE_ENV !== "development" &&
+    !process.env.ENDPOINTS_DISABLED
+  ) {
     Sentry.withScope((scope) => {
       scope.setExtras({
         method: req.method,
