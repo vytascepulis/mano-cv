@@ -47,7 +47,7 @@ const GoogleButton = ({ onClick }: Props) => {
           </svg>
         </div>
         <span className="gsi-material-button-contents">
-          Prisijungti su &#34;Google&#34;
+          Tęsti su &#34;Google&#34;
         </span>
         {isLoading && (
           <div className="ml-3 flex content-center items-center">
