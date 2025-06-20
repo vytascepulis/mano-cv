@@ -15,6 +15,10 @@ const LandingPage = ({ subdomainData }: Props) => {
   const router = useRouter();
   const slug = router.query.slug;
 
+  if (!subdomainData) {
+    return null;
+  }
+
   const title = `${subdomainData.fullName} - ${slug}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
 
   const handleDownload = async () => {
