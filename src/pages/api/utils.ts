@@ -31,7 +31,7 @@ export const returnErrorResponse = (
 
   if (
     process.env.NODE_ENV !== "development" &&
-    !process.env.ENDPOINTS_DISABLED
+    process.env.ENDPOINTS_DISABLED === "false"
   ) {
     Sentry.withScope((scope) => {
       scope.setExtras({

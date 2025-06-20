@@ -1,5 +1,5 @@
 import { getDomainUrl } from "@/utils/subdomain";
-import logo from "../../assets/mano-cv-logo.png";
+import logo from "@/assets/mano-cv-logo.png";
 import LoginBtn from "@/components/Navbar/LoginBtn";
 import { twMerge } from "tailwind-merge";
 import { menuLinks } from "@/components/Navbar/constants";

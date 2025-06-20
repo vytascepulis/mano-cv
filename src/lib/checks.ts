@@ -74,7 +74,7 @@ export const isMaxRequests = async ({
   req: NextApiRequest;
   maxCount: number;
 }): Promise<ErrorResponse | null> => {
-  if (process.env.ENDPOINTS_DISABLED) {
+  if (process.env.ENDPOINTS_DISABLED === "true") {
     return buildErrorResponse({
       code: HttpError.TOO_MANY_REQUESTS,
       clientMessage: "Per daug užklausų. Šiek tiek palauk",
