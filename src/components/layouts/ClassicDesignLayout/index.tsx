@@ -45,7 +45,7 @@ const ClassicDesignLayout = ({ subdomainData, handleDownload }: Props) => {
         "min-h-screen bg-linear-65 from-gray-50 to-violet-100",
       )}
     >
-      <div className="mx-auto box-content max-w-[1000px] px-4 md:px-10 md:pt-[150px]">
+      <div className="mx-auto box-content max-w-[1000px] px-4 pt-[30px] md:px-10 md:pt-[150px]">
         <div className="flex flex-col items-center gap-[40px] md:flex-row md:gap-[70px]">
           <div className="order-2 w-full md:order-1">
             <p className="text-lg md:mb-3 md:text-3xl">
