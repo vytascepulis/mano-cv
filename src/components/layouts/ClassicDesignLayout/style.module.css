@@ -1,0 +1,79 @@
+.photoContainer {
+  position: relative;
+  z-index: 1;
+}
+
+.photoContainer:before, .photoContainer:after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 190px;
+  height: 190px;
+  background: transparent;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 1px var(--color-primary);
+  animation: pulse 2.5s infinite;
+  content: "";
+  z-index: -1;
+  filter: blur(1px);
+}
+
+
+.photoContainer:after {
+  animation-delay: 0.6s;
+}
+
+@media (max-width: 768px) {
+  .photoContainer:before, .photoContainer:after {
+    width: 140px;
+    height: 140px;
+    animation: pulseSmall 2.5s infinite;
+  }
+  .photoContainer:after {
+    animation-delay: 0.6s;
+  }
+}
+
+
+@keyframes pulseSmall {
+  70% {
+    width: 230px;
+    height: 230px;
+  }
+  90% {
+    opacity: 0;
+  }
+}
+
+@keyframes pulse {
+  70% {
+    width: 300px;
+    height: 300px;
+  }
+  90% {
+    opacity: 0;
+  }
+}
+
+.shadow {
+  box-shadow: 0 1px 20px -7px rgba(0,0,0,0.3)
+}
+
+.animatedGradient {
+  background: linear-gradient(90deg, var(--color-violet-500), var(--color-violet-800));
+  background-size: 200% 200%;
+  animation: gradientMove 3s ease infinite;
+}
+
+@keyframes gradientMove {
+  0% {
+    background-position: 0 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
