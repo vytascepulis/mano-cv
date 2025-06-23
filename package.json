@@ -25,6 +25,7 @@
     "formidable": "^3.5.4",
     "lru-cache": "^11.1.0",
     "mixpanel-browser": "^2.65.0",
+    "motion": "^12.18.1",
     "next": "^15.3.2",
     "next-auth": "^4.24.11",
     "postcss": "^8.5.3",

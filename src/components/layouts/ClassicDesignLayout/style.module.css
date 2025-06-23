@@ -71,9 +71,33 @@
     background-position: 0 50%;
   }
   50% {
-    background-position: 100% 50%;
+    background-position: 100% 100%;
   }
   100% {
     background-position: 0 50%;
   }
+}
+
+.line {
+  height: 4px;
+  width: 100%;
+  border-radius: 99px;
+  background: var(--color-gray-200);
+  position: relative;
+}
+
+.line:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background: var(--color-primary);
+  width: 45%;
+  border-radius: 99px;
+}
+
+.line.right:after {
+  left: unset;
+  right: 0;
 }

@@ -28,7 +28,7 @@ const Loader = ({ size = "md", variant = "light" }: Props) => {
         borderWidth,
         borderColor:
           variant === "dark"
-            ? "oklch(55.1% 0.027 264.364)"
+            ? "oklch(43.2% 0.232 292.759)"
             : "oklch(98.5% 0.002 247.839)",
         borderBottomColor: "transparent",
       }}

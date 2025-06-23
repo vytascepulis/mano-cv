@@ -6,6 +6,10 @@ export const formatDate = (date: Date | string) => {
   return `${year}-${month}`;
 };
 
+export const formatYear = (date: string) => {
+  return date.split("-")[0];
+};
+
 export function getYearsSince(dateString: string) {
   const [year, month] = dateString.split("-").map(Number);
   const startDate = new Date(year, month - 1); // month is 0-indexed in JS Date
