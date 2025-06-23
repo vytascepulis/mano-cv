@@ -6,6 +6,7 @@ export const config = {
 };
 
 export async function middleware(req: NextRequest) {
+  console.time("middleware");
   const url = req.nextUrl;
   const hostname =
     req.headers.get("host") || process.env.NEXT_PUBLIC_ROOT_DOMAIN;
@@ -27,5 +28,6 @@ export async function middleware(req: NextRequest) {
     url.pathname = "/404";
   }
 
+  console.timeEnd("middleware");
   return NextResponse.rewrite(url);
 }

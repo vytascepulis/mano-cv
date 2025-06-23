@@ -19,6 +19,7 @@ export const config = {
 };
 
 const handler: HandlerWithSession<Response> = async (req, res, session) => {
+  console.time("settings");
   const method = req.method;
 
   const subdomainSlug = getSubdomainFromUrl(req.headers.host || "")!;
@@ -42,6 +43,7 @@ const handler: HandlerWithSession<Response> = async (req, res, session) => {
       return returnErrorResponse(req, res, error);
     }
 
+    console.timeEnd("settings");
     return res.status(200).json(data);
   }
 
@@ -64,6 +66,7 @@ const handler: HandlerWithSession<Response> = async (req, res, session) => {
       return returnErrorResponse(req, res, error);
     }
 
+    console.timeEnd("settings");
     return res.status(200).json(data);
   }
 
