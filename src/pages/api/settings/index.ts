@@ -33,11 +33,13 @@ const handler: HandlerWithSession<Response> = async (req, res, session) => {
 
     const { googleId, userId: id } = session.user;
 
+    console.time("getUserSettings");
     const { data, error } = await getUserSettings({
       id,
       googleId,
       subdomainSlug,
     });
+    console.timeEnd("getUserSettings");
 
     if (error || !data) {
       return returnErrorResponse(req, res, error);
@@ -56,11 +58,13 @@ const handler: HandlerWithSession<Response> = async (req, res, session) => {
 
     const { googleId, userId: id } = session.user;
 
+    console.time("updateUserSettings");
     const { data, error } = await updateUserSettings({
       id,
       googleId,
       req,
     });
+    console.timeEnd("updateUserSettings");
 
     if (error || !data) {
       return returnErrorResponse(req, res, error);

@@ -19,16 +19,19 @@ const handler: HandlerWithSession<Response> = async (req, res) => {
   const bodyCode = req.body.code;
 
   if (method === "POST") {
+    console.time("subdomain");
     const maxRequests = await isMaxRequests({ req, maxCount: 30 });
 
     if (maxRequests) {
       return returnErrorResponse(req, res, maxRequests);
     }
 
+    console.time("getSubdomainByCode");
     const { data, error } = await getSubdomainByCode({
       subdomainCode: bodyCode || cookiesCode,
       subdomainSlug,
     });
+    console.timeEnd("getSubdomainByCode");
 
     if (error) {
       return returnErrorResponse(req, res, error);
@@ -43,6 +46,7 @@ const handler: HandlerWithSession<Response> = async (req, res) => {
       );
     }
 
+    console.timeEnd("subdomain");
     return res.status(200).json(formatSubdomainData(data));
   }
   return returnErrorResponse(
