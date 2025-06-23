@@ -10,7 +10,6 @@ import {
   SettingsData,
   SubdomainData,
 } from "@/types/types";
-import * as Sentry from "@sentry/nextjs";
 
 export const buildErrorResponse = ({
   code,
@@ -29,28 +28,28 @@ export const returnErrorResponse = (
     console.log("[ERROR]", error.serverMessage);
   }
 
-  if (
-    process.env.NODE_ENV !== "development" &&
-    process.env.ENDPOINTS_DISABLED === "false"
-  ) {
-    Sentry.withScope((scope) => {
-      scope.setExtras({
-        method: req.method,
-        url: req.url,
-        query: req.query,
-        body: req.body,
-        error,
-      });
-
-      scope.setLevel("error");
-
-      Sentry.captureMessage(
-        "SERVER: " + error.serverMessage ||
-          error.clientMessage ||
-          "Server error",
-      );
-    });
-  }
+  // if (
+  //   process.env.NODE_ENV !== "development" &&
+  //   process.env.ENDPOINTS_DISABLED === "false"
+  // ) {
+  //   Sentry.withScope((scope) => {
+  //     scope.setExtras({
+  //       method: req.method,
+  //       url: req.url,
+  //       query: req.query,
+  //       body: req.body,
+  //       error,
+  //     });
+  //
+  //     scope.setLevel("error");
+  //
+  //     Sentry.captureMessage(
+  //       "SERVER: " + error.serverMessage ||
+  //         error.clientMessage ||
+  //         "Server error",
+  //     );
+  //   });
+  // }
 
   res.status(error.code).json({
     code: HttpError[error.code],

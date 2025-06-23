@@ -1,10 +1,10 @@
-import { createContext, useContext } from "react";
+import { createContext } from "react";
 import mixpanel from "mixpanel-browser";
 import { IUser } from "@/pages/api/types";
 
-mixpanel.init(process.env.NEXT_PUBLIC_MIXPANEL_PROJECT_TOKEN!, {
-  verbose: true,
-});
+// mixpanel.init(process.env.NEXT_PUBLIC_MIXPANEL_PROJECT_TOKEN!, {
+//   verbose: true,
+// });
 
 interface Context {
   trackEvent: (props: EventProps) => void;
@@ -56,6 +56,6 @@ const MixpanelProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-const useMixpanel = () => useContext(MixpanelContext);
+// const useMixpanel = () => useContext(MixpanelContext);
 
-export { MixpanelProvider, useMixpanel };
+export { MixpanelProvider };

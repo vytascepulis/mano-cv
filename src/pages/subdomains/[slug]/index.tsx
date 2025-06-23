@@ -4,12 +4,12 @@ import CodePage from "@/pages/subdomains/[slug]/code";
 import useFetch from "@/hooks/useFetch";
 import Loader from "@/components/ui/Loader";
 import { SubdomainData } from "@/types/types";
-import { useMixpanel } from "@/contexts/MixpanelContext";
+// import { useMixpanel } from "@/contexts/MixpanelContext";
 import { getCookie } from "@/utils/cookies";
 import LandingPage from "@/pages/subdomains/[slug]/landing";
 
 const SubdomainPage = () => {
-  const { trackPageView } = useMixpanel();
+  // const { trackPageView } = useMixpanel();
   const { error, isLoading, fetch } = useFetch<SubdomainData>({
     endpoint: "subdomain",
     method: "POST",
@@ -35,7 +35,7 @@ const SubdomainPage = () => {
       });
     }
 
-    trackPageView({ name: "Subdomain page" });
+    // trackPageView({ name: "Subdomain page" });
   }, []);
 
   if (isPageLoading || isLoading) {
