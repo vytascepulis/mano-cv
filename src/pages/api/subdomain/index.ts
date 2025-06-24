@@ -37,8 +37,7 @@ const handler: HandlerWithSession<Response> = async (req, res) => {
       return returnErrorResponse(req, res, error);
     }
 
-    if (bodyCode && !cookiesCode) {
-      console.log("set cookie");
+    if (bodyCode) {
       const maxAge = 24 * 60 * 60; // 24 hours
 
       res.setHeader(

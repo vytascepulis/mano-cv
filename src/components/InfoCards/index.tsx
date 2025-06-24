@@ -15,7 +15,7 @@ interface Props {
 
 const sortCards = (cards: Card[]) => {
   // @ts-expect-error ignore
-  return cards.sort((a, b) => b.dateFrom - a.dateFrom);
+  return cards.sort((a, b) => new Date(b.dateFrom) - new Date(a.dateFrom));
 };
 
 const InfoCards = ({ cards, options, onAdd, disabled, name }: Props) => {

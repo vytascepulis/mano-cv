@@ -612,7 +612,8 @@ export const getSubdomainByCode = async ({
         "websiteDesign",
         "drivingLicences",
       )
-      .where("subdomainCode", "==", subdomainCode) // compare with the reference
+      .where("subdomainCode", "==", subdomainCode)
+      .where("user", "==", userSnap.ref)
       .limit(1)
       .get();
 
