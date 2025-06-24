@@ -66,6 +66,7 @@ export const authOptions: AuthOptions = {
 
         user.userStatus = createData.status;
         user.userId = createData.id;
+        user.image = undefined;
       }
 
       return true;
