@@ -590,7 +590,6 @@ export const getSubdomainByCode = async ({
         data: null,
         error: buildErrorResponse({
           code: HttpError.BAD_REQUEST,
-          serverMessage: "No subdomain code provided",
         }),
       };
     }

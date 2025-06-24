@@ -31,7 +31,7 @@ const ControlBar = () => {
         label={`Svetainė ${isSubdomainActive ? "rodoma" : "paslėpta"}`}
         loading={isSubdomainStatusLoading}
       />
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+      <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center">
         {!isEditing && <Button onClick={toggleIsEditing}>Redaguoti</Button>}
         {isEditing && (
           <div className="flex gap-3">
