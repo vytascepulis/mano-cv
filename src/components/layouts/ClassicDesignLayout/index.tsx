@@ -476,13 +476,13 @@ const ClassicDesignLayout = ({ subdomainData, handleDownload }: Props) => {
       <div
         className={twMerge(
           style.shadow,
-          "mt-[50px] bg-violet-100 pt-3 pb-4 md:mt-[150px] md:pt-6 md:pb-8",
+          "text-dark mt-[50px] flex flex-row items-center justify-center bg-violet-100 pt-3 pb-4 md:mt-[150px] md:pt-6 md:pb-8",
         )}
       >
         <a
-          className="flex flex-row items-center justify-center gap-2"
           href={getDomainUrl()}
           target="_blank"
+          className="flex items-center gap-2"
         >
           <span className="text-[11px] font-light">sukurta su</span>
           <img

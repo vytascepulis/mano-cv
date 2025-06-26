@@ -115,7 +115,7 @@ const ModernDesignLayout = ({ subdomainData, handleDownload }: Props) => {
       )}
     >
       <div className="mx-auto box-content max-w-[900px] px-4 pt-[50px] md:px-5 md:pt-[120px]">
-        <div className="mx-auto mb-[80px] flex max-w-[800px] flex-col items-start md:mb-[130px] md:items-center">
+        <div className="mx-auto mb-[80px] flex flex-col items-start md:mb-[130px] md:items-center">
           <div className={twMerge(gradient, "mx-auto mb-7 rounded-full p-1")}>
             <img
               className="max-h-[150px] rounded-full md:max-h-[200px]"
@@ -358,17 +358,16 @@ const ModernDesignLayout = ({ subdomainData, handleDownload }: Props) => {
             </div>
           </div>
         </div>
-
         <div
           className={twMerge(
             style.shadow,
-            "text-dark mt-[50px] bg-violet-100 pt-3 pb-4 md:mt-[150px] md:pt-6 md:pb-8",
+            "text-dark mt-[50px] flex flex-row items-center justify-center bg-violet-100 pt-3 pb-4 md:mt-[150px] md:pt-6 md:pb-8",
           )}
         >
           <a
-            className="flex flex-row items-center justify-center gap-2"
             href={getDomainUrl()}
             target="_blank"
+            className="flex items-center gap-2"
           >
             <span className="text-[11px] font-light">sukurta su</span>
             <img
