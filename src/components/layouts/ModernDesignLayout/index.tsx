@@ -6,9 +6,7 @@ import { motion } from "motion/react";
 import Marquee from "react-fast-marquee";
 import { Card } from "@/components/InfoCards/types";
 import React, { useState } from "react";
-import style from "@/components/layouts/ClassicDesignLayout/style.module.css";
-import { getDomainUrl } from "@/utils/subdomain";
-import logo from "@/assets/mano-cv-logo.png";
+import Footer from "@/components/layouts/Footer";
 
 interface Props {
   subdomainData: SubdomainData;
@@ -272,7 +270,7 @@ const ModernDesignLayout = ({ subdomainData, handleDownload }: Props) => {
                               item.id,
                             ])
                           }
-                          className="mt-2 block cursor-pointer text-xs font-semibold text-violet-400 transition-colors hover:text-violet-500"
+                          className="mt-2 block w-max cursor-pointer text-xs font-semibold text-violet-400 transition-colors hover:text-violet-500"
                         >
                           Rodyti daugiau
                         </a>
@@ -305,7 +303,6 @@ const ModernDesignLayout = ({ subdomainData, handleDownload }: Props) => {
               </div>
             </div>
           )}
-
           <div className="flex flex-col gap-[30px] md:flex-row">
             <h1
               className={twMerge(
@@ -358,25 +355,7 @@ const ModernDesignLayout = ({ subdomainData, handleDownload }: Props) => {
             </div>
           </div>
         </div>
-        <div
-          className={twMerge(
-            style.shadow,
-            "text-dark mt-[50px] flex flex-row items-center justify-center bg-violet-100 pt-3 pb-4 md:mt-[150px] md:pt-6 md:pb-8",
-          )}
-        >
-          <a
-            href={getDomainUrl()}
-            target="_blank"
-            className="flex items-center gap-2"
-          >
-            <span className="text-[11px] font-light">sukurta su</span>
-            <img
-              src={logo.src}
-              alt="mano-cv.lt logo"
-              className="w-[120px] md:w-[150px]"
-            />
-          </a>
-        </div>
+        <Footer />
       </motion.div>
     </div>
   );

@@ -16,11 +16,9 @@ import React, { useState } from "react";
 import { getUserPhoto } from "@/utils/user";
 import style from "./style.module.css";
 import arrowImage from "@/assets/arrow.png";
-import { formatYear } from "@/utils/date";
 import { Card } from "@/components/InfoCards/types";
-import logo from "@/assets/mano-cv-logo.png";
-import { getDomainUrl } from "@/utils/subdomain";
 import { motion } from "motion/react";
+import Footer from "@/components/layouts/Footer";
 
 interface Props {
   subdomainData: SubdomainData;
@@ -318,7 +316,7 @@ const ClassicDesignLayout = ({ subdomainData, handleDownload }: Props) => {
                                   item.id,
                                 ])
                               }
-                              className="text-primary mt-2 block cursor-pointer text-xs font-semibold transition-colors hover:text-violet-500"
+                              className="text-primary mt-2 cursor-pointer text-xs font-semibold transition-colors hover:text-violet-500"
                             >
                               Rodyti daugiau
                             </a>
@@ -349,8 +347,7 @@ const ClassicDesignLayout = ({ subdomainData, handleDownload }: Props) => {
                     <li key={item.id} className="relative pl-5">
                       <div className="absolute left-0 h-full w-[5px] rounded-xl bg-gray-200" />
                       <p className="mb-[3px] text-sm font-light">
-                        {formatYear(item.dateFrom)} -{" "}
-                        {item.dateTo ? formatYear(item.dateTo) : "dabar"}
+                        {item.dateFrom} - {item.dateTo ? item.dateTo : "dabar"}
                       </p>
                       <p className="text-lg font-semibold">{item.title}</p>
                       <p className="font-light">{item.subtitle}</p>
@@ -473,25 +470,7 @@ const ClassicDesignLayout = ({ subdomainData, handleDownload }: Props) => {
           </motion.div>
         </motion.div>
       </div>
-      <div
-        className={twMerge(
-          style.shadow,
-          "text-dark mt-[50px] flex flex-row items-center justify-center bg-violet-100 pt-3 pb-4 md:mt-[150px] md:pt-6 md:pb-8",
-        )}
-      >
-        <a
-          href={getDomainUrl()}
-          target="_blank"
-          className="flex items-center gap-2"
-        >
-          <span className="text-[11px] font-light">sukurta su</span>
-          <img
-            src={logo.src}
-            alt="mano-cv.lt logo"
-            className="w-[120px] md:w-[150px]"
-          />
-        </a>
-      </div>
+      <Footer />
     </div>
   );
 };

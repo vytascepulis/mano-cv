@@ -57,8 +57,8 @@ const LandingPage = ({ subdomainData }: Props) => {
       case WebsiteDesigns.MINIMALISTIC:
         return (
           <MinimalisticDesignLayout
-          // subdomainData={subdomainData}
-          // handleDownload={handleDownload}
+            subdomainData={subdomainData}
+            handleDownload={handleDownload}
           />
         );
       default:
