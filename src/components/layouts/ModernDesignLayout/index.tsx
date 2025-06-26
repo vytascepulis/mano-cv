@@ -11,6 +11,7 @@ import Footer from "@/components/layouts/Footer";
 interface Props {
   subdomainData: SubdomainData;
   handleDownload: () => void;
+  mock?: boolean;
 }
 
 const roboto = Roboto({
@@ -83,15 +84,15 @@ const GeneralInfoCard = ({
           </p>
         )}
         <p className="mb-1 text-xl font-semibold">{title}</p>
-        <p className={twMerge(robotoCondensed.className, "text-light/50")}>
+        <div className={twMerge(robotoCondensed.className, "text-light/50")}>
           {subtitle}
-        </p>
+        </div>
       </div>
     </div>
   );
 };
 
-const ModernDesignLayout = ({ subdomainData, handleDownload }: Props) => {
+const ModernDesignLayout = ({ subdomainData, handleDownload, mock }: Props) => {
   const [expandedExperience, setExpandedExperience] = useState<string[]>([]);
 
   const formatExperienceDescription = (experience: Card) => {
@@ -117,7 +118,7 @@ const ModernDesignLayout = ({ subdomainData, handleDownload }: Props) => {
           <div className={twMerge(gradient, "mx-auto mb-7 rounded-full p-1")}>
             <img
               className="max-h-[150px] rounded-full md:max-h-[200px]"
-              src={getUserPhoto(subdomainData.image!)}
+              src={getUserPhoto(subdomainData.image!, mock)}
               alt={subdomainData.fullName}
             />
           </div>
@@ -327,7 +328,11 @@ const ModernDesignLayout = ({ subdomainData, handleDownload }: Props) => {
               {subdomainData.desiredPositions.length > 0 && (
                 <GeneralInfoCard
                   title="Ieškomos pareigos"
-                  subtitle={subdomainData.desiredPositions.join(", ")}
+                  subtitle={subdomainData.desiredPositions.map(
+                    (item, index) => (
+                      <p key={index}>{item}</p>
+                    ),
+                  )}
                 />
               )}
               {subdomainData.expectedSalary && (
@@ -339,17 +344,21 @@ const ModernDesignLayout = ({ subdomainData, handleDownload }: Props) => {
               {subdomainData.languages.length > 0 && (
                 <GeneralInfoCard
                   title="Kalbos"
-                  subtitle={subdomainData.languages
-                    .map((i) => `${i.language} - ${LanguageLevel[i.level]}`)
-                    .join(", ")}
+                  subtitle={subdomainData.languages.map((item, index) => (
+                    <p key={index}>
+                      {item.language} - {LanguageLevel[item.level]}
+                    </p>
+                  ))}
                 />
               )}
               {subdomainData.drivingLicences.length > 0 && (
                 <GeneralInfoCard
                   title="Vairuotojo pažymėjimas"
-                  subtitle={subdomainData.drivingLicences
-                    .map((i) => `${i.category} - ${i.issuedAt}`)
-                    .join(", ")}
+                  subtitle={subdomainData.drivingLicences.map((item, index) => (
+                    <p key={index}>
+                      {item.category} - {item.issuedAt}
+                    </p>
+                  ))}
                 />
               )}
             </div>

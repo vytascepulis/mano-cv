@@ -24,9 +24,9 @@ export async function middleware(req: NextRequest) {
   }
 
   // Protect /subdomains route
-  if (req.url.includes("/subdomains") && sub) {
-    url.pathname = "/404";
-  }
+  // if (req.url.includes("/subdomains") && sub) {
+  //   url.pathname = "/404";
+  // }
 
   console.timeEnd("middleware");
   return NextResponse.rewrite(url);

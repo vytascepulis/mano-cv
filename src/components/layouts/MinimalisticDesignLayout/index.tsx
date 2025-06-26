@@ -9,6 +9,7 @@ import Footer from "@/components/layouts/Footer";
 interface Props {
   subdomainData: SubdomainData;
   handleDownload: () => void;
+  mock?: boolean;
 }
 
 const robotoSlab = Roboto_Slab({
@@ -71,7 +72,11 @@ const GeneralInfoCard = ({
   );
 };
 
-const MinimalisticDesignLayout = ({ subdomainData, handleDownload }: Props) => {
+const MinimalisticDesignLayout = ({
+  subdomainData,
+  handleDownload,
+  mock,
+}: Props) => {
   const [expandedExperience, setExpandedExperience] = useState<string[]>([]);
 
   const formatExperienceDescription = (experience: Card) => {
@@ -144,7 +149,7 @@ const MinimalisticDesignLayout = ({ subdomainData, handleDownload }: Props) => {
           <div className="row-span-3 max-w-[150px] place-self-center md:max-w-[200px] md:place-self-auto">
             <img
               className="rounded-md"
-              src={getUserPhoto(subdomainData.image!)}
+              src={getUserPhoto(subdomainData.image!, mock)}
               alt={subdomainData.fullName}
             />
           </div>

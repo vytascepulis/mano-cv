@@ -1,5 +1,5 @@
 import { getDomainUrl } from "@/utils/subdomain";
-import logo from "@/assets/mano-cv-logo.png";
+import logo from "@/assets/mano-cv-logo-dark.png";
 import UserBtn from "@/components/Navbar/UserBtn";
 import ControlBar from "@/pages/subdomains/[slug]/nustatymai/ControlBar";
 import BlockedBar from "@/pages/subdomains/[slug]/nustatymai/BlockedBar";

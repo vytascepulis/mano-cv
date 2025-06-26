@@ -1,7 +1,7 @@
 import { twMerge } from "tailwind-merge";
 import style from "./style.module.css";
 import { getDomainUrl } from "@/utils/subdomain";
-import logo from "@/assets/mano-cv-logo.png";
+import logo from "@/assets/mano-cv-logo-dark.png";
 import React from "react";
 import { Poppins } from "next/font/google";
 

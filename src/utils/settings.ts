@@ -3,6 +3,7 @@ import { SettingsState } from "@/contexts/SettingsContext/types";
 import { initialSettings } from "@/contexts/SettingsContext/constants";
 import { getUserPhoto } from "@/utils/user";
 import { settingsData } from "@/staticData/settings";
+import { WebsiteDesigns } from "@/types/enums";
 
 export const buildSettings = (settings: SettingsData): SettingsState => {
   if (!settings) return initialSettings;
@@ -94,3 +95,29 @@ export function buildFormData(
   }
   return form;
 }
+
+export const webdesignToStr = (design: WebsiteDesigns) => {
+  switch (design) {
+    case WebsiteDesigns.CLASSIC:
+      return "klasikinis";
+    case WebsiteDesigns.MODERN:
+      return "modernus";
+    case WebsiteDesigns.MINIMALISTIC:
+      return "minimalistinis";
+    default:
+      return "";
+  }
+};
+
+export const strToWebdesign = (design: string) => {
+  switch (design) {
+    case "klasikinis":
+      return WebsiteDesigns.CLASSIC;
+    case "modernus":
+      return WebsiteDesigns.MODERN;
+    case "minimalistinis":
+      return WebsiteDesigns.MINIMALISTIC;
+    default:
+      return WebsiteDesigns.CLASSIC;
+  }
+};

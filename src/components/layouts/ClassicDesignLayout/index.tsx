@@ -23,6 +23,7 @@ import Footer from "@/components/layouts/Footer";
 interface Props {
   subdomainData: SubdomainData;
   handleDownload: () => void;
+  mock?: boolean;
 }
 
 const poppins = Poppins({
@@ -86,7 +87,11 @@ const GeneralInfoCard = ({
   );
 };
 
-const ClassicDesignLayout = ({ subdomainData, handleDownload }: Props) => {
+const ClassicDesignLayout = ({
+  subdomainData,
+  handleDownload,
+  mock,
+}: Props) => {
   const [expandedExperience, setExpandedExperience] = useState<string[]>([]);
   const educationTitle =
     subdomainData.experience.length > 0 ? "Mokslas ir darbas" : "Mokslas";
@@ -173,7 +178,7 @@ const ClassicDesignLayout = ({ subdomainData, handleDownload }: Props) => {
             )}
           >
             <img
-              src={getUserPhoto(subdomainData.image!)}
+              src={getUserPhoto(subdomainData.image!, mock)}
               alt={subdomainData.fullName}
               className={twMerge(
                 style.photo,

@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { getDomainUrl } from "@/utils/subdomain";
-import logo from "@/assets/mano-cv-logo.png";
+import logo from "@/assets/mano-cv-logo-dark.png";
 
 const PlainPageLayout = ({
   children,

@@ -1,4 +1,5 @@
 import { SettingsData } from "@/types/types";
+import { WebsiteDesigns } from "@/types/enums";
 
 export interface SettingsState extends Omit<SettingsData, "image"> {
   image: {
@@ -18,7 +19,7 @@ export interface Context {
     field: K,
     value: SettingsState[K],
   ) => void;
-  handleOnDesignPreview: (slug: string) => void;
+  handleOnDesignPreview: (slug: WebsiteDesigns) => void;
   handleSetActive: (val: boolean) => void;
   settings: SettingsState;
 }

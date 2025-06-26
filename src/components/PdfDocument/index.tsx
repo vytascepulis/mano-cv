@@ -58,13 +58,12 @@ Font.register({
   ],
 });
 
-// Create styles
 const styles = StyleSheet.create({
   page: {
     fontFamily: "Poppins",
     flexDirection: "row",
     backgroundColor: "#fff",
-    padding: "30px 30px 30px 30px",
+    padding: "20px 30px 10px 30px",
   },
   sidebar: {
     width: 230,
@@ -77,7 +76,7 @@ const styles = StyleSheet.create({
   },
   imageWrapper: {
     display: "flex",
-    alignItems: "center",
+    alignItems: "flex-start",
   },
   imageBackground: {
     display: "flex",
@@ -94,18 +93,6 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: "1 1",
-  },
-  nameWrapper: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    textAlign: "center",
-    padding: 5,
-    color: "#7f22fe",
-    fontWeight: 700,
-    fontSize: 20,
-    marginTop: 5,
-    lineHeight: "26px",
   },
   contentTitle: {
     display: "flex",
@@ -149,7 +136,7 @@ const styles = StyleSheet.create({
 
 const CardNode = ({ data }: { data: Card }) => {
   return (
-    <View style={{ fontSize: 9, fontWeight: 300, marginBottom: 15 }}>
+    <View style={{ fontSize: 9, fontWeight: 300 }}>
       <Text style={{ fontSize: 14, fontWeight: 500 }}>{data.title}</Text>
       <View
         style={{
@@ -158,7 +145,7 @@ const CardNode = ({ data }: { data: Card }) => {
           justifyContent: "space-between",
         }}
       >
-        <Text style={{ marginBottom: 10 }}>{data.subtitle}</Text>
+        <Text style={{ marginBottom: 5 }}>{data.subtitle}</Text>
         <Text>
           {formatDate(data.dateFrom)} -{" "}
           {data.dateTo ? (
@@ -178,17 +165,20 @@ const CardNode = ({ data }: { data: Card }) => {
 const PdfDocument = ({
   userData,
   slug,
+  mock,
 }: {
   userData: SubdomainData;
   slug: ISubdomain["slug"];
+  mock?: boolean;
 }) => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
         <View
+          fixed
           style={{
             position: "absolute",
-            top: 0,
+            bottom: 0,
             left: 0,
             right: 0,
             backgroundColor: "#7f22fe",
@@ -217,7 +207,7 @@ const PdfDocument = ({
             <View style={styles.imageBackground}>
               <Link src={formatSubdomainUrl(slug)}>
                 <Image
-                  src={getUserPhoto(userData.image!)}
+                  src={getUserPhoto(userData.image!, mock)}
                   style={styles.image}
                 />
               </Link>
@@ -364,9 +354,17 @@ const PdfDocument = ({
                 <Image src="/icons/experience.png" style={styles.contentIcon} />
                 <Text>Darbo patirtis</Text>
               </View>
-              {userData.experience.map((card) => (
-                <CardNode key={card.id} data={card} />
-              ))}
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "15px",
+                }}
+              >
+                {userData.experience.map((card) => (
+                  <CardNode key={card.id} data={card} />
+                ))}
+              </View>
             </View>
           )}
           <View style={styles.contentItem}>

@@ -4,14 +4,16 @@ import { SettingsState, Context } from "@/contexts/SettingsContext/types";
 import { initialSettings } from "@/contexts/SettingsContext/constants";
 import { useToast } from "@/contexts/ToastContext";
 import useFetch from "@/hooks/useFetch";
-import { SubdomainStatus } from "@/types/enums";
+import { SubdomainStatus, WebsiteDesigns } from "@/types/enums";
 import {
   buildFormData,
   buildSettings,
   validateSettingsState,
+  webdesignToStr,
 } from "@/utils/settings";
 import { UpdateSubdomainStatusResponse } from "@/pages/api/types";
 import { useSession } from "next-auth/react";
+import { getDomainUrl } from "@/utils/subdomain";
 
 interface Props {
   children: React.ReactNode;
@@ -126,8 +128,14 @@ const SettingsProvider = ({ children, settingsData }: Props) => {
     });
   };
 
-  const handleOnDesignPreview: Context["handleOnDesignPreview"] = (slug) => {
-    console.log("handle on design preview: ", slug);
+  const handleOnDesignPreview: Context["handleOnDesignPreview"] = (
+    slug: WebsiteDesigns,
+  ) => {
+    window.open(
+      `${getDomainUrl()}/sablonai?stilius=${webdesignToStr(slug)}`,
+      "_blank",
+      "noopener,noreferrer",
+    );
   };
 
   useEffect(() => {
@@ -153,7 +161,6 @@ const SettingsProvider = ({ children, settingsData }: Props) => {
     </SettingsContext.Provider>
   );
 };
-
 const useSettings = () => useContext(SettingsContext);
 
 export { SettingsProvider, useSettings };
