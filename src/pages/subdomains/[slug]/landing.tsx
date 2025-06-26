@@ -6,6 +6,8 @@ import ClassicDesignLayout from "@/components/layouts/ClassicDesignLayout";
 import { pdf } from "@react-pdf/renderer";
 import PdfDocument from "@/components/PdfDocument";
 import { ISubdomain } from "@/pages/api/types";
+import ModernDesignLayout from "@/components/layouts/ModernDesignLayout";
+import MinimalisticDesignLayout from "@/components/layouts/MinimalisticDesignLayout";
 
 interface Props {
   subdomainData: SubdomainData;
@@ -39,14 +41,28 @@ const LandingPage = ({ subdomainData }: Props) => {
   const renderDesign = () => {
     switch (subdomainData.websiteDesign) {
       case WebsiteDesigns.CLASSIC:
-      case WebsiteDesigns.MODERN:
-      case WebsiteDesigns.MINIMALISTIC:
         return (
           <ClassicDesignLayout
             subdomainData={subdomainData}
             handleDownload={handleDownload}
           />
         );
+      case WebsiteDesigns.MODERN:
+        return (
+          <ModernDesignLayout
+            subdomainData={subdomainData}
+            handleDownload={handleDownload}
+          />
+        );
+      case WebsiteDesigns.MINIMALISTIC:
+        return (
+          <MinimalisticDesignLayout
+          // subdomainData={subdomainData}
+          // handleDownload={handleDownload}
+          />
+        );
+      default:
+        return null;
     }
   };
 

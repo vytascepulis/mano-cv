@@ -29,7 +29,7 @@ interface Props {
 
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["200", "300", "400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600"],
   display: "swap",
 });
 
@@ -306,7 +306,7 @@ const ClassicDesignLayout = ({ subdomainData, handleDownload }: Props) => {
                         </p>
                         <p className="text-lg font-semibold">{item.title}</p>
                         <p className="mb-1 font-light">{item.subtitle}</p>
-                        <p className="text-sm font-extralight text-gray-600">
+                        <p className="text-sm font-light text-gray-600">
                           {formatExperienceDescription(item)}
                         </p>
                         {(item.description || "").length > 50 &&
