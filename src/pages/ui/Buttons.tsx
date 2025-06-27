@@ -21,7 +21,14 @@ const Buttons = () => {
                     key={`${color}-${size}-${variant}`}
                     className={twMerge(color === "light" && "bg-dark", "p-3")}
                   >
-                    <Button color={color} size={size} variant={variant}>
+                    <Button
+                      // @ts-expect-error expected
+                      color={color}
+                      // @ts-expect-error expected
+                      size={size}
+                      // @ts-expect-error expected
+                      variant={variant}
+                    >
                       {color}-{size}-{variant}
                     </Button>
                   </div>
@@ -44,8 +51,11 @@ const Buttons = () => {
                   >
                     <Button
                       disabled
+                      // @ts-expect-error expected
                       color={color}
+                      // @ts-expect-error expected
                       size={size}
+                      // @ts-expect-error expected
                       variant={variant}
                     >
                       {color}-{size}-{variant}
@@ -67,7 +77,15 @@ const Buttons = () => {
                     key={`${color}-${size}-${variant}`}
                     className={twMerge(color === "light" && "bg-dark", "p-3")}
                   >
-                    <Button loading color={color} size={size} variant={variant}>
+                    <Button
+                      loading
+                      // @ts-expect-error expected
+                      color={color}
+                      // @ts-expect-error expected
+                      size={size}
+                      // @ts-expect-error expected
+                      variant={variant}
+                    >
                       {color}-{size}-{variant}
                     </Button>
                   </div>
