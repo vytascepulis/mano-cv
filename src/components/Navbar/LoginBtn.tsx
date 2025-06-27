@@ -32,7 +32,7 @@ const LoginBtn = () => {
     <div className="ml-auto flex">
       {isLoading && <Loader variant="dark" />}
       {!isLoading && (isUnauthenticated || isInitialized) && (
-        <Button onClick={toggleLoginModal}>
+        <Button className="h-[34px]" onClick={toggleLoginModal}>
           <FontAwesomeIcon icon={faUser} />
           <span className="hidden md:block">
             {isInitialized ? "Registruotis" : "Prisijungti"}

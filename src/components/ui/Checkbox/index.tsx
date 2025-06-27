@@ -1,17 +1,20 @@
+import { twMerge } from "tailwind-merge";
+
 interface Props {
+  className?: string;
   label?: string;
   checked: boolean;
   name?: string;
   onChange: (val: boolean) => void;
 }
 
-const Checkbox = ({ label, checked, name, onChange }: Props) => {
+const Checkbox = ({ className, label, checked, name, onChange }: Props) => {
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange?.(e.target.checked);
   };
 
   return (
-    <div className="flex items-center gap-2">
+    <div className={twMerge(className, "flex items-center gap-2")}>
       <input
         checked={checked}
         id={name}

@@ -151,6 +151,7 @@ const EditCardModal = ({
             </div>
             {state?.mode !== "delete" && (
               <Checkbox
+                className="mb-[5px]"
                 label={options.dateNowLabel}
                 name={`${name}-current-checkbox`}
                 checked={isCurrent}

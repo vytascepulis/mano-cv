@@ -17,8 +17,8 @@ const SettingsPageLayout = ({ children }: Props) => {
       </Head>
       <div className="min-h-screen bg-violet-50">
         <div className="mx-auto max-w-7xl">
-          <div className="px-5 pt-0 lg:pt-(--navbar-top)">
-            <nav className={`flex h-(--navbar-height) justify-between`}>
+          <div className="px-5 pt-[10px] lg:pt-[20px]">
+            <nav className={`flex justify-between`}>
               <a
                 href={getDomainUrl()}
                 className="place-self-center lg:self-center lg:justify-self-start"

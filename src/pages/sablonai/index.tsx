@@ -13,6 +13,8 @@ import { strToWebdesign, webdesignToStr } from "@/utils/settings";
 import { getGenericUserPhoto } from "@/utils/user";
 import logoLight from "@/assets/mano-cv-logo-light.png";
 import { getDomainUrl } from "@/utils/subdomain";
+import { useMixpanel } from "@/contexts/MixpanelContext";
+import Head from "next/head";
 
 const mockData = {
   address: "Vilnius, Lietuva",
@@ -125,6 +127,7 @@ const Page = () => {
   const router = useRouter();
   const stilius = router.query.stilius as string;
   const design = strToWebdesign(stilius);
+  const { trackPageView } = useMixpanel();
 
   const [selectedDesign, setSelectedDesign] = useState<WebsiteDesigns | null>();
   const designWindowRef = useRef<HTMLDivElement | null>(null);
@@ -182,38 +185,58 @@ const Page = () => {
     setSelectedDesign(design);
   }, [design]);
 
+  useEffect(() => {
+    trackPageView({ name: "Examples page" });
+  }, []);
+
   if (!router.isReady || !selectedDesign) return <Loader />;
 
   return (
-    <div className="border-primary flex h-screen flex-col border-4">
-      <div className="bg-primary shrink-0">
-        <div className="mx-auto box-content flex max-w-[1000px] flex-col items-center pt-1 pb-2 md:flex-row">
-          <div className="mr-5 mb-3 w-[150px] shrink-0 md:mb-0">
-            <a href={getDomainUrl()} className="cursor-pointer" target="_blank">
-              <img src={logoLight.src} alt="mano-cv.lt logo" />
-            </a>
-          </div>
-          <div className="flex w-full justify-center gap-2">
-            {tabs.map((tab) => (
-              <button
-                className={twMerge(
-                  "bg-light/70 hover:bg-light/80 w-full cursor-pointer rounded-sm px-3 py-1 font-semibold transition-colors md:w-auto",
-                  selectedDesign === tab.value && "bg-light hover:bg-light",
-                )}
-                key={tab.value}
-                onClick={() => handleSelectDesign(tab.value)}
+    <>
+      <Head>
+        <title>mano-cv.lt - šablonai</title>
+      </Head>
+      <div className="border-primary flex h-screen flex-col border-4">
+        <div className="bg-primary shrink-0">
+          <div className="mx-auto box-content flex max-w-[1200px] flex-col items-center pt-3 pb-2 md:flex-row md:pb-5">
+            <div className="mr-5 mb-3 shrink-0 md:mb-0">
+              <a
+                href={getDomainUrl()}
+                className="cursor-pointer"
+                target="_blank"
               >
-                {tab.label}
-              </button>
-            ))}
+                <img
+                  src={logoLight.src}
+                  className="h-[20px] object-contain md:h-[25px]"
+                  alt="mano-cv.lt logo"
+                />
+              </a>
+            </div>
+            <div className="flex w-full justify-center gap-2">
+              {tabs.map((tab) => (
+                <button
+                  className={twMerge(
+                    "bg-light/70 hover:bg-light/80 w-full cursor-pointer rounded-sm px-3 py-1 font-semibold transition-colors md:w-auto",
+                    selectedDesign === tab.value && "bg-light hover:bg-light",
+                  )}
+                  key={tab.value}
+                  onClick={() => handleSelectDesign(tab.value)}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+            <div className="ml-5 w-[150px] shrink-0"></div>
           </div>
-          <div className="ml-5 w-[150px] shrink-0"></div>
+        </div>
+        <div
+          ref={designWindowRef}
+          className="overflow-x-hidden overflow-y-scroll bg-violet-300"
+        >
+          {renderDesign(selectedDesign)}
         </div>
       </div>
-      <div ref={designWindowRef} className="overflow-y-scroll bg-violet-300">
-        {renderDesign(selectedDesign)}
-      </div>
-    </div>
+    </>
   );
 };
 

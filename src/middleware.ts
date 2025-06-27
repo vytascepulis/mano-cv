@@ -2,11 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { getSubdomainFromUrl } from "@/utils/subdomain";
 
 export const config = {
-  matcher: ["/", "/subdomains/:slug*", "/nustatymai"],
+  matcher: ["/", "/ui", "/nustatymai"],
 };
 
 export async function middleware(req: NextRequest) {
-  console.time("middleware");
   const url = req.nextUrl;
   const hostname =
     req.headers.get("host") || process.env.NEXT_PUBLIC_ROOT_DOMAIN;
@@ -23,11 +22,9 @@ export async function middleware(req: NextRequest) {
     url.pathname = `/subdomains/${sub}${url.pathname}`;
   }
 
-  // Protect /subdomains route
-  // if (req.url.includes("/subdomains") && sub) {
-  //   url.pathname = "/404";
-  // }
+  if (url.pathname.includes("/ui") && process.env.NODE_ENV === "development") {
+    url.pathname = "/ui";
+  }
 
-  console.timeEnd("middleware");
   return NextResponse.rewrite(url);
 }

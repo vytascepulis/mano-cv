@@ -80,7 +80,7 @@ const Input = (props: Props) => {
   const defaultClasses = "focus:outline-primary focus:outline-3";
 
   const outsideClasses =
-    "bg-light flex h-[35px] items-center rounded-xs shadow-sm 3 has-disabled:bg-gray-100";
+    "bg-light flex h-[35px] items-center rounded-md shadow-sm 3 has-disabled:bg-gray-100";
 
   const insideClasses =
     "h-full grow pr-1 pl-3 outline-0 placeholder:text-gray-400 disabled:cursor-not-allowed disabled:bg-gray-100";
@@ -120,7 +120,7 @@ const Input = (props: Props) => {
         <textarea
           rows={rows || 4}
           className={twMerge(
-            "bg-light rounded-xs shadow-sm outline-0",
+            "bg-light rounded-md shadow-sm outline-0",
             "py-[6px] pr-1 pl-3",
             "placeholder:text-gray-400 disabled:cursor-not-allowed disabled:bg-gray-100",
             defaultClasses,
@@ -148,7 +148,7 @@ const Input = (props: Props) => {
       <input
         type={type}
         className={twMerge(
-          "bg-light rounded-xs shadow-sm outline-0",
+          "bg-light rounded-md shadow-sm outline-0",
           "py-[6px] pr-1 pl-3",
           "placeholder:text-gray-400 disabled:cursor-not-allowed disabled:bg-gray-100",
           defaultClasses,

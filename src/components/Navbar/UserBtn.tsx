@@ -72,7 +72,7 @@ const UserBtn = ({ hiddenIds = [] }: Props) => {
       title: "Mano svetainė",
       icon: faGlobe,
       href: formatSubdomainUrl(data.user.subdomainSlug!),
-      className: "block md:hidden",
+      className: "block lg:hidden",
       target: "_blank",
     },
     {
@@ -97,13 +97,14 @@ const UserBtn = ({ hiddenIds = [] }: Props) => {
   return (
     <div className="relative flex flex-row items-center gap-4">
       <Button
-        className="hidden md:block"
+        className="hidden lg:block"
         variant="link"
         href={formatSubdomainUrl(data.user.subdomainSlug)}
         target="_blank"
       >
         {data.user.subdomainSlug}.mano-cv.lt
       </Button>
+
       <button
         className="outline-primary min-h-[35px] min-w-[35px] cursor-pointer overflow-hidden rounded-full outline-3"
         onClick={toggleIsMenuOpen}

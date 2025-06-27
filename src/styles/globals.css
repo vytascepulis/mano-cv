@@ -9,18 +9,9 @@ body.disable-scroll {
   overflow-y: hidden;
 }
 
-:root {
-  --navbar-height: 60px;
-  --navbar-top: 30px;
-  --content-after-navbar-padding: calc(
-    var(--navbar-height) + var(--navbar-top) + 50px
-  );
-  --content-after-navbar-mobile-padding: 50px;
-}
-
 @theme inline {
-  --color-dark: var(--color-gray-900);
-  --color-light: var(--color-gray-50);
+  --color-dark: var(--color-slate-800);
+  --color-light: var(--color-slate-50);
   --color-primary: var(--color-violet-600);
 }
 

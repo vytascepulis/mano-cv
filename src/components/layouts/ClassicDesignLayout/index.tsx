@@ -136,7 +136,7 @@ const ClassicDesignLayout = ({
       )}
     >
       <div className="mx-auto box-content max-w-[1000px] px-4 md:px-10">
-        <div className="flex flex-col items-center gap-[40px] md:flex-row md:gap-[70px]">
+        <div className="flex flex-col items-center gap-[40px] md:flex-row md:items-start md:gap-[70px]">
           <div className="order-2 w-full md:order-1">
             <motion.p
               initial={{ opacity: 0, top: 30 }}

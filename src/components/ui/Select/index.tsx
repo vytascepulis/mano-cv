@@ -77,7 +77,7 @@ const Select = ({
           value={inputValue}
           onChange={handleInputOnChange}
           className={twMerge(
-            "bg-light rounded-xs shadow-sm",
+            "bg-light rounded-md shadow-sm",
             "w-full py-[6px] pr-1 pl-3 outline-0 placeholder:text-gray-400 disabled:cursor-not-allowed disabled:bg-gray-100",
             optionsVisible && "outline-primary rounded-xs outline-3",
           )}

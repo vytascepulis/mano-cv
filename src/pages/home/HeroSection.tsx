@@ -1,7 +1,7 @@
 import Button from "@/components/ui/Button";
 import { useGlobalContext } from "@/contexts/GlobalContext";
 import { useSession } from "next-auth/react";
-import { formatSubdomainUrl } from "@/utils/subdomain";
+import { formatSubdomainUrl, getDomainUrl } from "@/utils/subdomain";
 import { UserStatus } from "@/types/enums";
 
 const HeroSection = () => {
@@ -15,11 +15,14 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="text-light mx-auto flex max-w-[700px] flex-col items-center text-center">
-      <h1 className="mb-7 text-4xl font-extrabold md:mb-5 lg:text-6xl">
-        Modernus būdas pateikti savo CV
+    <section className="mx-auto flex max-w-[700px] flex-col items-center text-center">
+      <h1 className="mb-7 text-4xl font-extrabold text-slate-100 md:mb-5 lg:text-6xl">
+        <span className="bg-linear-45 from-violet-500 to-violet-600 bg-clip-text text-transparent">
+          Modernus būdas
+        </span>{" "}
+        pateikti savo CV
       </h1>
-      <p className="mb-15 max-w-full font-light md:mb-10 md:max-w-[80%]">
+      <p className="mb-15 max-w-full font-light text-slate-300 md:mb-10 md:max-w-[80%]">
         Profesionalus CV internete vos per kelias minutes. Nemokamai susikurk
         savo asmeninę svetainę, kuria galėsi pasidalinti tik su pasirinktais
         žmonėmis
@@ -36,7 +39,12 @@ const HeroSection = () => {
         >
           Pradėti
         </Button>
-        <Button size="lg" variant="outline" href="/#sablonai">
+        <Button
+          size="lg"
+          target="_blank"
+          variant="outline"
+          href={`${getDomainUrl()}/sablonai`}
+        >
           Žiūrėti pavyzdžius
         </Button>
       </div>
