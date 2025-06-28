@@ -1,7 +1,7 @@
 export const menuLinks = [
   {
     text: "Privalumai",
-    section: "privalumai",
+    section: "advantages",
   },
   {
     text: "Paslaugos",

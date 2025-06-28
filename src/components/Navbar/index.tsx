@@ -4,8 +4,10 @@ import LoginBtn from "@/components/Navbar/LoginBtn";
 import { twMerge } from "tailwind-merge";
 import { menuLinks } from "@/components/Navbar/constants";
 import MobileMenu from "@/components/MobileMenu";
+import { useGlobalContext } from "@/contexts/GlobalContext";
 
 const Navbar = () => {
+  const { scrollToSection } = useGlobalContext();
   return (
     <div className="fixed top-0 z-50 w-full border-b border-slate-400 bg-violet-100 px-6 shadow-md">
       <nav
@@ -28,9 +30,9 @@ const Navbar = () => {
           {menuLinks.map((link) => (
             <li key={link.section}>
               <a
-                href={`#${link.section}`}
+                onClick={() => scrollToSection(link.section)}
                 className={twMerge(
-                  "rounded-sm px-3 py-2 font-extrabold transition-colors",
+                  "cursor-pointer rounded-sm px-3 py-2 font-extrabold transition-colors",
                   "text-dark hover:text-light hover:bg-violet-600",
                 )}
               >

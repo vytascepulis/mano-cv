@@ -7,11 +7,13 @@ import { menuLinks } from "@/components/Navbar/constants";
 import { twMerge } from "tailwind-merge";
 import style from "./style.module.css";
 import { Outfit } from "next/font/google";
+import { useGlobalContext } from "@/contexts/GlobalContext";
 
 ReactModal.setAppElement("#__next"); // Your root element ID
 const outfit = Outfit({ subsets: ["latin"] });
 
 const MobileMenu = () => {
+  const { scrollToSection } = useGlobalContext();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClose = () => {
@@ -66,9 +68,11 @@ const MobileMenu = () => {
           {menuLinks.map((link) => (
             <li key={link.section}>
               <a
-                href={`#${link.section}`}
-                onClick={handleClose}
-                className="text-dark block rounded-sm py-2 pl-7 font-extrabold transition-colors hover:bg-violet-600/10"
+                onClick={() => {
+                  scrollToSection(link.section);
+                  handleClose();
+                }}
+                className="text-dark block cursor-pointer rounded-sm py-2 pl-7 font-extrabold transition-colors hover:bg-violet-600/10"
               >
                 {link.text}
               </a>
