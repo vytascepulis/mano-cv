@@ -1,6 +1,5 @@
 import {
   faFileContract,
-  faFileSignature,
   faHandHoldingHeart,
   faUsers,
 } from "@fortawesome/free-solid-svg-icons";
