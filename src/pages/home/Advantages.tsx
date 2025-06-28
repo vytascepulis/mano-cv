@@ -50,10 +50,12 @@ const Advantages = () => {
               />
             </div>
             <div className="px-3 py-2 md:px-5 md:py-3">
-              <p className="mb-2 text-xl leading-tight font-semibold md:text-2xl">
+              <p className="mb-2 text-lg leading-tight font-medium md:text-2xl md:font-semibold">
                 {advantage.title}
               </p>
-              <p className="text-sm text-slate-500">{advantage.description}</p>
+              <p className="text-sm font-light text-slate-500 md:font-normal">
+                {advantage.description}
+              </p>
             </div>
           </div>
         ))}

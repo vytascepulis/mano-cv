@@ -102,7 +102,7 @@ const ExamplePage = () => {
   };
 
   return (
-    <div className="mx-auto max-w-[1100px] overflow-hidden rounded-xl border border-gray-200">
+    <div className="mx-auto max-w-[1100px] overflow-hidden rounded-xl border border-gray-300">
       <div className="flex h-[60px] flex-row items-center gap-4 border-b border-slate-300 bg-gray-300 px-4">
         <div className="flex flex-row gap-2">
           <span className="block h-[16px] w-[16px] rounded-full bg-[#FF5F57] shadow-md" />
