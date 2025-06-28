@@ -24,7 +24,7 @@ export default function HomePage() {
         </div>
         <ExamplePage />
       </div>
-      <div className="mx-auto h-[3000px] max-w-[1200px] px-5 pt-[50px] md:pt-[100px]">
+      <div className="mx-auto h-[3000px] max-w-[1200px] px-5 pt-[100px] md:pt-[100px]">
         <Advantages />
       </div>
     </>
