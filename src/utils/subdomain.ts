@@ -86,7 +86,7 @@ const reservedSubdomains = new Set([
 export function isSlugValid(subdomain: string) {
   const alphaRegex = /^[a-z]+$/;
   return (
-    subdomain.includes("www") &&
+    !subdomain.includes("www") &&
     alphaRegex.test(subdomain) &&
     !reservedSubdomains.has(subdomain)
   );
