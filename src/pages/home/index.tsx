@@ -15,15 +15,14 @@ export default function HomePage() {
   return (
     <>
       <Navbar />
-      <div className="bg-linear-to-br from-slate-700 to-slate-950 pb-[120px] md:pb-[200px] lg:pb-[450px]">
-        <div className="mx-auto max-w-7xl">
+      <div className="bg-linear-to-br from-slate-700 to-slate-950 pb-[150px]">
+        <div className="mx-auto mb-[50px] max-w-7xl md:mb-[90px]">
           <div className="px-5 pt-[100px] md:pt-[120px] lg:pt-[200px]">
             <HeroSection />
           </div>
         </div>
+        <ExamplePage />
       </div>
-
-      <ExamplePage />
     </>
   );
 }

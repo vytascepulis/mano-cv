@@ -10,7 +10,9 @@ const HomePageLayout = ({ children }: Props) => {
       <Head>
         <title>mano-cv.lt - susikurk savo CV svetainę</title>
       </Head>
-      <div className="bg-light min-h-screen">{children}</div>
+      <div className="bg-light relative min-h-screen">
+        <div className="relative z-10">{children}</div>
+      </div>
     </>
   );
 };

@@ -9,6 +9,7 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import { GlobalProvider } from "@/contexts/GlobalContext";
 import { ToastProvider } from "@/contexts/ToastContext";
 import { MixpanelProvider } from "@/contexts/MixpanelContext";
+import Head from "next/head";
 
 export type NextPageWithLayout<P = unknown, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -29,16 +30,47 @@ export default function App({
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
-    <MixpanelProvider>
-      <GlobalProvider>
-        <SessionProvider session={session} refetchOnWindowFocus={false}>
-          <ToastProvider>
-            <main className={outfit.className}>
-              {getLayout(<Component {...pageProps} />)}
-            </main>
-          </ToastProvider>
-        </SessionProvider>
-      </GlobalProvider>
-    </MixpanelProvider>
+    <>
+      <Head>
+        <meta
+          property="og:title"
+          content="mano-cv.lt - susikurk savo CV svetainę"
+        />
+        <meta
+          property="og:description"
+          content="Profesionalus CV internete vos per kelias minutes. Nemokamai susikurk savo asmeninę svetainę, kuria galėsi pasidalinti tik su pasirinktais žmonėmis"
+        />
+        <meta
+          property="og:image"
+          content="https://mano-cv.lt/mano-cv-logo.png"
+        />
+        <meta property="og:url" content="https://mano-cv.lt" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="mano-cv.lt - susikurk savo CV svetainę"
+        />
+        <meta
+          name="twitter:description"
+          content="Profesionalus CV internete vos per kelias minutes. Nemokamai susikurk savo asmeninę svetainę, kuria galėsi pasidalinti tik su pasirinktais žmonėmis"
+        />
+        <meta
+          name="twitter:image"
+          content="https://mano-cv.lt/mano-cv-logo.png"
+        />
+      </Head>
+      <MixpanelProvider>
+        <GlobalProvider>
+          <SessionProvider session={session} refetchOnWindowFocus={false}>
+            <ToastProvider>
+              <main className={outfit.className}>
+                {getLayout(<Component {...pageProps} />)}
+              </main>
+            </ToastProvider>
+          </SessionProvider>
+        </GlobalProvider>
+      </MixpanelProvider>
+    </>
   );
 }

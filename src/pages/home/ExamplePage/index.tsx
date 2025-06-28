@@ -6,13 +6,16 @@ import {
   faFilePdf,
   faSquarePollVertical,
 } from "@fortawesome/free-solid-svg-icons";
-import React, { useState } from "react";
-import { getGenericUserPhoto, getUserPhoto } from "@/utils/user";
+import React, { useRef, useState } from "react";
+import { getGenericUserPhoto } from "@/utils/user";
 import style from "./style.module.css";
 import { UserStatus } from "@/types/enums";
 import { useSession } from "next-auth/react";
 import { useGlobalContext } from "@/contexts/GlobalContext";
 import { formatSubdomainUrl } from "@/utils/subdomain";
+import Button from "@/components/ui/Button";
+import CropModal from "@/components/PhotoUpload/CropModal";
+import { fileToUrl } from "@/components/PhotoUpload/utils";
 
 interface Props {
   subdomainData: SubdomainData;
@@ -70,9 +73,37 @@ const ExamplePage = () => {
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
+  const [uploadedSrc, setUploadedSrc] = useState<string | null>(null);
+  const [cropModal, setCropModal] = useState(false);
+  const [croppedSrc, setCroppedSrc] = useState<string | null>(null);
+
+  const refFileInput = useRef<HTMLInputElement>(null);
+
+  const handleUploadClick = () => {
+    refFileInput.current?.click();
+  };
+
+  const handleOnUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+
+    if (file) {
+      setUploadedSrc(fileToUrl(file));
+      setCropModal(true);
+
+      if (refFileInput.current) {
+        refFileInput.current.value = "";
+      }
+    }
+  };
+
+  const handleOnCropSubmit = (file: Blob) => {
+    setCropModal(false);
+    setCroppedSrc(fileToUrl(file));
+  };
+
   return (
-    <div className="relative -top-[40px] mx-auto max-w-[1100px] overflow-hidden rounded-xl shadow-xl md:-top-[120px] lg:-top-[350px]">
-      <div className="flex h-[60px] flex-row items-center gap-4 bg-gray-300 px-4">
+    <div className="mx-auto max-w-[1100px] overflow-hidden rounded-xl border border-gray-200">
+      <div className="flex h-[60px] flex-row items-center gap-4 border-b border-slate-300 bg-gray-300 px-4">
         <div className="flex flex-row gap-2">
           <span className="block h-[16px] w-[16px] rounded-full bg-[#FF5F57] shadow-md" />
           <span className="block h-[16px] w-[16px] rounded-full bg-[#FFBD2E] shadow-md" />
@@ -88,7 +119,7 @@ const ExamplePage = () => {
       <div
         className={twMerge(
           poppins.className,
-          "bg-linear-65 from-gray-50 to-violet-100 px-[20px] pt-[30px] md:pt-[50px]",
+          "bg-linear-65 from-gray-50 to-violet-100 px-[0px] pt-[30px] md:pt-[50px]",
         )}
       >
         <div className="mx-auto box-content max-w-[1000px] px-4 md:px-10">
@@ -100,18 +131,20 @@ const ExamplePage = () => {
               <p className="relative mb-3 max-w-[700px] text-3xl leading-tight md:mb-10 md:text-5xl">
                 Aš{" "}
                 <span
-                  contentEditable={true}
+                  contentEditable
+                  suppressContentEditableWarning
                   // @ts-expect-error nothing to see here
                   onInput={(e) => setName(e.target.innerText)}
-                  className="bg-linear-65 from-violet-800 to-violet-600 bg-clip-text font-semibold tracking-wide text-transparent caret-violet-700 focus:rounded-lg focus:outline-4 focus:outline-violet-600"
+                  className="bg-linear-65 from-violet-800 to-violet-600 bg-clip-text font-semibold tracking-wide text-transparent caret-violet-700 outline-offset-4 focus:rounded-lg focus:outline focus:outline-violet-600"
                 >
                   {subdomainData.fullName}
                 </span>
               </p>
               <div>
                 <p
-                  contentEditable={true}
-                  className="mb-5 text-sm leading-relaxed font-light text-gray-500 caret-violet-600 focus:rounded-lg focus:outline-2 focus:outline-violet-600 md:mb-7 md:text-lg"
+                  contentEditable
+                  suppressContentEditableWarning
+                  className="mb-5 text-sm leading-relaxed font-light text-gray-500 caret-violet-600 outline-offset-4 focus:rounded-lg focus:outline focus:outline-violet-600 md:mb-7 md:text-lg"
                 >
                   {subdomainData.intro}
                 </p>
@@ -124,14 +157,46 @@ const ExamplePage = () => {
                 "order-1 flex shrink-0 basis-[200px] items-center justify-center md:order-2 md:h-[300px] md:basis-[200px]",
               )}
             >
-              <img
-                src={getUserPhoto(subdomainData.image!, true)}
-                alt={subdomainData.fullName}
+              <a
                 className={twMerge(
                   style.photo,
-                  "h-[150px] w-[150px] rounded-full border-1 border-gray-200 shadow-md md:h-[200px] md:w-[200px]",
+                  "group relative h-[150px] w-[150px] cursor-pointer rounded-full border-1 border-gray-200 shadow-md md:h-[200px] md:w-[200px]",
                 )}
+                onClick={handleUploadClick}
+              >
+                <img
+                  src={croppedSrc || getGenericUserPhoto()}
+                  alt={subdomainData.fullName}
+                  className={twMerge(
+                    !croppedSrc && "blur-[4px]",
+                    "rounded-full group-hover:blur-[4px]",
+                  )}
+                />
+
+                <Button
+                  className={twMerge(
+                    !croppedSrc && "visible!",
+                    "invisible absolute top-[50%] left-[50%] h-auto translate-x-[-50%] translate-y-[-50%] group-hover:visible",
+                  )}
+                >
+                  Pasirinkti
+                </Button>
+              </a>
+              <input
+                ref={refFileInput}
+                className="hidden"
+                type="file"
+                onChange={handleOnUpload}
+                accept="image/png, image/jpeg, image/jpg"
               />
+              {uploadedSrc && (
+                <CropModal
+                  isOpen={cropModal}
+                  handleClose={() => setCropModal(false)}
+                  imgSrc={uploadedSrc}
+                  onSubmit={handleOnCropSubmit}
+                />
+              )}
               <div
                 className={twMerge(
                   style.shadow,
