@@ -24,7 +24,70 @@ export const getDomainUrl = () => {
   return `${protocol}://${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
 };
 
+const reservedSubdomains = new Set([
+  "manocv",
+  "www",
+  "admin",
+  "api",
+  "mail",
+  "ftp",
+  "smtp",
+  "imap",
+  "pop",
+  "test",
+  "sandbox",
+  "staging",
+  "dev",
+  "demo",
+  "static",
+  "cdn",
+  "login",
+  "signup",
+  "signin",
+  "register",
+  "logout",
+  "auth",
+  "sso",
+  "oauth",
+  "password",
+  "reset",
+  "account",
+  "user",
+  "users",
+  "me",
+  "root",
+  "adminpanel",
+  "internal",
+  "backend",
+  "superadmin",
+  "moderator",
+  "staff",
+  "team",
+  "support",
+  "contact",
+  "help",
+  "robots",
+  "favicon",
+  "sitemap",
+  "config",
+  "assets",
+  "media",
+  "images",
+  "secure",
+  "billing",
+  "invoice",
+  "bank",
+  "pay",
+  "payment",
+  "order",
+  "checkout",
+]);
+
 export function isSlugValid(subdomain: string) {
   const alphaRegex = /^[a-z]+$/;
-  return typeof subdomain === "string" && alphaRegex.test(subdomain);
+  return (
+    subdomain.includes("www") &&
+    alphaRegex.test(subdomain) &&
+    !reservedSubdomains.has(subdomain)
+  );
 }

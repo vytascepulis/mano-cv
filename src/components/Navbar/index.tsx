@@ -9,7 +9,7 @@ import { useGlobalContext } from "@/contexts/GlobalContext";
 const Navbar = () => {
   const { scrollToSection } = useGlobalContext();
   return (
-    <div className="fixed top-0 z-50 w-full border-b border-slate-400 bg-violet-100 px-6 shadow-md">
+    <div className="fixed top-0 z-50 w-full border-b border-slate-300 bg-violet-100 px-6 shadow-md">
       <nav
         className={`mx-auto grid max-w-[1200px] grid-cols-[1fr_2fr_1fr] content-center items-center`}
       >

@@ -40,16 +40,6 @@ export function withSessionCheck<T>(
   handler: HandlerWithSession<T>,
 ): NextApiHandler<T> {
   return async (req: NextApiRequest, res: NextApiResponse<T>) => {
-    // if (process.env.NODE_ENV === "development") {
-    //   return handler(req, res, {
-    //     user: {
-    //       userId: "9ir2DjRj02j60cWGpwWW",
-    //       googleId:
-    //         "441e1b57d402ce537ae7af91e826ab742ab9af9953ca8ced5f85d43daf2556ef",
-    //     },
-    //   });
-    // }
-
     const session = await getServerSession(req, res, authOptions);
 
     if (!session) {
