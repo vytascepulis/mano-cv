@@ -8,7 +8,6 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { GlobalProvider } from "@/contexts/GlobalContext";
 import { ToastProvider } from "@/contexts/ToastContext";
-import { MixpanelProvider } from "@/contexts/MixpanelContext";
 import Head from "next/head";
 
 export type NextPageWithLayout<P = unknown, IP = P> = NextPage<P, IP> & {
@@ -60,17 +59,15 @@ export default function App({
           content="https://mano-cv.lt/mano-cv-logo.png"
         />
       </Head>
-      <MixpanelProvider>
-        <GlobalProvider>
-          <SessionProvider session={session} refetchOnWindowFocus={false}>
-            <ToastProvider>
-              <main className={outfit.className}>
-                {getLayout(<Component {...pageProps} />)}
-              </main>
-            </ToastProvider>
-          </SessionProvider>
-        </GlobalProvider>
-      </MixpanelProvider>
+      <GlobalProvider>
+        <SessionProvider session={session} refetchOnWindowFocus={false}>
+          <ToastProvider>
+            <main className={outfit.className}>
+              {getLayout(<Component {...pageProps} />)}
+            </main>
+          </ToastProvider>
+        </SessionProvider>
+      </GlobalProvider>
     </>
   );
 }

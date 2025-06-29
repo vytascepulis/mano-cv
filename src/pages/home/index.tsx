@@ -1,18 +1,11 @@
-import { ReactElement, useEffect } from "react";
+import { ReactElement } from "react";
 import HomePageLayout from "@/components/layouts/HomePageLayout";
 import HeroSection from "@/pages/home/HeroSection";
-import { useMixpanel } from "@/contexts/MixpanelContext";
 import Navbar from "@/components/Navbar";
 import ExamplePage from "@/pages/home/ExamplePage";
 import Advantages from "@/pages/home/Advantages";
 
 export default function HomePage() {
-  const { trackPageView } = useMixpanel();
-
-  useEffect(() => {
-    trackPageView({ name: "Home page" });
-  }, []);
-
   return (
     <>
       <Navbar />

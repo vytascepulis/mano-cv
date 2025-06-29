@@ -35,7 +35,11 @@ const Advantages = () => {
       className="text-dark mx-auto flex w-full max-w-[1000px] flex-col items-center justify-between gap-[30px] pb-[150px] md:gap-[60px] lg:flex-row lg:items-start lg:gap-0"
     >
       <h1 className="max-w-auto shrink-0 text-center text-4xl font-bold lg:max-w-[350px] lg:text-start lg:text-6xl">
-        Kodėl verta turėti CV internete?
+        Kodėl verta turėti{" "}
+        <span className="bg-linear-45 from-violet-500 to-violet-600 bg-clip-text text-transparent">
+          CV internete
+        </span>
+        ?
       </h1>
       <div className="flex max-w-[525px] flex-col gap-[10px] md:gap-[20px]">
         {advantagesList.map((advantage, index) => (

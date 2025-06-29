@@ -13,7 +13,6 @@ import { strToWebdesign, webdesignToStr } from "@/utils/settings";
 import { getGenericUserPhoto } from "@/utils/user";
 import logoLight from "@/assets/mano-cv-logo-light.png";
 import { getDomainUrl } from "@/utils/subdomain";
-import { useMixpanel } from "@/contexts/MixpanelContext";
 import Head from "next/head";
 
 const mockData = {
@@ -127,7 +126,6 @@ const Page = () => {
   const router = useRouter();
   const stilius = router.query.stilius as string;
   const design = strToWebdesign(stilius);
-  const { trackPageView } = useMixpanel();
 
   const [selectedDesign, setSelectedDesign] = useState<WebsiteDesigns | null>();
   const designWindowRef = useRef<HTMLDivElement | null>(null);
@@ -184,10 +182,6 @@ const Page = () => {
   useEffect(() => {
     setSelectedDesign(design);
   }, [design]);
-
-  useEffect(() => {
-    trackPageView({ name: "Examples page" });
-  }, []);
 
   if (!router.isReady || !selectedDesign) return <Loader />;
 
