@@ -132,6 +132,7 @@ const ExamplePage = () => {
                 Aš{" "}
                 <span
                   contentEditable
+                  spellCheck={false}
                   suppressContentEditableWarning
                   // @ts-expect-error nothing to see here
                   onInput={(e) => setName(e.target.innerText)}
@@ -143,6 +144,7 @@ const ExamplePage = () => {
               <div>
                 <p
                   contentEditable
+                  spellCheck={false}
                   suppressContentEditableWarning
                   className="mb-5 text-sm leading-relaxed font-light text-gray-500 caret-violet-600 outline-offset-4 focus:rounded-lg focus:outline focus:outline-violet-600 md:mb-7 md:text-lg"
                 >

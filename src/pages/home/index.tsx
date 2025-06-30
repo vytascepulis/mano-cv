@@ -4,6 +4,7 @@ import HeroSection from "@/pages/home/HeroSection";
 import Navbar from "@/components/Navbar";
 import ExamplePage from "@/pages/home/ExamplePage";
 import Advantages from "@/pages/home/Advantages";
+import GetStarted from "@/pages/home/GetStarted";
 
 export default function HomePage() {
   return (
@@ -19,8 +20,9 @@ export default function HomePage() {
           <ExamplePage />
         </div>
       </div>
-      <div className="mx-auto h-[3000px] max-w-[1200px] px-5 pt-[100px] md:pt-[100px]">
+      <div className="mx-auto flex max-w-[1200px] flex-col gap-[100px] px-5 pt-[100px] pb-[1000px] md:gap-[300px] md:pt-[300px]">
         <Advantages />
+        <GetStarted />
       </div>
     </>
   );

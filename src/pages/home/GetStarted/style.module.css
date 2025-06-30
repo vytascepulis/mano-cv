@@ -1,0 +1,16 @@
+.progress {
+  width: 0;
+  animation-name: fill;
+  animation-play-state: running;
+  animation-timing-function: linear;
+}
+
+.progress.paused {
+  animation-play-state: paused;
+}
+
+@keyframes fill {
+  100% {
+    width: 100%;
+  }
+}

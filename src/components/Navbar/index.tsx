@@ -32,8 +32,8 @@ const Navbar = () => {
               <a
                 onClick={() => scrollToSection(link.section)}
                 className={twMerge(
-                  "cursor-pointer rounded-sm px-3 py-2 font-extrabold transition-colors",
-                  "text-dark hover:text-light hover:bg-violet-600",
+                  "cursor-pointer px-3 py-2 font-semibold transition-colors",
+                  "text-dark hover:text-primary",
                 )}
               >
                 {link.text}

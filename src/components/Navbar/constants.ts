@@ -4,11 +4,15 @@ export const menuLinks = [
     section: "advantages",
   },
   {
-    text: "Paslaugos",
-    section: "paslaugos",
+    text: "Kaip pradėti",
+    section: "get-started",
   },
   {
     text: "Šablonai",
     section: "sablonai",
+  },
+  {
+    text: "Kaina",
+    section: "kaina",
   },
 ];

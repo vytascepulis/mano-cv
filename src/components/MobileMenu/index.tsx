@@ -9,7 +9,7 @@ import style from "./style.module.css";
 import { Outfit } from "next/font/google";
 import { useGlobalContext } from "@/contexts/GlobalContext";
 
-ReactModal.setAppElement("#__next"); // Your root element ID
+ReactModal.setAppElement("#__next");
 const outfit = Outfit({ subsets: ["latin"] });
 
 const MobileMenu = () => {
@@ -72,7 +72,7 @@ const MobileMenu = () => {
                   scrollToSection(link.section);
                   handleClose();
                 }}
-                className="text-dark block cursor-pointer rounded-sm py-2 pl-7 font-extrabold transition-colors hover:bg-violet-600/10"
+                className="text-dark block cursor-pointer py-2 pl-7 font-semibold transition-colors hover:bg-violet-600/10"
               >
                 {link.text}
               </a>
