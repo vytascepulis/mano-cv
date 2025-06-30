@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from "react";
-import { IListItem } from "@/pages/home/GetStarted/types";
-import ListItem from "@/pages/home/GetStarted/ListItem";
+import ListItem, {
+  IListItem,
+  ITEM_DELAY,
+} from "@/pages/home/GetStarted/ListItem";
 import { useGlobalContext } from "@/contexts/GlobalContext";
 import registerImg from "@/assets/register.jpg";
 import enterDataImg from "@/assets/enter-data.jpg";
 import activateImg from "@/assets/activate.jpg";
 
-export const ITEM_DELAY = 7000;
-
-const servicesList: IListItem[] = [
+const itemsList: IListItem[] = [
   {
     id: "register",
     title: "Užsiregistruok",
@@ -31,10 +31,10 @@ const servicesList: IListItem[] = [
 
 const GetStarted = () => {
   const { refGetStarted } = useGlobalContext();
-  const [activeItem, setActiveItem] = useState<IListItem>(servicesList[0]);
+  const [activeItem, setActiveItem] = useState<IListItem>(itemsList[0]);
   const [isPaused, setIsPaused] = useState(false);
   const refTimer = useRef<number | null>(null);
-  const refActiveItem = useRef<IListItem>(servicesList[0]);
+  const refActiveItem = useRef<IListItem>(itemsList[0]);
   const refStartingTimer = useRef(0);
   const refRemainingTimer = useRef(ITEM_DELAY);
 
@@ -51,11 +51,11 @@ const GetStarted = () => {
   };
 
   const setNextItem = () => {
-    const activeIdx = servicesList.findIndex(
+    const activeIdx = itemsList.findIndex(
       (service) => service.id === refActiveItem.current.id,
     );
 
-    const nextItem = servicesList[activeIdx + 1] ?? servicesList[0];
+    const nextItem = itemsList[activeIdx + 1] ?? itemsList[0];
     setActiveItem(nextItem);
     refActiveItem.current = nextItem;
   };
@@ -102,14 +102,16 @@ const GetStarted = () => {
           />
         </div>
         <ul className="grid w-full divide-y divide-slate-300 bg-slate-100 shadow-2xl">
-          {servicesList.map((service) => {
-            const isActive = service.id === activeItem.id;
+          {itemsList.map((item) => {
+            if (!item) return null;
+
+            const isActive = item.id === activeItem.id;
             return (
               <ListItem
-                key={service.id}
-                item={service}
+                key={item.id}
+                item={item}
                 isActive={isActive}
-                setActive={() => handleSetActive(service)}
+                setActive={() => handleSetActive(item)}
                 isPaused={isPaused}
               />
             );

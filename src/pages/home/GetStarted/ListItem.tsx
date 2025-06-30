@@ -1,7 +1,14 @@
-import { IListItem } from "@/pages/home/GetStarted/types";
 import { twMerge } from "tailwind-merge";
 import style from "./style.module.css";
-import { ITEM_DELAY } from "@/pages/home/GetStarted/index";
+
+export interface IListItem {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+}
+
+export const ITEM_DELAY = 7000;
 
 interface Props {
   setActive: () => void;
@@ -17,6 +24,8 @@ const ListItem = ({ setActive, isActive, isPaused, item }: Props) => {
     "text-slate-50 bg-linear-to-tr to-violet-500 from-violet-700";
 
   const itemContentClasses = "md:px-5 md:py-4 px-3 py-2";
+
+  if (!item) return null;
 
   return (
     <li
