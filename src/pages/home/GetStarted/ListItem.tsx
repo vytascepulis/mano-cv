@@ -13,11 +13,18 @@ export const ITEM_DELAY = 7000;
 interface Props {
   setActive: () => void;
   isActive: boolean;
-  isPaused: boolean;
   item: IListItem;
+  timerRunning: boolean;
+  isMobile?: boolean;
 }
 
-const ListItem = ({ setActive, isActive, isPaused, item }: Props) => {
+const ListItem = ({
+  setActive,
+  isActive,
+  item,
+  timerRunning,
+  isMobile,
+}: Props) => {
   const itemClasses =
     "cursor-pointer flex flex-col justify-between bg-violet-50 transition-colors hover:bg-violet-100";
   const activeItemClasses =
@@ -36,8 +43,8 @@ const ListItem = ({ setActive, isActive, isPaused, item }: Props) => {
       <div className={twMerge(itemContentClasses)}>
         <p
           className={twMerge(
-            "mb-2 text-base font-light md:text-lg",
-            isActive && "font-semibold",
+            "mb-1 text-base font-normal md:mb-2 md:text-lg md:font-light",
+            isActive && "font-semibold!",
           )}
         >
           {item.title}
@@ -62,12 +69,21 @@ const ListItem = ({ setActive, isActive, isPaused, item }: Props) => {
             style={{ animationDuration: `${ITEM_DELAY}ms` }}
             className={twMerge(
               style.progress,
-              isPaused && style.paused,
+              !timerRunning && style.paused,
               `bg-light h-full`,
             )}
           />
         )}
       </div>
+      {isActive && isMobile && (
+        <div className="h-auto shrink-0 grow-0 border-r-0 border-b border-slate-300 md:h-[350px] md:border-r md:border-b-0">
+          <img
+            className="max-h-full w-full object-cover object-center"
+            src={item.image}
+            alt={item.id}
+          />
+        </div>
+      )}
     </li>
   );
 };

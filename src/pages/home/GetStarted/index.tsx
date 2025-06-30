@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import ListItem, {
   IListItem,
   ITEM_DELAY,
@@ -7,6 +7,8 @@ import { useGlobalContext } from "@/contexts/GlobalContext";
 import registerImg from "@/assets/register.jpg";
 import enterDataImg from "@/assets/enter-data.jpg";
 import activateImg from "@/assets/activate.jpg";
+import useIntersectionObserver from "@/hooks/useIntersectionObserver";
+import useBreakpoint from "@/hooks/useBreakpoint";
 
 const itemsList: IListItem[] = [
   {
@@ -31,24 +33,12 @@ const itemsList: IListItem[] = [
 
 const GetStarted = () => {
   const { refGetStarted } = useGlobalContext();
+
   const [activeItem, setActiveItem] = useState<IListItem>(itemsList[0]);
-  const [isPaused, setIsPaused] = useState(false);
+  const refTimerStarted = useRef(false);
   const refTimer = useRef<number | null>(null);
   const refActiveItem = useRef<IListItem>(itemsList[0]);
-  const refStartingTimer = useRef(0);
-  const refRemainingTimer = useRef(ITEM_DELAY);
-
-  const onResume = () => {
-    setIsPaused(false);
-    startTimer();
-  };
-
-  const onPause = () => {
-    setIsPaused(true);
-    window.clearTimeout(refTimer.current!);
-    const elapsed = Date.now() - refStartingTimer.current;
-    refRemainingTimer.current -= elapsed;
-  };
+  const [timerRunning, setTimerRunning] = useState(false);
 
   const setNextItem = () => {
     const activeIdx = itemsList.findIndex(
@@ -65,42 +55,56 @@ const GetStarted = () => {
       window.clearTimeout(refTimer.current);
     }
 
-    refStartingTimer.current = Date.now();
-
     refTimer.current = window.setTimeout(() => {
-      refRemainingTimer.current = ITEM_DELAY;
-
       setNextItem();
       startTimer();
-    }, refRemainingTimer.current);
+    }, ITEM_DELAY);
   };
+
+  const { refElement } = useIntersectionObserver({
+    options: {
+      threshold: 0.8,
+    },
+    onEnter: () => {
+      if (!refTimerStarted.current) {
+        console.log("start");
+        refTimerStarted.current = true;
+        setTimerRunning(true);
+        startTimer();
+      }
+    },
+  });
 
   const handleSetActive = (item: IListItem) => {
-    onPause();
     refActiveItem.current = item;
     setActiveItem(item);
-    refStartingTimer.current = 0;
-    refRemainingTimer.current = ITEM_DELAY;
-    onResume();
+    startTimer();
   };
 
-  useEffect(() => {
-    startTimer();
-  }, []);
+  const breakpoint = useBreakpoint();
+  const isMobile = breakpoint === "sm";
 
   return (
-    <div ref={refGetStarted} className="mx-auto w-full max-w-[1000px]">
+    <div
+      ref={(ref) => {
+        refGetStarted.current = ref;
+        refElement.current = ref;
+      }}
+      className="mx-auto w-full max-w-[1000px]"
+    >
       <h1 className="mb-[30px] text-center text-4xl font-bold md:mb-[70px] lg:text-6xl">
         Kaip pradėti?
       </h1>
       <div className="box-content grid min-h-[100px] grid-rows-[max-content_min-content] overflow-hidden rounded-xl border border-gray-200 shadow-lg md:grid-cols-[5fr_2fr]">
-        <div className="h-auto shrink-0 grow-0 border-r-0 border-b border-slate-300 md:h-[350px] md:border-r md:border-b-0">
-          <img
-            className="max-h-full w-full object-cover object-center"
-            src={activeItem.image}
-            alt={activeItem.id}
-          />
-        </div>
+        {!isMobile && (
+          <div className="h-auto shrink-0 grow-0 border-r-0 border-b border-slate-300 md:h-[350px] md:border-r md:border-b-0">
+            <img
+              className="max-h-full w-full object-cover object-center"
+              src={activeItem.image}
+              alt={activeItem.id}
+            />
+          </div>
+        )}
         <ul className="grid w-full divide-y divide-slate-300 bg-slate-100 shadow-2xl">
           {itemsList.map((item) => {
             if (!item) return null;
@@ -112,7 +116,8 @@ const GetStarted = () => {
                 item={item}
                 isActive={isActive}
                 setActive={() => handleSetActive(item)}
-                isPaused={isPaused}
+                timerRunning={timerRunning}
+                isMobile={isMobile}
               />
             );
           })}
