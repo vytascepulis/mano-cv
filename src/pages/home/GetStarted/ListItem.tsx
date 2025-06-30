@@ -76,7 +76,7 @@ const ListItem = ({
         )}
       </div>
       {isActive && isMobile && (
-        <div className="h-auto shrink-0 grow-0 border-r-0 border-b border-slate-300 md:h-[350px] md:border-r md:border-b-0">
+        <div className="h-auto shrink-0 grow-0 md:h-[350px]">
           <img
             className="max-h-full w-full object-cover object-center"
             src={item.image}
