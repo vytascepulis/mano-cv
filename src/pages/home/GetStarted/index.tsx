@@ -67,7 +67,6 @@ const GetStarted = () => {
     },
     onEnter: () => {
       if (!refTimerStarted.current) {
-        console.log("start");
         refTimerStarted.current = true;
         setTimerRunning(true);
         startTimer();

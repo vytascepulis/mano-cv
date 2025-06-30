@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { createContext, useContext, useRef, useState } from "react";
 import { SettingsData } from "@/types/types";
 import { SettingsState, Context } from "@/contexts/SettingsContext/types";
 import { initialSettings } from "@/contexts/SettingsContext/constants";
@@ -137,10 +137,6 @@ const SettingsProvider = ({ children, settingsData }: Props) => {
       "noopener,noreferrer",
     );
   };
-
-  useEffect(() => {
-    console.log("settings: ", settings);
-  }, [settings]);
 
   return (
     <SettingsContext.Provider
