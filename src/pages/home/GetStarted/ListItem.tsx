@@ -1,7 +1,7 @@
 import { IListItem } from "@/pages/home/GetStarted/types";
 import { twMerge } from "tailwind-merge";
 import style from "./style.module.css";
-import { ITEM_DELAY } from "@/pages/home/GetStarted/constants";
+import { ITEM_DELAY } from "@/pages/home/GetStarted/index";
 
 interface Props {
   setActive: () => void;
@@ -13,7 +13,8 @@ interface Props {
 const ListItem = ({ setActive, isActive, isPaused, item }: Props) => {
   const itemClasses =
     "cursor-pointer flex flex-col justify-between bg-violet-50 transition-colors hover:bg-violet-100";
-  const activeItemClasses = "bg-primary text-slate-50 hover:bg-primary";
+  const activeItemClasses =
+    "text-slate-50 bg-linear-to-tr to-violet-500 from-violet-700";
 
   const itemContentClasses = "md:px-5 md:py-4 px-3 py-2";
 
