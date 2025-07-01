@@ -12,7 +12,7 @@ import {
 import { LanguageLevel, SubdomainData } from "@/types/types";
 import { getUserPhoto } from "@/utils/user";
 import { Card } from "@/components/InfoCards/types";
-import { formatDate, getYearsSince } from "@/utils/date";
+import { formatDate, getDateDiffString } from "@/utils/date";
 import { formatSubdomainUrl, getDomainUrl } from "@/utils/subdomain";
 import { ISubdomain } from "@/pages/api/types";
 
@@ -305,7 +305,7 @@ const PdfDocument = ({
                   {userData.drivingLicences.map(
                     ({ category, issuedAt, id }) => (
                       <Text key={id}>
-                        {category} - {getYearsSince(issuedAt)}m.
+                        {category} - {getDateDiffString(issuedAt)}
                       </Text>
                     ),
                   )}
@@ -329,18 +329,30 @@ const PdfDocument = ({
           </View>
         </View>
         <View style={styles.content}>
-          <Text
+          <View
             style={{
-              textTransform: "uppercase",
-              fontSize: 32,
-              lineHeight: "35px",
               marginBottom: 30,
-              color: "#7f22fe",
-              fontWeight: 800,
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              gap: 8,
             }}
           >
-            {userData.fullName}
-          </Text>
+            {userData.fullName.split(" ").map((w, index) => (
+              <Text
+                key={index}
+                style={{
+                  textTransform: "uppercase",
+                  fontSize: 32,
+                  lineHeight: "28px",
+                  color: "#7f22fe",
+                  fontWeight: 800,
+                }}
+              >
+                {w}
+              </Text>
+            ))}
+          </View>
           <View style={styles.contentItem}>
             <View style={styles.contentTitle}>
               <Image src="/icons/about-me.png" style={styles.contentIcon} />

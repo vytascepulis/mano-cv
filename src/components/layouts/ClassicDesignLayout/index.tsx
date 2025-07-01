@@ -19,6 +19,7 @@ import arrowImage from "@/assets/arrow.png";
 import { Card } from "@/components/InfoCards/types";
 import { motion } from "motion/react";
 import Footer from "@/components/layouts/Footer";
+import { getDateDiffString } from "@/utils/date";
 
 interface Props {
   subdomainData: SubdomainData;
@@ -458,7 +459,7 @@ const ClassicDesignLayout = ({
                   <GeneralInfoCard
                     title={"Vairuotojo pažymėjimas"}
                     value={subdomainData.drivingLicences.map(
-                      (i) => `${i.category} - ${i.issuedAt}`,
+                      (i) => `${i.category} - ${getDateDiffString(i.issuedAt)}`,
                     )}
                   />
                 )}

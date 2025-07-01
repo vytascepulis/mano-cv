@@ -5,6 +5,7 @@ import { LanguageLevel, SubdomainData } from "@/types/types";
 import { Poppins, Roboto_Slab } from "next/font/google";
 import { Card } from "@/components/InfoCards/types";
 import Footer from "@/components/layouts/Footer";
+import { getDateDiffString } from "@/utils/date";
 
 interface Props {
   subdomainData: SubdomainData;
@@ -229,7 +230,7 @@ const MinimalisticDesignLayout = ({
               title="Vairuotojo pažymėjimas"
               content={subdomainData.drivingLicences.map((item, index) => (
                 <p key={index}>
-                  {item.category} - {item.issuedAt}
+                  {item.category} - {getDateDiffString(item.issuedAt)}
                 </p>
               ))}
             />

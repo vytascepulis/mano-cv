@@ -126,7 +126,7 @@ const EditCardModal = ({
               disabled={state?.mode === "delete"}
             />
           )}
-          <div className="flex flex-col items-start gap-2 sm:w-[400px] sm:flex-row sm:items-end sm:gap-5">
+          <div className="grid grid-cols-1 items-end justify-items-start gap-2 sm:grid-cols-[max-content_max-content_max-content] sm:gap-5">
             <div>
               <InputDate
                 selectedDate={dateFrom ? new Date(dateFrom) : null}

@@ -4,6 +4,7 @@ import { useSettings } from "@/contexts/SettingsContext";
 import { SubdomainStatus, UserStatus } from "@/types/enums";
 import { formatSubdomainUrl } from "@/utils/subdomain";
 import { useSession } from "next-auth/react";
+import { twMerge } from "tailwind-merge";
 
 const ControlBar = () => {
   const {
@@ -24,7 +25,7 @@ const ControlBar = () => {
 
   return (
     <div className="bg-dark text-light sticky top-0 z-50 mt-2 flex flex-col items-start justify-between gap-4 px-5 py-4 shadow-md sm:flex-row sm:items-center lg:top-[5px] lg:mx-5 lg:mt-5 lg:rounded-lg">
-      <div className="flex h-[34px] flex-row gap-3">
+      <div className={twMerge("flex h-[34px] flex-row gap-3 rounded-lg")}>
         <Toggle
           disabled={isSubdomainToggleDisabled}
           checked={isSubdomainActive}

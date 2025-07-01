@@ -7,6 +7,7 @@ import Marquee from "react-fast-marquee";
 import { Card } from "@/components/InfoCards/types";
 import React, { useState } from "react";
 import Footer from "@/components/layouts/Footer";
+import { getDateDiffString } from "@/utils/date";
 
 interface Props {
   subdomainData: SubdomainData;
@@ -84,7 +85,7 @@ const GeneralInfoCard = ({
           </p>
         )}
         <p className="mb-1 text-xl font-semibold">{title}</p>
-        <div className={twMerge(robotoCondensed.className, "text-light/50")}>
+        <div className={twMerge(robotoCondensed.className, "text-slate-400")}>
           {subtitle}
         </div>
       </div>
@@ -356,7 +357,7 @@ const ModernDesignLayout = ({ subdomainData, handleDownload, mock }: Props) => {
                   title="Vairuotojo pažymėjimas"
                   subtitle={subdomainData.drivingLicences.map((item, index) => (
                     <p key={index}>
-                      {item.category} - {item.issuedAt}
+                      {item.category} - {getDateDiffString(item.issuedAt)}
                     </p>
                   ))}
                 />

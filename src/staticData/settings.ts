@@ -131,7 +131,7 @@ export const settingsData: {
   },
   educationTexts: {
     addNewBtnChildren: "Pridėti",
-    titleLabel: "Pavadinimas",
+    titleLabel: "Įstaigos pavadinimas",
     titlePlaceholder: "",
     subtitleLabel: "Išsilavinimas, studijų programa",
     subtitlePlaceholder: "Vidurinis, aukštasis",
