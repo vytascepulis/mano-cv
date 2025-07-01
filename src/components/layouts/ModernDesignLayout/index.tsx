@@ -13,7 +13,7 @@ import Loader from "@/components/ui/Loader";
 interface Props {
   subdomainData: SubdomainData;
   handleDownload: () => void;
-  downloadLoading: boolean;
+  downloadLoading?: boolean;
   mock?: boolean;
 }
 
@@ -38,7 +38,7 @@ const DownloadBtn = ({
   size = "md",
 }: {
   handleDownload: Props["handleDownload"];
-  downloadLoading: boolean;
+  downloadLoading?: boolean;
   size?: "sm" | "md";
 }) => {
   return (
