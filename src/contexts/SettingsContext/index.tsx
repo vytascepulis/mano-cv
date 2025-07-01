@@ -116,6 +116,12 @@ const SettingsProvider = ({ children, settingsData }: Props) => {
       onSuccess: ({ status }) => {
         handleOnChange("subdomainStatus", status);
         setIsSubdomainToggleDisabled(false);
+
+        defaultSettings.current = {
+          ...defaultSettings.current,
+          subdomainStatus: status,
+        };
+
         fireToast({
           type: "success",
           message: val ? "Svetainė aktyvuota" : "Svetainė paslėpta",

@@ -8,12 +8,14 @@ import PdfDocument from "@/components/PdfDocument";
 import { ISubdomain } from "@/pages/api/types";
 import ModernDesignLayout from "@/components/layouts/ModernDesignLayout";
 import MinimalisticDesignLayout from "@/components/layouts/MinimalisticDesignLayout";
+import { useState } from "react";
 
 interface Props {
   subdomainData: SubdomainData;
 }
 
 const LandingPage = ({ subdomainData }: Props) => {
+  const [downloadLoading, setDownloadLoading] = useState(false);
   const router = useRouter();
   const slug = router.query.slug;
 
@@ -24,6 +26,7 @@ const LandingPage = ({ subdomainData }: Props) => {
   const title = `${subdomainData.fullName} - ${slug}.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
 
   const handleDownload = async () => {
+    setDownloadLoading(true);
     const blob = await pdf(
       <PdfDocument
         userData={subdomainData}
@@ -36,6 +39,7 @@ const LandingPage = ({ subdomainData }: Props) => {
     link.download = `${subdomainData.fullName} CV.pdf`;
     link.click();
     URL.revokeObjectURL(url);
+    setDownloadLoading(false);
   };
 
   const renderDesign = () => {
@@ -45,6 +49,7 @@ const LandingPage = ({ subdomainData }: Props) => {
           <ClassicDesignLayout
             subdomainData={subdomainData}
             handleDownload={handleDownload}
+            downloadLoading={downloadLoading}
           />
         );
       case WebsiteDesigns.MODERN:
@@ -52,6 +57,7 @@ const LandingPage = ({ subdomainData }: Props) => {
           <ModernDesignLayout
             subdomainData={subdomainData}
             handleDownload={handleDownload}
+            downloadLoading={downloadLoading}
           />
         );
       case WebsiteDesigns.MINIMALISTIC:
@@ -59,6 +65,7 @@ const LandingPage = ({ subdomainData }: Props) => {
           <MinimalisticDesignLayout
             subdomainData={subdomainData}
             handleDownload={handleDownload}
+            downloadLoading={downloadLoading}
           />
         );
       default:

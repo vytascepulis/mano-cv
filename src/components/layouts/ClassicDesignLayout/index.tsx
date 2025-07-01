@@ -20,10 +20,12 @@ import { Card } from "@/components/InfoCards/types";
 import { motion } from "motion/react";
 import Footer from "@/components/layouts/Footer";
 import { getDateDiffString } from "@/utils/date";
+import Loader from "@/components/ui/Loader";
 
 interface Props {
   subdomainData: SubdomainData;
   handleDownload: () => void;
+  downloadLoading: boolean;
   mock?: boolean;
 }
 
@@ -35,19 +37,26 @@ const poppins = Poppins({
 
 const DownloadBtn = ({
   handleDownload,
+  downloadLoading,
 }: {
   handleDownload: Props["handleDownload"];
+  downloadLoading: boolean;
 }) => {
   return (
     <button
+      disabled={downloadLoading}
       className={twMerge(
         style.animatedGradient,
-        "w-full cursor-pointer rounded-full bg-gradient-to-br px-5 py-2 text-lg font-semibold text-gray-50 md:w-auto",
+        "flex w-full cursor-pointer items-center justify-center rounded-full bg-gradient-to-br px-5 py-2 text-lg font-semibold text-gray-50 md:w-auto",
+        downloadLoading && "cursor-not-allowed",
       )}
       onClick={handleDownload}
     >
       <FontAwesomeIcon icon={faFilePdf} className="mr-3" />
-      Atsisiųsti CV
+      <div className="flex items-center justify-center gap-2">
+        Atsisiųsti CV
+        {downloadLoading && <Loader size="sm" />}
+      </div>
     </button>
   );
 };
@@ -91,6 +100,7 @@ const GeneralInfoCard = ({
 const ClassicDesignLayout = ({
   subdomainData,
   handleDownload,
+  downloadLoading,
   mock,
 }: Props) => {
   const [expandedExperience, setExpandedExperience] = useState<string[]>([]);
@@ -166,7 +176,10 @@ const ClassicDesignLayout = ({
               <p className="mb-5 text-sm leading-relaxed font-light text-gray-500 md:mb-7 md:text-lg">
                 {subdomainData.intro}
               </p>
-              <DownloadBtn handleDownload={handleDownload} />
+              <DownloadBtn
+                handleDownload={handleDownload}
+                downloadLoading={downloadLoading}
+              />
             </motion.div>
           </div>
           <motion.div
@@ -439,7 +452,10 @@ const ClassicDesignLayout = ({
                       </span>
                     </li>
                   </ul>
-                  <DownloadBtn handleDownload={handleDownload} />
+                  <DownloadBtn
+                    handleDownload={handleDownload}
+                    downloadLoading={downloadLoading}
+                  />
                 </div>
               </div>
               <div className="flex w-full shrink-0 basis-[350px] flex-col gap-3 md:gap-6">

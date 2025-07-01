@@ -8,10 +8,12 @@ import { Card } from "@/components/InfoCards/types";
 import React, { useState } from "react";
 import Footer from "@/components/layouts/Footer";
 import { getDateDiffString } from "@/utils/date";
+import Loader from "@/components/ui/Loader";
 
 interface Props {
   subdomainData: SubdomainData;
   handleDownload: () => void;
+  downloadLoading: boolean;
   mock?: boolean;
 }
 
@@ -32,9 +34,11 @@ const gradient = "bg-linear-to-br from-violet-100 to-violet-400";
 
 const DownloadBtn = ({
   handleDownload,
+  downloadLoading,
   size = "md",
 }: {
   handleDownload: Props["handleDownload"];
+  downloadLoading: boolean;
   size?: "sm" | "md";
 }) => {
   return (
@@ -47,12 +51,15 @@ const DownloadBtn = ({
     >
       <button
         onClick={handleDownload}
+        disabled={downloadLoading}
         className={twMerge(
-          "bg-dark text-light w-full cursor-pointer rounded-full px-5 py-2 text-lg font-semibold transition hover:opacity-90",
+          "bg-dark text-light flex w-full cursor-pointer items-center justify-center gap-2 rounded-full px-5 py-2 text-lg font-semibold transition hover:opacity-90",
           size === "sm" && "text-sm font-normal",
+          downloadLoading && "cursor-not-allowed opacity-90",
         )}
       >
         Atsisiųsti CV
+        {downloadLoading && <Loader size="sm" />}
       </button>
     </div>
   );
@@ -93,7 +100,12 @@ const GeneralInfoCard = ({
   );
 };
 
-const ModernDesignLayout = ({ subdomainData, handleDownload, mock }: Props) => {
+const ModernDesignLayout = ({
+  subdomainData,
+  handleDownload,
+  downloadLoading,
+  mock,
+}: Props) => {
   const [expandedExperience, setExpandedExperience] = useState<string[]>([]);
 
   const formatExperienceDescription = (experience: Card) => {
@@ -197,7 +209,10 @@ const ModernDesignLayout = ({ subdomainData, handleDownload, mock }: Props) => {
             transition={{ ease: "easeOut", delay: 1.5 }}
             className="w-full sm:w-auto"
           >
-            <DownloadBtn handleDownload={handleDownload} />
+            <DownloadBtn
+              handleDownload={handleDownload}
+              downloadLoading={downloadLoading}
+            />
           </motion.div>
         </div>
       </div>
@@ -322,7 +337,11 @@ const ModernDesignLayout = ({ subdomainData, handleDownload, mock }: Props) => {
                     <p>{subdomainData.phoneNumber}</p>
                     {subdomainData.email && <p>{subdomainData.email}</p>}
                     <p className="mb-3">{subdomainData.address}</p>
-                    <DownloadBtn size="sm" handleDownload={handleDownload} />
+                    <DownloadBtn
+                      size="sm"
+                      handleDownload={handleDownload}
+                      downloadLoading={downloadLoading}
+                    />
                   </div>
                 }
               />

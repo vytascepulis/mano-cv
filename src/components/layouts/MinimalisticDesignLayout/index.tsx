@@ -6,10 +6,12 @@ import { Poppins, Roboto_Slab } from "next/font/google";
 import { Card } from "@/components/InfoCards/types";
 import Footer from "@/components/layouts/Footer";
 import { getDateDiffString } from "@/utils/date";
+import Loader from "@/components/ui/Loader";
 
 interface Props {
   subdomainData: SubdomainData;
   handleDownload: () => void;
+  downloadLoading: boolean;
   mock?: boolean;
 }
 
@@ -27,15 +29,22 @@ const poppins = Poppins({
 
 const DownloadBtn = ({
   handleDownload,
+  downloadLoading,
 }: {
   handleDownload: Props["handleDownload"];
+  downloadLoading: boolean;
 }) => {
   return (
     <button
+      disabled={downloadLoading}
       onClick={handleDownload}
-      className="font- cursor-pointer rounded-full border-3 border-violet-600 px-3 py-1 text-sm font-semibold text-violet-600 transition-colors hover:bg-violet-100 sm:w-max"
+      className={twMerge(
+        "flex cursor-pointer items-center justify-center gap-2 rounded-full border-3 border-violet-600 px-3 py-1 text-sm font-semibold text-violet-600 transition-colors hover:bg-violet-100 sm:w-max",
+        downloadLoading && "cursor-not-allowed bg-violet-100",
+      )}
     >
       Atsisiųsti CV
+      {downloadLoading && <Loader size="sm" variant="dark" />}
     </button>
   );
 };
@@ -76,6 +85,7 @@ const GeneralInfoCard = ({
 const MinimalisticDesignLayout = ({
   subdomainData,
   handleDownload,
+  downloadLoading,
   mock,
 }: Props) => {
   const [expandedExperience, setExpandedExperience] = useState<string[]>([]);
@@ -158,7 +168,10 @@ const MinimalisticDesignLayout = ({
             {subdomainData.fullName}
           </p>
           <p className="text-sm font-light md:text-lg">{subdomainData.intro}</p>
-          <DownloadBtn handleDownload={handleDownload} />
+          <DownloadBtn
+            handleDownload={handleDownload}
+            downloadLoading={downloadLoading}
+          />
         </div>
         {subdomainData.experience.length > 0 && (
           <>
@@ -197,7 +210,10 @@ const MinimalisticDesignLayout = ({
                 <p>{subdomainData.phoneNumber}</p>
                 {subdomainData.email && <p>{subdomainData.email}</p>}
                 <p className="mb-2">{subdomainData.address}</p>
-                <DownloadBtn handleDownload={handleDownload} />
+                <DownloadBtn
+                  handleDownload={handleDownload}
+                  downloadLoading={downloadLoading}
+                />
               </>
             }
           />
