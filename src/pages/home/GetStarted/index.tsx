@@ -61,12 +61,15 @@ const GetStarted = () => {
     }, ITEM_DELAY);
   };
 
+  const breakpoint = useBreakpoint();
+  const isMobile = breakpoint === "sm";
+
   const { refElement } = useIntersectionObserver({
     options: {
       threshold: 0.8,
     },
     onEnter: () => {
-      if (!refTimerStarted.current) {
+      if (!refTimerStarted.current && !isMobile) {
         refTimerStarted.current = true;
         setTimerRunning(true);
         startTimer();
@@ -77,11 +80,10 @@ const GetStarted = () => {
   const handleSetActive = (item: IListItem) => {
     refActiveItem.current = item;
     setActiveItem(item);
-    startTimer();
+    if (!isMobile) {
+      startTimer();
+    }
   };
-
-  const breakpoint = useBreakpoint();
-  const isMobile = breakpoint === "sm";
 
   return (
     <div

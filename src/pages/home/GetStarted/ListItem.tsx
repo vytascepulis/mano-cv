@@ -79,11 +79,13 @@ const ListItem = ({
         <div
           className={twMerge(
             "h-auto shrink-0 grow-0 overflow-hidden md:h-[350px]",
-            isActive ? "block" : "hidden",
           )}
         >
           <img
-            className="max-h-full w-full object-cover object-top"
+            className={twMerge(
+              isActive ? "block" : "hidden",
+              "max-h-full w-full object-cover object-top",
+            )}
             src={item.image}
             alt={item.id}
           />
