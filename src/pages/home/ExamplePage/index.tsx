@@ -4,7 +4,7 @@ import { Poppins } from "next/font/google";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFilePdf,
-  faPenToSquare,
+  faPencil,
   faSquarePollVertical,
 } from "@fortawesome/free-solid-svg-icons";
 import React, { useRef, useState } from "react";
@@ -141,8 +141,8 @@ const ExamplePage = () => {
                 >
                   {subdomainData.fullName}
                   <FontAwesomeIcon
-                    icon={faPenToSquare}
-                    className="text-primary mb-[26px] ml-1 text-xl"
+                    icon={faPencil}
+                    className="text-primary mb-[12px] ml-1 text-lg md:mb-[25px] md:ml-2 md:text-2xl"
                   />
                 </span>
               </p>
@@ -155,8 +155,8 @@ const ExamplePage = () => {
                 >
                   {subdomainData.intro}
                   <FontAwesomeIcon
-                    icon={faPenToSquare}
-                    className="text-primary mb-[5px] ml-1 text-base"
+                    icon={faPencil}
+                    className="text-primary mb-[3px] ml-1 text-sm md:mb-[7px]"
                   />
                 </p>
                 <DownloadBtn handleDownload={handleCtaOnClick} />

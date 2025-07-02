@@ -38,7 +38,7 @@ const DesignItem = ({ item }: { item: IDesignItem }) => {
     <a
       href={`${getDomainUrl()}/sablonai?stilius=${item.title.toLowerCase()}`}
       target="_blank"
-      className="grid grid-cols-1 gap-[10px] rounded-xl border border-transparent transition-all md:grid-cols-2 md:gap-[100px] md:p-[30px] hover:md:border-gray-200 hover:md:bg-gray-50 hover:md:shadow-lg"
+      className="grid grid-cols-1 gap-[20px] rounded-xl border border-transparent transition-all md:grid-cols-2 md:gap-[100px] md:p-[30px] hover:md:border-gray-200 hover:md:bg-gray-50 hover:md:shadow-lg"
     >
       <div className="text-dark flex flex-row gap-3 md:gap-5">
         <p className="text-light bg-primary flex h-[40px] w-[40px] shrink-0 items-center justify-center rounded-full text-2xl font-bold md:h-[60px] md:w-[60px] md:text-4xl">
@@ -49,7 +49,7 @@ const DesignItem = ({ item }: { item: IDesignItem }) => {
             {item.title}
             <FontAwesomeIcon
               icon={faArrowUpRightFromSquare}
-              className="text-primary mt-[2px] text-sm"
+              className="text-primary mt-[5px] text-sm"
             />
           </p>
           <p className="text-base font-extralight md:text-lg">
