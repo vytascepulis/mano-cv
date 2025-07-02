@@ -75,10 +75,15 @@ const ListItem = ({
           />
         )}
       </div>
-      {isActive && isMobile && (
-        <div className="h-auto shrink-0 grow-0 md:h-[350px]">
+      {isMobile && (
+        <div
+          className={twMerge(
+            "h-auto shrink-0 grow-0 overflow-hidden md:h-[350px]",
+            isActive ? "block" : "hidden",
+          )}
+        >
           <img
-            className="max-h-full w-full object-cover object-center"
+            className="max-h-full w-full object-cover object-top"
             src={item.image}
             alt={item.id}
           />

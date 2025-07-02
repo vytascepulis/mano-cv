@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import ListItem, {
   IListItem,
   ITEM_DELAY,
@@ -9,7 +9,6 @@ import enterDataImg from "@/assets/enter-data.jpg";
 import activateImg from "@/assets/activate.jpg";
 import useIntersectionObserver from "@/hooks/useIntersectionObserver";
 import useBreakpoint from "@/hooks/useBreakpoint";
-import useElementSize from "@/hooks/useElementSize";
 
 const itemsList: IListItem[] = [
   {
@@ -40,8 +39,6 @@ const GetStarted = () => {
   const refTimer = useRef<number | null>(null);
   const refActiveItem = useRef<IListItem>(itemsList[0]);
   const [timerRunning, setTimerRunning] = useState(false);
-
-  const { refElement: refItemsList, size, calculate } = useElementSize();
 
   const setNextItem = () => {
     const activeIdx = itemsList.findIndex(
@@ -86,16 +83,6 @@ const GetStarted = () => {
   const breakpoint = useBreakpoint();
   const isMobile = breakpoint === "sm";
 
-  useEffect(() => {
-    const timer = window.setTimeout(() => {
-      calculate();
-    }, 1000);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, []);
-
   return (
     <div
       ref={(ref) => {
@@ -123,15 +110,7 @@ const GetStarted = () => {
             />
           </div>
         )}
-        <ul
-          ref={(ref) => {
-            refItemsList.current = ref;
-          }}
-          style={{
-            minHeight: size?.height,
-          }}
-          className="grid w-full divide-y divide-slate-300 bg-slate-100 shadow-2xl"
-        >
+        <ul className="grid w-full divide-y divide-slate-300 bg-slate-100 shadow-2xl">
           {itemsList.map((item) => {
             if (!item) return null;
 

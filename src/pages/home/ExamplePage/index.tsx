@@ -142,7 +142,7 @@ const ExamplePage = () => {
                   {subdomainData.fullName}
                   <FontAwesomeIcon
                     icon={faPencil}
-                    className="text-primary mb-[12px] ml-1 text-lg md:mb-[25px] md:ml-2 md:text-2xl"
+                    className="text-primary mb-[15px] ml-1 text-xs md:mb-[25px] md:ml-2 md:text-base"
                   />
                 </span>
               </p>
@@ -154,10 +154,6 @@ const ExamplePage = () => {
                   className="mb-5 text-sm leading-relaxed font-light text-gray-500 caret-violet-600 outline-offset-4 focus:rounded-lg focus:outline focus:outline-violet-600 md:mb-7 md:text-lg"
                 >
                   {subdomainData.intro}
-                  <FontAwesomeIcon
-                    icon={faPencil}
-                    className="text-primary mb-[3px] ml-1 text-sm md:mb-[7px]"
-                  />
                 </p>
                 <DownloadBtn handleDownload={handleCtaOnClick} />
               </div>
