@@ -6,6 +6,7 @@ interface Context {
   toggleLoginModal: () => void;
   refAdvantages: RefObject<HTMLDivElement | null>;
   refGetStarted: RefObject<HTMLDivElement | null>;
+  refDesigns: RefObject<HTMLDivElement | null>;
   scrollToSection: (section: string) => void;
 }
 
@@ -17,6 +18,9 @@ const GlobalContext = createContext<Context>({
     current: null,
   },
   refGetStarted: {
+    current: null,
+  },
+  refDesigns: {
     current: null,
   },
   scrollToSection: () => {},
@@ -37,6 +41,7 @@ const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const refAdvantages = useRef<HTMLDivElement | null>(null);
   const refGetStarted = useRef<HTMLDivElement | null>(null);
+  const refDesigns = useRef<HTMLDivElement | null>(null);
 
   const handleSetLoginModalOpen = (val: boolean) => {
     setLoginModalOpen(val);
@@ -56,6 +61,9 @@ const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
       case "get-started":
         element = refGetStarted.current;
         break;
+      case "designs":
+        element = refDesigns.current;
+        break;
     }
 
     if (element) {
@@ -71,6 +79,7 @@ const GlobalProvider = ({ children }: { children: React.ReactNode }) => {
         toggleLoginModal: handleToggleLoginModalOpen,
         refAdvantages,
         refGetStarted,
+        refDesigns,
         scrollToSection,
       }}
     >

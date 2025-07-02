@@ -9,10 +9,6 @@ export const menuLinks = [
   },
   {
     text: "Šablonai",
-    section: "sablonai",
-  },
-  {
-    text: "Kaina",
-    section: "kaina",
+    section: "designs",
   },
 ];

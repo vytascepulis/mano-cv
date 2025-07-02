@@ -4,6 +4,7 @@ import minimalisticDesign from "@/assets/minimalistic.jpg";
 import { getDomainUrl } from "@/utils/subdomain";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
+import { useGlobalContext } from "@/contexts/GlobalContext";
 
 interface IDesignItem {
   title: string;
@@ -65,8 +66,10 @@ const DesignItem = ({ item }: { item: IDesignItem }) => {
 };
 
 const Designs = () => {
+  const { refDesigns } = useGlobalContext();
+
   return (
-    <div>
+    <div ref={refDesigns}>
       <h1 className="mx-auto mb-[10px] max-w-[600px] text-center text-4xl font-bold md:mb-[20px] lg:text-6xl">
         <span className="bg-linear-45 from-violet-500 to-violet-600 bg-clip-text text-transparent">
           Pasirink dizainą
