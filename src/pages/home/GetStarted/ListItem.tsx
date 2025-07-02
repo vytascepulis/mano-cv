@@ -26,7 +26,7 @@ const ListItem = ({
   isMobile,
 }: Props) => {
   const itemClasses =
-    "cursor-pointer flex flex-col justify-between bg-violet-50 transition-colors hover:bg-violet-100 select-none";
+    "cursor-pointer flex flex-col justify-between bg-gray-50 transition-colors hover:bg-violet-50 select-none";
   const activeItemClasses =
     "text-slate-50 bg-linear-to-tr to-violet-500 from-violet-700";
 

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ListItem, {
   IListItem,
   ITEM_DELAY,
@@ -9,6 +9,7 @@ import enterDataImg from "@/assets/enter-data.jpg";
 import activateImg from "@/assets/activate.jpg";
 import useIntersectionObserver from "@/hooks/useIntersectionObserver";
 import useBreakpoint from "@/hooks/useBreakpoint";
+import useElementSize from "@/hooks/useElementSize";
 
 const itemsList: IListItem[] = [
   {
@@ -39,6 +40,8 @@ const GetStarted = () => {
   const refTimer = useRef<number | null>(null);
   const refActiveItem = useRef<IListItem>(itemsList[0]);
   const [timerRunning, setTimerRunning] = useState(false);
+
+  const { refElement: refItemsList, size, calculate } = useElementSize();
 
   const setNextItem = () => {
     const activeIdx = itemsList.findIndex(
@@ -83,6 +86,16 @@ const GetStarted = () => {
   const breakpoint = useBreakpoint();
   const isMobile = breakpoint === "sm";
 
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      calculate();
+    }, 1000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
+
   return (
     <div
       ref={(ref) => {
@@ -91,20 +104,34 @@ const GetStarted = () => {
       }}
       className="mx-auto w-full max-w-[1000px]"
     >
-      <h1 className="mb-[30px] text-center text-4xl font-bold md:mb-[70px] lg:text-6xl">
-        Kaip pradėti?
+      <h1 className="mb-[10px] text-center text-4xl font-bold md:mb-[20px] lg:text-6xl">
+        Pradėk{" "}
+        <span className="bg-linear-45 from-violet-500 to-violet-600 bg-clip-text text-transparent">
+          greitai ir paprastai
+        </span>
       </h1>
+      <p className="mx-auto mb-[30px] text-center font-extralight text-slate-700 md:mb-[70px] md:max-w-[80%]">
+        Vos keliais paspaudimais susikurk savo profesionalų internetinį CV
+      </p>
       <div className="box-content grid min-h-[100px] grid-rows-[max-content_min-content] overflow-hidden rounded-xl border border-gray-200 shadow-lg md:grid-cols-[5fr_2fr]">
         {!isMobile && (
-          <div className="h-auto shrink-0 grow-0 border-r-0 border-b border-slate-300 md:h-[350px] md:border-r md:border-b-0">
+          <div className="max-h-full shrink-0 grow-0 border-r-0 border-b border-slate-300 md:border-r md:border-b-0 lg:max-h-[350px]">
             <img
-              className="max-h-full w-full object-cover object-center"
+              className="h-full max-h-full w-full object-cover"
               src={activeItem.image}
               alt={activeItem.id}
             />
           </div>
         )}
-        <ul className="grid w-full divide-y divide-slate-300 bg-slate-100 shadow-2xl">
+        <ul
+          ref={(ref) => {
+            refItemsList.current = ref;
+          }}
+          style={{
+            minHeight: size?.height,
+          }}
+          className="grid w-full divide-y divide-slate-300 bg-slate-100 shadow-2xl"
+        >
           {itemsList.map((item) => {
             if (!item) return null;
 

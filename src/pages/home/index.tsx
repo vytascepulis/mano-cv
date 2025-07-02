@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import ExamplePage from "@/pages/home/ExamplePage";
 import Advantages from "@/pages/home/Advantages";
 import GetStarted from "@/pages/home/GetStarted";
+import Designs from "@/pages/home/Designs";
 
 export default function HomePage() {
   return (
@@ -20,9 +21,10 @@ export default function HomePage() {
           <ExamplePage />
         </div>
       </div>
-      <div className="mx-auto flex max-w-[1200px] flex-col gap-[100px] px-5 pt-[100px] pb-[1000px] md:gap-[300px] md:pt-[300px]">
+      <div className="mx-auto flex max-w-[1200px] flex-col gap-[100px] px-5 pt-[100px] pb-[1000px] md:gap-[150px] md:pt-[150px] lg:gap-[300px] lg:pt-[300px]">
         <Advantages />
         <GetStarted />
+        <Designs />
       </div>
     </>
   );

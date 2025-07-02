@@ -29,10 +29,11 @@ const advantagesList = [
 
 const Advantages = () => {
   const { refAdvantages } = useGlobalContext();
+
   return (
     <div
       ref={refAdvantages}
-      className="text-dark mx-auto flex w-full max-w-[1000px] flex-col items-center justify-between gap-[30px] md:gap-[60px] lg:flex-row lg:items-start lg:gap-0"
+      className="text-dark mx-auto flex w-full max-w-[1000px] flex-col items-center justify-between gap-[30px] md:gap-[50px] lg:flex-row lg:items-start lg:gap-0"
     >
       <h1 className="max-w-auto shrink-0 text-center text-4xl font-bold lg:max-w-[350px] lg:text-start lg:text-6xl">
         Kodėl verta turėti{" "}
