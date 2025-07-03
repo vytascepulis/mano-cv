@@ -46,11 +46,11 @@ const DesignItem = ({ item }: { item: IDesignItem }) => {
           {index}
         </p>
         <div className="mt-[4px] flex flex-col gap-1 md:mt-[10px] md:gap-3">
-          <p className="flex items-start gap-1 text-2xl font-semibold md:text-4xl">
+          <p className="flex items-start gap-2 text-2xl font-semibold md:text-4xl">
             {item.title}
             <FontAwesomeIcon
               icon={faArrowUpRightFromSquare}
-              className="text-primary mt-[5px] text-sm"
+              className="text-primary mt-[6px] text-xs md:text-sm"
             />
           </p>
           <p className="text-base font-extralight md:text-lg">
