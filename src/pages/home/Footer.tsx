@@ -3,19 +3,7 @@ import { getDomainUrl } from "@/utils/subdomain";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInstagram, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import Button from "@/components/ui/Button";
-
-interface ILink {
-  href: string;
-  title: string;
-}
-
-const legalLinks: ILink[] = [
-  { href: "#", title: "Naudojimosi taisyklės" },
-  { href: "#", title: "Slapukų politika" },
-  { href: "#", title: "Privatumo politika" },
-];
-
-const additionalLinks: ILink[] = [{ href: "", title: "Kontaktai" }];
+import { additionalLinks, ILink, legalLinks } from "@/staticData/links";
 
 const Link = ({ link }: { link: ILink }) => (
   <Button variant="link" color="light" href={link.href} target="_blank">

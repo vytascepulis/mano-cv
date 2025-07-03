@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getCookie, setCookie } from "@/utils/cookies";
 import Button from "@/components/ui/Button";
+import { getLinkBySlug } from "@/staticData/links";
 
 const Cookiebar = () => {
   const [show, setShow] = useState(false);
@@ -27,7 +28,7 @@ const Cookiebar = () => {
           <div>
             Naudojantis svetaine sutinki su{" "}
             <Button
-              href="#"
+              href={getLinkBySlug("terms-and-conditions")?.href}
               variant="link"
               color="light"
               className="inline-block py-0!"
@@ -36,7 +37,7 @@ const Cookiebar = () => {
             </Button>{" "}
             ir{" "}
             <Button
-              href="#"
+              href={getLinkBySlug("cookie-policy")?.href}
               variant="link"
               color="light"
               target="_blank"
