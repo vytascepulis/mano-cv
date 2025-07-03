@@ -9,24 +9,19 @@ const Cookiebar = () => {
     const cconsent = getCookie("cconsent");
 
     if (!cconsent) {
-      document.body.classList.add("disable-scroll");
       setShow(true);
     }
-
-    return () => document.body.classList.remove("disable-scroll");
   }, []);
 
   const acceptCookies = () => {
     setShow(false);
-    document.body.classList.remove("disable-scroll");
-    setCookie("cconsent", "true", 48);
+    setCookie("cconsent", "true", 14);
   };
 
   if (!show) return null;
 
   return (
     <>
-      <div className="fixed top-0 left-0 z-40 h-screen w-screen bg-black/70"></div>
       <div className="bg-primary fixed bottom-0 left-0 z-50 w-full p-5">
         <div className="text-light mx-auto flex max-w-max flex-row items-center gap-6">
           <div>

@@ -10,11 +10,13 @@ export function getCookie(name: string): string | undefined {
   return undefined;
 }
 
-export function setCookie(name: string, value: string, expiresIn: number) {
+export function setCookie(name: string, value: string, expiresInDays: number) {
   let cookieStr = `${encodeURIComponent(name)}=${encodeURIComponent(value)}`;
 
   const expiryDate = new Date();
-  expiryDate.setTime(expiryDate.getTime() + expiresIn * 60 * 60 * 1000);
+  expiryDate.setTime(
+    expiryDate.getTime() + expiresInDays * 24 * 60 * 60 * 1000,
+  );
   cookieStr += `; expires=${expiryDate.toUTCString()}`;
 
   cookieStr += "; path=/";
