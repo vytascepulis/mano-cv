@@ -20,14 +20,6 @@ Font.register({
   family: "Poppins",
   fonts: [
     {
-      src: "/fonts/Poppins-Thin.ttf",
-      fontWeight: 100,
-    },
-    {
-      src: "/fonts/Poppins-ExtraLight.ttf",
-      fontWeight: 200,
-    },
-    {
       src: "/fonts/Poppins-Light.ttf",
       fontWeight: 300,
     },
@@ -44,16 +36,8 @@ Font.register({
       fontWeight: 600,
     },
     {
-      src: "/fonts/Poppins-Bold.ttf",
-      fontWeight: 700,
-    },
-    {
       src: "/fonts/Poppins-ExtraBold.ttf",
       fontWeight: 800,
-    },
-    {
-      src: "/fonts/Poppins-Black.ttf",
-      fontWeight: 900,
     },
   ],
 });

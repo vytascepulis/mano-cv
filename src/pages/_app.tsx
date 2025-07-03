@@ -39,10 +39,7 @@ export default function App({
           property="og:description"
           content="Profesionalus CV internete vos per kelias minutes. Nemokamai susikurk savo asmeninę svetainę, kuria galėsi pasidalinti tik su pasirinktais žmonėmis"
         />
-        <meta
-          property="og:image"
-          content="https://mano-cv.lt/mano-cv-logo.png"
-        />
+        <meta property="og:image" content="https://mano-cv.lt/og-image.jpg" />
         <meta property="og:url" content="https://mano-cv.lt" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
