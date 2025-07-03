@@ -1,4 +1,3 @@
-import { ReactElement } from "react";
 import HomePageLayout from "@/components/layouts/HomePageLayout";
 import HeroSection from "@/pages/home/HeroSection";
 import Navbar from "@/components/Navbar";
@@ -6,11 +5,11 @@ import ExamplePage from "@/pages/home/ExamplePage";
 import Advantages from "@/pages/home/Advantages";
 import GetStarted from "@/pages/home/GetStarted";
 import Designs from "@/pages/home/Designs";
-import Footer from "@/pages/home/Footer";
+import Footer from "@/components/Footer";
 
 export default function HomePage() {
   return (
-    <>
+    <HomePageLayout>
       <Navbar />
       <div className="rounded-b-xl bg-linear-to-br from-slate-700 to-slate-950 pb-[10px] shadow-xl md:rounded-b-none md:pb-[150px]">
         <div className="mx-auto mb-[50px] max-w-[1200px] md:mb-[90px]">
@@ -28,10 +27,6 @@ export default function HomePage() {
         <Designs />
       </div>
       <Footer />
-    </>
+    </HomePageLayout>
   );
 }
-
-HomePage.getLayout = function getLayout(page: ReactElement) {
-  return <HomePageLayout>{page}</HomePageLayout>;
-};

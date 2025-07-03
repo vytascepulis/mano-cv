@@ -4,6 +4,7 @@ import UserBtn from "@/components/Navbar/UserBtn";
 import ControlBar from "@/pages/subdomains/[slug]/nustatymai/ControlBar";
 import BlockedBar from "@/pages/subdomains/[slug]/nustatymai/BlockedBar";
 import Head from "next/head";
+import Footer from "@/components/Footer";
 
 interface Props {
   children: React.ReactNode;
@@ -37,6 +38,7 @@ const SettingsPageLayout = ({ children }: Props) => {
           <ControlBar />
           <div className="px-5">{children}</div>
         </div>
+        <Footer />
       </div>
     </>
   );

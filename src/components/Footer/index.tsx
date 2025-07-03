@@ -42,12 +42,12 @@ const Footer = () => {
         </div>
         <div className="flex flex-col items-start gap-1">
           {legalLinks.map((link) => (
-            <Link key={link.href} link={link} />
+            <Link key={link.slug} link={link} />
           ))}
         </div>
         <div className="flex flex-col items-start gap-1">
           {additionalLinks.map((link) => (
-            <Link key={link.href} link={link} />
+            <Link key={link.slug} link={link} />
           ))}
         </div>
       </div>
