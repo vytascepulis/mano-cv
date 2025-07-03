@@ -2,8 +2,7 @@ import logo from "@/assets/mano-cv-logo-light.png";
 import { getDomainUrl } from "@/utils/subdomain";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInstagram, faLinkedin } from "@fortawesome/free-brands-svg-icons";
-
-const linkClasses = "text-light hover:text-slate-300 transition-colors";
+import Button from "@/components/ui/Button";
 
 interface ILink {
   href: string;
@@ -11,23 +10,23 @@ interface ILink {
 }
 
 const legalLinks: ILink[] = [
-  { href: "", title: "Naudojimosi taisyklės" },
-  { href: "", title: "Slapukų politika" },
-  { href: "", title: "Privatumo politika" },
+  { href: "#", title: "Naudojimosi taisyklės" },
+  { href: "#", title: "Slapukų politika" },
+  { href: "#", title: "Privatumo politika" },
 ];
 
 const additionalLinks: ILink[] = [{ href: "", title: "Kontaktai" }];
 
 const Link = ({ link }: { link: ILink }) => (
-  <a className={linkClasses} href={link.href}>
+  <Button variant="link" color="light" href={link.href} target="_blank">
     {link.title}
-  </a>
+  </Button>
 );
 
 const Footer = () => {
   return (
     <div className="text-light mt-[70px] bg-linear-to-br from-slate-950 to-slate-700 md:mt-[200px]">
-      <div className="mx-auto flex max-w-[1200px] flex-col justify-between gap-[30px] px-5 py-[40px] sm:flex-row sm:gap-0 md:py-[70px]">
+      <div className="mx-auto flex max-w-[1200px] flex-col items-start justify-between gap-[30px] px-5 py-[40px] sm:flex-row sm:gap-0 md:py-[70px]">
         <div className="flex flex-col gap-2 sm:gap-4">
           <a href={getDomainUrl()} className="max-w-max">
             <img
@@ -53,12 +52,12 @@ const Footer = () => {
             </a>
           </div>
         </div>
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col items-start gap-1">
           {legalLinks.map((link) => (
             <Link key={link.href} link={link} />
           ))}
         </div>
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col items-start gap-1">
           {additionalLinks.map((link) => (
             <Link key={link.href} link={link} />
           ))}

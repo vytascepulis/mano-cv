@@ -9,3 +9,14 @@ export function getCookie(name: string): string | undefined {
 
   return undefined;
 }
+
+export function setCookie(name: string, value: string, expiresIn: number) {
+  let cookieStr = `${encodeURIComponent(name)}=${encodeURIComponent(value)}`;
+
+  const expiryDate = new Date();
+  expiryDate.setTime(expiryDate.getTime() + expiresIn * 60 * 60 * 1000);
+  cookieStr += `; expires=${expiryDate.toUTCString()}`;
+
+  cookieStr += "; path=/";
+  document.cookie = cookieStr;
+}
