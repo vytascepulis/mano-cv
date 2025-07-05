@@ -3,11 +3,22 @@ import { getDomainUrl } from "@/utils/subdomain";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInstagram, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import Button from "@/components/ui/Button";
-import { additionalLinks, ILink, legalLinks } from "@/staticData/links";
+import { ILink, legalLinks } from "@/staticData/links";
+import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 
 const Link = ({ link }: { link: ILink }) => (
-  <Button variant="link" color="light" href={link.href} target="_blank">
+  <Button
+    className="flex items-start gap-1 font-normal!"
+    variant="link"
+    color="light"
+    href={link.href}
+    target="_blank"
+  >
     {link.title}
+    <FontAwesomeIcon
+      className="mt-[4px] text-[8px]"
+      icon={faArrowUpRightFromSquare}
+    />
   </Button>
 );
 
@@ -45,10 +56,8 @@ const Footer = () => {
             <Link key={link.slug} link={link} />
           ))}
         </div>
-        <div className="flex flex-col items-start gap-1">
-          {additionalLinks.map((link) => (
-            <Link key={link.slug} link={link} />
-          ))}
+        <div className="flex flex-col items-start gap-1 font-semibold">
+          <p>info@mano-cv.lt</p>
         </div>
       </div>
     </div>
