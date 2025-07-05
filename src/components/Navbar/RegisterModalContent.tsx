@@ -5,8 +5,10 @@ import useFetch from "@/hooks/useFetch";
 import { RegisterData } from "@/types/types";
 import { useSession } from "next-auth/react";
 import { isSlugValid } from "@/utils/subdomain";
+import { usePosthogContext } from "@/contexts/PosthogContext";
 
 const RegisterModalContent = () => {
+  const { captureEvent } = usePosthogContext();
   const { update } = useSession();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -44,7 +46,12 @@ const RegisterModalContent = () => {
       body: {
         slug: value,
       },
-      onSuccess: async ({ slug, userStatus }) => {
+      onSuccess: async ({ id, slug, userStatus }) => {
+        captureEvent({
+          name: "Registered slug",
+          options: { slug, userId: id },
+        });
+
         update({ subdomainSlug: slug, userStatus }).then(() => {
           setLoading(false);
         });

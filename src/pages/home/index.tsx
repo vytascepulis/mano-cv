@@ -6,8 +6,15 @@ import Advantages from "@/pages/home/Advantages";
 import GetStarted from "@/pages/home/GetStarted";
 import Designs from "@/pages/home/Designs";
 import Footer from "@/components/Footer";
+import { usePosthogContext } from "@/contexts/PosthogContext";
+import { useEffect } from "react";
 
 export default function HomePage() {
+  const { capturePageView } = usePosthogContext();
+
+  useEffect(() => {
+    capturePageView({ name: "Home page" });
+  }, []);
   return (
     <HomePageLayout>
       <Navbar />

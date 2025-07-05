@@ -14,6 +14,7 @@ import { getGenericUserPhoto } from "@/utils/user";
 import logoLight from "@/assets/mano-cv-logo-light.png";
 import { getDomainUrl } from "@/utils/subdomain";
 import Head from "next/head";
+import { usePosthogContext } from "@/contexts/PosthogContext";
 
 const mockData = {
   address: "Vilnius, Lietuva",
@@ -123,6 +124,7 @@ const tabs = [
 ];
 
 const Page = () => {
+  const { capturePageView } = usePosthogContext();
   const router = useRouter();
   const stilius = router.query.stilius as string;
   const design = strToWebdesign(stilius);
@@ -182,6 +184,10 @@ const Page = () => {
   useEffect(() => {
     setSelectedDesign(design);
   }, [design]);
+
+  useEffect(() => {
+    capturePageView({ name: "Examples page" });
+  }, []);
 
   if (!router.isReady || !selectedDesign) return <Loader />;
 
