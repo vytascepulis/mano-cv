@@ -60,8 +60,8 @@ export default function App({
           content="https://mano-cv.lt/mano-cv-logo.png"
         />
       </Head>
-      <SentryProvider>
-        <CookiesProvider>
+      <CookiesProvider>
+        <SentryProvider>
           <PosthogProvider>
             <GlobalProvider>
               <SessionProvider session={session} refetchOnWindowFocus={false}>
@@ -74,8 +74,8 @@ export default function App({
               </SessionProvider>
             </GlobalProvider>
           </PosthogProvider>
-        </CookiesProvider>
-      </SentryProvider>
+        </SentryProvider>
+      </CookiesProvider>
     </>
   );
 }

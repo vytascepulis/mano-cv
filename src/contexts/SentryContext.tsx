@@ -1,6 +1,7 @@
 import * as Sentry from "@sentry/nextjs";
 import "@/sentry.client.config.ts";
 import { createContext, useContext, useEffect } from "react";
+import { useCookies } from "@/contexts/CookiesContext";
 
 interface ErrorOptions {
   message: string;
@@ -18,10 +19,13 @@ const SentryContext = createContext<Context>({
 });
 
 const SentryProvider = ({ children }: { children: React.ReactNode }) => {
+  const { cookies } = useCookies();
+
   const logError = ({ message, level = "error", extra }: ErrorOptions) => {
     if (
-      process.env.NODE_ENV === "development" &&
-      process.env.NEXT_PUBLIC_SENTRY_TRACK_DEV !== "true"
+      (process.env.NODE_ENV === "development" &&
+        process.env.NEXT_PUBLIC_SENTRY_TRACK_DEV !== "true") ||
+      !cookies.cconsent
     ) {
       return;
     }
@@ -35,7 +39,7 @@ const SentryProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <SentryContext.Provider value={{ logError }}>
-      <Sentry.ErrorBoundary>{children}</Sentry.ErrorBoundary>
+      {children}
     </SentryContext.Provider>
   );
 };
