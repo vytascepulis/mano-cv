@@ -30,9 +30,11 @@ const PosthogProvider = ({ children }: Props) => {
   const refEvents = useRef<EventProps[]>([]);
 
   const captureEvent: Context["captureEvent"] = ({ name, options }) => {
+    if (process.env.NODE_ENV === "development") return;
+
     if (cookies.cconsent !== "true") {
       refEvents.current.push({ name, options });
-      return null;
+      return;
     }
 
     posthog.capture(name, options);
@@ -46,7 +48,12 @@ const PosthogProvider = ({ children }: Props) => {
   };
 
   useEffect(() => {
-    if (typeof window === "undefined" || cookies.cconsent !== "true") return;
+    if (
+      typeof window === "undefined" ||
+      cookies.cconsent !== "true" ||
+      process.env.NODE_ENV === "development"
+    )
+      return;
 
     posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
       api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
