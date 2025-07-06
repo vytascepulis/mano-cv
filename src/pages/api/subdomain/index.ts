@@ -5,14 +5,14 @@ import {
   returnErrorResponse,
 } from "@/pages/api/utils";
 import { HttpError } from "@/constants/http";
-import { ErrorResponse, HandlerWithSession } from "@/pages/api/types";
+import { ErrorResponse, HandlerWithJwt } from "@/pages/api/types";
 import { isMaxRequests, withSubdomainCheck } from "@/lib/checks";
 import { SubdomainData } from "@/types/types";
 import { getSubdomainByCode } from "@/lib/handlers";
 
 type Response = SubdomainData | ErrorResponse;
 
-const handler: HandlerWithSession<Response> = async (req, res) => {
+const handler: HandlerWithJwt<Response> = async (req, res) => {
   const method = req.method;
   const subdomainSlug = getSubdomainFromUrl(req.headers.host || "")!;
   const cookiesCode = req.cookies.code;

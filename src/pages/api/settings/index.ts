@@ -1,11 +1,7 @@
 import { SettingsData } from "@/types/types";
 import { buildErrorResponse, returnErrorResponse } from "@/pages/api/utils";
-import {
-  isMaxRequests,
-  withSessionCheck,
-  withSubdomainCheck,
-} from "@/lib/checks";
-import { ErrorResponse, HandlerWithSession } from "@/pages/api/types";
+import { isMaxRequests, withJwtCheck, withSubdomainCheck } from "@/lib/checks";
+import { ErrorResponse, HandlerWithJwt } from "@/pages/api/types";
 import { getUserSettings, updateUserSettings } from "@/lib/handlers";
 import { HttpError } from "@/constants/http";
 import { getSubdomainFromUrl } from "@/utils/subdomain";
@@ -18,7 +14,7 @@ export const config = {
   },
 };
 
-const handler: HandlerWithSession<Response> = async (req, res, session) => {
+const handler: HandlerWithJwt<Response> = async (req, res, jwt) => {
   console.time("settings");
   const method = req.method;
 
@@ -31,7 +27,7 @@ const handler: HandlerWithSession<Response> = async (req, res, session) => {
       return returnErrorResponse(req, res, maxRequests);
     }
 
-    const { googleId, userId: id } = session.user;
+    const { googleId, userId: id } = jwt;
 
     console.time("getUserSettings");
     const { data, error } = await getUserSettings({
@@ -56,7 +52,7 @@ const handler: HandlerWithSession<Response> = async (req, res, session) => {
       return returnErrorResponse(req, res, maxRequests);
     }
 
-    const { googleId, userId: id } = session.user;
+    const { googleId, userId: id } = jwt;
 
     console.time("updateUserSettings");
     const { data, error } = await updateUserSettings({
@@ -84,4 +80,4 @@ const handler: HandlerWithSession<Response> = async (req, res, session) => {
   );
 };
 
-export default withSubdomainCheck(withSessionCheck(handler));
+export default withSubdomainCheck(withJwtCheck(handler));

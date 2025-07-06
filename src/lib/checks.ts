@@ -2,23 +2,18 @@ import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { getSubdomainFromUrl } from "@/utils/subdomain";
 import { HttpError } from "@/constants/http";
 import { buildErrorResponse, returnErrorResponse } from "@/pages/api/utils";
-import { getServerSession, Session } from "next-auth";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { ErrorResponse, HandlerWithSession } from "@/pages/api/types";
+import { ErrorResponse, HandlerWithJwt } from "@/pages/api/types";
 import { db } from "@/lib/firebase";
 import { firestore } from "firebase-admin";
 import DocumentReference = firestore.DocumentReference;
 import { rateLimit } from "@/lib/cache";
 import requestIp from "request-ip";
+import { getToken, JWT } from "next-auth/jwt";
 
 export function withSubdomainCheck<T>(
-  handler: HandlerWithSession<T>,
-): HandlerWithSession<T> {
-  return async (
-    req: NextApiRequest,
-    res: NextApiResponse<T>,
-    session: Session,
-  ) => {
+  handler: HandlerWithJwt<T>,
+): HandlerWithJwt<T> {
+  return async (req: NextApiRequest, res: NextApiResponse<T>, jwt: JWT) => {
     const subdomain = getSubdomainFromUrl(req.headers.host || "");
 
     if (!subdomain) {
@@ -32,17 +27,15 @@ export function withSubdomainCheck<T>(
       );
     }
 
-    return handler(req, res, session);
+    return handler(req, res, jwt);
   };
 }
 
-export function withSessionCheck<T>(
-  handler: HandlerWithSession<T>,
-): NextApiHandler<T> {
+export function withJwtCheck<T>(handler: HandlerWithJwt<T>): NextApiHandler<T> {
   return async (req: NextApiRequest, res: NextApiResponse<T>) => {
-    const session = await getServerSession(req, res, authOptions);
+    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
-    if (!session) {
+    if (!token) {
       return returnErrorResponse(
         req,
         res,
@@ -53,7 +46,7 @@ export function withSessionCheck<T>(
       );
     }
 
-    return handler(req, res, session);
+    return handler(req, res, token);
   };
 }
 

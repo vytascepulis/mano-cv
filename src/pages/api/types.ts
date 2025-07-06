@@ -1,9 +1,9 @@
-import { Session } from "next-auth";
 import { NextApiRequest, NextApiResponse } from "next";
 import { HttpError } from "@/constants/http";
 import { SubdomainStatus, UserStatus, WebsiteDesigns } from "@/types/enums";
 import { Card } from "@/components/InfoCards/types";
 import { DrivingLicence, LanguageEntry, SettingsData } from "@/types/types";
+import { JWT } from "next-auth/jwt";
 
 export type FirestoreResponse<T> = Promise<
   { data: T; error: null } | { data: null; error: ErrorResponse }
@@ -15,10 +15,10 @@ export interface ErrorResponse {
   clientMessage?: string;
 }
 
-export type HandlerWithSession<T> = (
+export type HandlerWithJwt<T> = (
   req: NextApiRequest,
   res: NextApiResponse<T>,
-  session: Session,
+  jwt: JWT,
 ) => unknown | Promise<unknown>;
 
 export type ParsedSettingsData = Omit<

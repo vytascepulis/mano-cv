@@ -1,26 +1,22 @@
 import { buildErrorResponse, returnErrorResponse } from "@/pages/api/utils";
 import { HttpError } from "@/constants/http";
-import { ErrorResponse, HandlerWithSession } from "@/pages/api/types";
-import {
-  isMaxRequests,
-  withSessionCheck,
-  withSubdomainCheck,
-} from "@/lib/checks";
+import { ErrorResponse, HandlerWithJwt } from "@/pages/api/types";
+import { isMaxRequests, withJwtCheck, withSubdomainCheck } from "@/lib/checks";
 import { deleteUserAccount } from "@/lib/handlers";
 
 type Response = string | ErrorResponse;
 
-const handler: HandlerWithSession<Response> = async (req, res, session) => {
+const handler: HandlerWithJwt<Response> = async (req, res, jwt) => {
   const method = req.method;
 
   if (method === "DELETE") {
-    const maxRequests = await isMaxRequests({ req, maxCount: 5 });
+    const maxRequests = await isMaxRequests({ req, maxCount: 1 });
 
     if (maxRequests) {
       return returnErrorResponse(req, res, maxRequests);
     }
 
-    const { googleId, userId: id } = session.user;
+    const { googleId, userId: id } = jwt;
     const { data, error } = await deleteUserAccount({
       id,
       googleId,
@@ -43,4 +39,4 @@ const handler: HandlerWithSession<Response> = async (req, res, session) => {
   );
 };
 
-export default withSubdomainCheck(withSessionCheck(handler));
+export default withSubdomainCheck(withJwtCheck(handler));

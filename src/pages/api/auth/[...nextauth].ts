@@ -14,6 +14,10 @@ const sessionTokenDomain =
     ? `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`
     : "localhost";
 
+export const config = {
+  runtime: "edge",
+};
+
 export const authOptions: AuthOptions = {
   providers: [
     GoogleProvider({

@@ -1,13 +1,13 @@
 import { RegisterData } from "@/types/types";
 import { HttpError } from "@/constants/http";
 import { buildErrorResponse, returnErrorResponse } from "@/pages/api/utils";
-import { ErrorResponse, HandlerWithSession } from "@/pages/api/types";
-import { isMaxRequests, withSessionCheck } from "@/lib/checks";
+import { ErrorResponse, HandlerWithJwt } from "@/pages/api/types";
+import { isMaxRequests, withJwtCheck } from "@/lib/checks";
 import { createSubdomain } from "@/lib/handlers";
 
 type Response = RegisterData | ErrorResponse;
 
-const handler: HandlerWithSession<Response> = async (req, res, session) => {
+const handler: HandlerWithJwt<Response> = async (req, res, jwt) => {
   const method = req.method;
   const slug = req.body.slug?.trim();
 
@@ -29,7 +29,7 @@ const handler: HandlerWithSession<Response> = async (req, res, session) => {
       );
     }
 
-    const { userId: id } = session.user;
+    const { userId: id } = jwt;
 
     const { data, error } = await createSubdomain({
       slug,
@@ -53,4 +53,4 @@ const handler: HandlerWithSession<Response> = async (req, res, session) => {
   );
 };
 
-export default withSessionCheck(handler);
+export default withJwtCheck(handler);

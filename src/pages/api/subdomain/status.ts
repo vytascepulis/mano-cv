@@ -2,19 +2,15 @@ import { buildErrorResponse, returnErrorResponse } from "@/pages/api/utils";
 import { HttpError } from "@/constants/http";
 import {
   ErrorResponse,
-  HandlerWithSession,
+  HandlerWithJwt,
   UpdateSubdomainStatusResponse,
 } from "@/pages/api/types";
-import {
-  isMaxRequests,
-  withSessionCheck,
-  withSubdomainCheck,
-} from "@/lib/checks";
+import { isMaxRequests, withJwtCheck, withSubdomainCheck } from "@/lib/checks";
 import { updateSubdomainStatus } from "@/lib/handlers";
 
 type Response = UpdateSubdomainStatusResponse | ErrorResponse;
 
-const handler: HandlerWithSession<Response> = async (req, res, session) => {
+const handler: HandlerWithJwt<Response> = async (req, res, jwt) => {
   const method = req.method;
   const status = req.body.status;
 
@@ -25,7 +21,7 @@ const handler: HandlerWithSession<Response> = async (req, res, session) => {
       return returnErrorResponse(req, res, maxRequests);
     }
 
-    const { googleId, userId: id } = session.user;
+    const { googleId, userId: id } = jwt;
 
     const { data, error } = await updateSubdomainStatus({
       id,
@@ -50,4 +46,4 @@ const handler: HandlerWithSession<Response> = async (req, res, session) => {
   );
 };
 
-export default withSubdomainCheck(withSessionCheck(handler));
+export default withSubdomainCheck(withJwtCheck(handler));
