@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useRef } from "react";
 import posthog from "posthog-js";
 import { useCookies } from "@/contexts/CookiesContext";
 
@@ -15,22 +15,24 @@ interface EventProps {
 interface Context {
   captureEvent: ({ name, options }: EventProps) => void;
   capturePageView: ({ name, options }: EventProps) => void;
-  posthogReady: boolean;
 }
 
 const PosthogContext = createContext<Context>({
   captureEvent: () => {},
   capturePageView: () => {},
-  posthogReady: false,
 });
 
 const PosthogProvider = ({ children }: Props) => {
   const { cookies } = useCookies();
-  const [posthogReady, setPosthogReady] = useState(false);
   const refEvents = useRef<EventProps[]>([]);
 
   const captureEvent: Context["captureEvent"] = ({ name, options }) => {
-    if (process.env.NODE_ENV === "development") return;
+    if (
+      process.env.NODE_ENV === "development" &&
+      process.env.NEXT_PUBLIC_POSTHOG_TRACK_DEV === "false"
+    ) {
+      return;
+    }
 
     if (cookies.cconsent !== "true") {
       refEvents.current.push({ name, options });
@@ -51,9 +53,11 @@ const PosthogProvider = ({ children }: Props) => {
     if (
       typeof window === "undefined" ||
       cookies.cconsent !== "true" ||
-      process.env.NODE_ENV === "development"
-    )
+      (process.env.NODE_ENV === "development" &&
+        process.env.NEXT_PUBLIC_POSTHOG_TRACK_DEV === "false")
+    ) {
       return;
+    }
 
     posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
       api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
@@ -63,7 +67,6 @@ const PosthogProvider = ({ children }: Props) => {
       disable_persistence: false,
       capture_performance: false,
       loaded: () => {
-        setPosthogReady(true);
         if (refEvents.current.length > 0) {
           refEvents.current.forEach((e) => {
             captureEvent(e);
@@ -74,9 +77,7 @@ const PosthogProvider = ({ children }: Props) => {
   }, [cookies.cconsent]);
 
   return (
-    <PosthogContext.Provider
-      value={{ captureEvent, capturePageView, posthogReady }}
-    >
+    <PosthogContext.Provider value={{ captureEvent, capturePageView }}>
       {children}
     </PosthogContext.Provider>
   );
