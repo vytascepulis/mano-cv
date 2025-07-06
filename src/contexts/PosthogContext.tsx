@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect } from "react";
+import { createContext, useContext } from "react";
 import posthog from "posthog-js";
 
 interface Props {
@@ -26,19 +26,6 @@ const PosthogContext = createContext<Context>({
   capturePageView: () => {},
 });
 
-const initPostHog = () => {
-  if (typeof window === "undefined") return;
-
-  posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
-    api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
-    capture_pageview: false,
-    autocapture: false,
-    disable_session_recording: true,
-    disable_persistence: false,
-    capture_performance: false,
-  });
-};
-
 const PosthogProvider = ({ children }: Props) => {
   const captureEvent: Context["captureEvent"] = ({ name, options }) => {
     posthog.capture(name, options);
@@ -50,10 +37,6 @@ const PosthogProvider = ({ children }: Props) => {
       options: { name: name },
     });
   };
-
-  useEffect(() => {
-    initPostHog();
-  }, []);
 
   return (
     <PosthogContext.Provider value={{ captureEvent, capturePageView }}>
