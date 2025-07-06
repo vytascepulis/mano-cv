@@ -18,6 +18,8 @@ const handler: HandlerWithSession<Response> = async (req, res) => {
   const cookiesCode = req.cookies.code;
   const bodyCode = req.body.code;
 
+  console.log("cookiesCode: ", cookiesCode);
+
   if (method === "POST") {
     console.time("subdomain");
     const maxRequests = await isMaxRequests({ req, maxCount: 30 });
@@ -35,15 +37,6 @@ const handler: HandlerWithSession<Response> = async (req, res) => {
 
     if (error) {
       return returnErrorResponse(req, res, error);
-    }
-
-    if (bodyCode) {
-      const maxAge = 24 * 60 * 60; // 24 hours
-
-      res.setHeader(
-        "Set-Cookie",
-        `code=${bodyCode}; Secure; SameSite=None; Path=/; Max-Age=${maxAge}`,
-      );
     }
 
     console.timeEnd("subdomain");

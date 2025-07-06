@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { CookieName, CookieState } from "@/contexts/CookiesContext/types";
 import {
   availableCookies,
@@ -35,8 +35,15 @@ const initCookies = () => {
 
 const CookiesProvider = ({ children }: { children: React.ReactNode }) => {
   const [cookies, setCookie] = useState<CookieState>(defaultCookies());
+  const refCookies = useRef<CookieState>({});
 
   const handleSetCookie = (name: CookieName, value: string) => {
+    const canSet = cookies.cconsent === "true";
+    if (!canSet && name !== "cconsent") {
+      refCookies.current[name] = value;
+      return;
+    }
+
     setClientCookie(name, value);
     setCookie((prevState) => ({ ...prevState, [name]: value }));
   };
@@ -44,6 +51,18 @@ const CookiesProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     setCookie(initCookies());
   }, []);
+
+  useEffect(() => {
+    if (cookies.cconsent === "true" && refCookies.current) {
+      Object.entries(refCookies.current).forEach(([name, value]) => {
+        if (value) {
+          handleSetCookie(name, value);
+        }
+
+        delete refCookies.current[name];
+      });
+    }
+  }, [cookies.cconsent]);
 
   return (
     <CookiesContext.Provider

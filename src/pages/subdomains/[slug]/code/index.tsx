@@ -7,12 +7,14 @@ import Button from "@/components/ui/Button";
 import { useRouter } from "next/router";
 import Input from "@/components/ui/Input";
 import { useToast } from "@/contexts/ToastContext";
+import { useCookies } from "@/contexts/CookiesContext";
 
 interface Props {
   setSubdomainData: (data: SubdomainData) => void;
 }
 
 export default function CodePage({ setSubdomainData }: Props) {
+  const { setCookie } = useCookies();
   const { fireToast } = useToast();
   const router = useRouter();
   const slug = router.query.slug;
@@ -29,6 +31,7 @@ export default function CodePage({ setSubdomainData }: Props) {
       },
       onSuccess: (data) => {
         setSubdomainData(data);
+        setCookie("code", code);
       },
       onError: () => {
         fireToast({ type: "error", message: "Kodas neteisingas" });
@@ -38,7 +41,7 @@ export default function CodePage({ setSubdomainData }: Props) {
 
   return (
     <>
-      <div className="h-screen w-screen bg-violet-50 px-3 pt-3 pt-5 lg:px-5">
+      <div className="h-screen w-screen bg-violet-50 px-3 pt-5 lg:px-5">
         <div className="mx-auto flex max-w-[1200px] flex-col items-start">
           <a className="mx-auto md:mx-0" href={getDomainUrl()}>
             <img
