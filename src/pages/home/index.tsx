@@ -24,6 +24,13 @@ export default function HomePage() {
             <HeroSection />
           </div>
         </div>
+        <button
+          onClick={() => {
+            throw Error("test error");
+          }}
+        >
+          ERROR
+        </button>
         <div className="px-2">
           <ExamplePage />
         </div>
