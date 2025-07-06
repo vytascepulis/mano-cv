@@ -8,12 +8,14 @@ import { useRouter } from "next/router";
 import Input from "@/components/ui/Input";
 import { useToast } from "@/contexts/ToastContext";
 import { useCookies } from "@/contexts/CookiesContext";
+import { useSentry } from "@/contexts/SentryContext";
 
 interface Props {
   setSubdomainData: (data: SubdomainData) => void;
 }
 
 export default function CodePage({ setSubdomainData }: Props) {
+  const { logError } = useSentry();
   const { setCookie } = useCookies();
   const { fireToast } = useToast();
   const router = useRouter();
@@ -35,6 +37,11 @@ export default function CodePage({ setSubdomainData }: Props) {
       },
       onError: () => {
         fireToast({ type: "error", message: "Kodas neteisingas" });
+        logError({
+          message: "Provided invalid subdomain code",
+          level: "warning",
+          extra: { slug, code },
+        });
       },
     });
   };

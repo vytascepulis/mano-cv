@@ -1,18 +1,55 @@
 import * as Sentry from "@sentry/nextjs";
+import "@/sentry.client.config.ts";
+import { createContext, useContext, useEffect } from "react";
 
-Sentry.init({
-  dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
-  tracesSampleRate: 1.0,
-  replaysSessionSampleRate: 0.0,
-  replaysOnErrorSampleRate: 0.0,
+interface ErrorOptions {
+  message: string;
+  level?: Sentry.SeverityLevel;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  extra?: { [key: string]: any };
+}
+
+interface Context {
+  logError: ({ message }: ErrorOptions) => void;
+}
+
+const SentryContext = createContext<Context>({
+  logError: () => {},
 });
 
 const SentryProvider = ({ children }: { children: React.ReactNode }) => {
+  const logError = ({ message, level = "error", extra }: ErrorOptions) => {
+    if (
+      process.env.NODE_ENV === "development" &&
+      process.env.NEXT_PUBLIC_SENTRY_TRACK_DEV !== "true"
+    ) {
+      return;
+    }
+
+    Sentry.captureEvent({
+      message,
+      level,
+      extra,
+    });
+  };
+
   return (
-    <Sentry.ErrorBoundary fallback={<p>Something went wrong</p>}>
-      {children}
-    </Sentry.ErrorBoundary>
+    <SentryContext.Provider value={{ logError }}>
+      <Sentry.ErrorBoundary>{children}</Sentry.ErrorBoundary>
+    </SentryContext.Provider>
   );
 };
 
-export default SentryProvider;
+const LogError = ({ message, level, extra }: ErrorOptions) => {
+  const { logError } = useSentry();
+
+  useEffect(() => {
+    logError({ message, level, extra });
+  }, []);
+
+  return null;
+};
+
+const useSentry = () => useContext(SentryContext);
+
+export { useSentry, SentryProvider, LogError };

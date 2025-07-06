@@ -8,6 +8,7 @@ import InternalErrorPage from "@/pages/500";
 import SettingsPageLayout from "@/components/layouts/SettingsPageLayout";
 import { SettingsProvider } from "@/contexts/SettingsContext";
 import SettingsList from "@/pages/subdomains/[slug]/nustatymai/SettingsList";
+import { LogError } from "@/contexts/SentryContext";
 
 const notFoundErrors = [
   HttpError.NOT_FOUND,
@@ -34,7 +35,12 @@ const SettingsPage = () => {
   }
 
   if (error && notFoundErrors.includes(error.code)) {
-    return <NotFoundPage />;
+    return (
+      <>
+        <LogError message={"Could not load settings page"} extra={{ error }} />
+        <NotFoundPage />
+      </>
+    );
   }
 
   if (error || !data) {

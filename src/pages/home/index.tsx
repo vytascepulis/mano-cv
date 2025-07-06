@@ -15,6 +15,7 @@ export default function HomePage() {
   useEffect(() => {
     capturePageView({ name: "Home page" });
   }, []);
+
   return (
     <HomePageLayout>
       <Navbar />
@@ -24,13 +25,6 @@ export default function HomePage() {
             <HeroSection />
           </div>
         </div>
-        <button
-          onClick={() => {
-            throw Error("test error");
-          }}
-        >
-          ERROR
-        </button>
         <div className="px-2">
           <ExamplePage />
         </div>

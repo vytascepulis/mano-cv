@@ -12,7 +12,7 @@ import Head from "next/head";
 import { PosthogProvider } from "@/contexts/PosthogContext";
 import { CookiesProvider } from "@/contexts/CookiesContext";
 import Cookiebar from "@/components/Cookiebar";
-import SentryProvider from "@/contexts/SentryContext";
+import { SentryProvider } from "@/contexts/SentryContext";
 
 export type NextPageWithLayout<P = unknown, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;

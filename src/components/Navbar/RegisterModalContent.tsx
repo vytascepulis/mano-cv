@@ -6,8 +6,10 @@ import { RegisterData } from "@/types/types";
 import { useSession } from "next-auth/react";
 import { isSlugValid } from "@/utils/subdomain";
 import { usePosthogContext } from "@/contexts/PosthogContext";
+import { useSentry } from "@/contexts/SentryContext";
 
 const RegisterModalContent = () => {
+  const { logError } = useSentry();
   const { captureEvent } = usePosthogContext();
   const { update } = useSession();
   const [loading, setLoading] = useState(false);
@@ -59,6 +61,10 @@ const RegisterModalContent = () => {
       onError: (error) => {
         setError(error.message);
         setLoading(false);
+        logError({
+          message: "Error registering slug",
+          extra: { error },
+        });
       },
     });
   };

@@ -15,6 +15,7 @@ import { UpdateSubdomainStatusResponse } from "@/pages/api/types";
 import { useSession } from "next-auth/react";
 import { getDomainUrl } from "@/utils/subdomain";
 import { usePosthogContext } from "@/contexts/PosthogContext";
+import { useSentry } from "@/contexts/SentryContext";
 
 interface Props {
   children: React.ReactNode;
@@ -35,6 +36,7 @@ const SettingsContext = createContext<Context>({
 });
 
 const SettingsProvider = ({ children, settingsData }: Props) => {
+  const { logError } = useSentry();
   const { capturePageView, captureEvent } = usePosthogContext();
   const { update, data: sessionData } = useSession();
   const { fireToast } = useToast();
@@ -95,8 +97,12 @@ const SettingsProvider = ({ children, settingsData }: Props) => {
         setIsEditing(false);
         await update({ image: data.image });
       },
-      onError: (err) => {
-        fireToast({ type: "error", message: err.message });
+      onError: (error) => {
+        fireToast({ type: "error", message: error.message });
+        logError({
+          message: "Could not update settings",
+          extra: { error, userId: sessionData?.user.userId },
+        });
       },
     });
   };
@@ -145,6 +151,10 @@ const SettingsProvider = ({ children, settingsData }: Props) => {
       onError: (error) => {
         setIsSubdomainToggleDisabled(false);
         fireToast({ type: "error", message: error.message });
+        logError({
+          message: "Could not set subdomain status",
+          extra: { error, userId: sessionData?.user.userId },
+        });
       },
     });
   };
