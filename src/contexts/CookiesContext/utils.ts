@@ -18,6 +18,5 @@ export function setClientCookie(name: string, value: string) {
 
   let cookieStr = `${encodeURIComponent(name)}=${encodeURIComponent(value)}`;
   cookieStr += `; max-age=${cookieOption.maxAge}; domain=${cookieOption.domain}; path=/`;
-  console.log(cookieStr);
   document.cookie = cookieStr;
 }
