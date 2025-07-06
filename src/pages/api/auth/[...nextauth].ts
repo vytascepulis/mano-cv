@@ -14,10 +14,6 @@ const sessionTokenDomain =
     ? `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`
     : "localhost";
 
-export const config = {
-  runtime: "edge",
-};
-
 export const authOptions: AuthOptions = {
   providers: [
     GoogleProvider({
@@ -49,7 +45,7 @@ export const authOptions: AuthOptions = {
       }
 
       const { data: userData } = await getUserByGoogleId({
-        hashedGoogleId: sha256(profile.sub),
+        hashedGoogleId: await sha256(profile.sub),
       });
 
       if (userData) {
@@ -61,7 +57,7 @@ export const authOptions: AuthOptions = {
 
       if (!userData) {
         const { data: createData, error: createError } = await createUser({
-          hashedGoogleId: sha256(profile.sub),
+          hashedGoogleId: await sha256(profile.sub),
           email: profile.email!,
         });
 
@@ -85,7 +81,7 @@ export const authOptions: AuthOptions = {
       }
 
       if (account && profile?.sub) {
-        token.googleId = sha256(profile.sub);
+        token.googleId = await sha256(profile.sub);
         token.subdomainSlug = user.subdomainSlug;
         token.userId = user.userId;
         token.image = user.image;
