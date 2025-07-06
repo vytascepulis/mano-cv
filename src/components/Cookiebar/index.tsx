@@ -1,25 +1,15 @@
-import { useEffect, useState } from "react";
-import { getCookie, setCookie } from "@/utils/cookies";
 import Button from "@/components/ui/Button";
 import { getLinkBySlug } from "@/staticData/links";
+import { useCookies } from "@/contexts/CookiesContext";
 
 const Cookiebar = () => {
-  const [show, setShow] = useState(false);
-
-  useEffect(() => {
-    const cconsent = getCookie("cconsent");
-
-    if (!cconsent) {
-      setShow(true);
-    }
-  }, []);
+  const { setCookie, cookies } = useCookies();
 
   const acceptCookies = () => {
-    setShow(false);
-    setCookie("cconsent", "true", 14);
+    setCookie("cconsent", "true");
   };
 
-  if (!show) return null;
+  if (cookies.cconsent === "true" || cookies.cconsent === null) return null;
 
   return (
     <>

@@ -10,6 +10,8 @@ import { GlobalProvider } from "@/contexts/GlobalContext";
 import { ToastProvider } from "@/contexts/ToastContext";
 import Head from "next/head";
 import { PosthogProvider } from "@/contexts/PosthogContext";
+import { CookiesProvider } from "@/contexts/CookiesContext";
+import Cookiebar from "@/components/Cookiebar";
 
 export type NextPageWithLayout<P = unknown, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -57,17 +59,20 @@ export default function App({
           content="https://mano-cv.lt/mano-cv-logo.png"
         />
       </Head>
-      <PosthogProvider>
-        <GlobalProvider>
-          <SessionProvider session={session} refetchOnWindowFocus={false}>
-            <ToastProvider>
-              <main className={outfit.className}>
-                {getLayout(<Component {...pageProps} />)}
-              </main>
-            </ToastProvider>
-          </SessionProvider>
-        </GlobalProvider>
-      </PosthogProvider>
+      <CookiesProvider>
+        <PosthogProvider>
+          <GlobalProvider>
+            <SessionProvider session={session} refetchOnWindowFocus={false}>
+              <ToastProvider>
+                <main className={outfit.className}>
+                  {getLayout(<Component {...pageProps} />)}
+                  <Cookiebar />
+                </main>
+              </ToastProvider>
+            </SessionProvider>
+          </GlobalProvider>
+        </PosthogProvider>
+      </CookiesProvider>
     </>
   );
 }
