@@ -1,4 +1,4 @@
-import { createContext, useContext, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { SettingsData } from "@/types/types";
 import { SettingsState, Context } from "@/contexts/SettingsContext/types";
 import { initialSettings } from "@/contexts/SettingsContext/constants";
@@ -14,6 +14,7 @@ import {
 import { UpdateSubdomainStatusResponse } from "@/pages/api/types";
 import { useSession } from "next-auth/react";
 import { getDomainUrl } from "@/utils/subdomain";
+import { usePosthogContext } from "@/contexts/PosthogContext";
 
 interface Props {
   children: React.ReactNode;
@@ -34,7 +35,8 @@ const SettingsContext = createContext<Context>({
 });
 
 const SettingsProvider = ({ children, settingsData }: Props) => {
-  const { update } = useSession();
+  const { capturePageView, captureEvent } = usePosthogContext();
+  const { update, data: sessionData } = useSession();
   const { fireToast } = useToast();
   const [isSubdomainToggleDisabled, setIsSubdomainToggleDisabled] =
     useState(false);
@@ -83,6 +85,10 @@ const SettingsProvider = ({ children, settingsData }: Props) => {
     updateSettings({
       body: formData,
       onSuccess: async (data) => {
+        captureEvent({
+          name: "Saved settings",
+          options: { userId: sessionData?.user.userId },
+        });
         fireToast({ type: "success", message: "Išsaugota sėkmingai" });
         setSettings(buildSettings(data));
         defaultSettings.current = data;
@@ -109,11 +115,20 @@ const SettingsProvider = ({ children, settingsData }: Props) => {
 
     setIsSubdomainToggleDisabled(true);
 
+    const newStatus = val ? SubdomainStatus.ACTIVE : SubdomainStatus.HIDDEN;
+
     setActive({
       body: {
-        status: val ? SubdomainStatus.ACTIVE : SubdomainStatus.HIDDEN,
+        status: newStatus,
       },
       onSuccess: ({ status }) => {
+        if (sessionData?.user.userId) {
+          captureEvent({
+            name: "Set subdomain status",
+            options: { userId: sessionData.user.userId, newStatus },
+          });
+        }
+
         handleOnChange("subdomainStatus", status);
         setIsSubdomainToggleDisabled(false);
 
@@ -143,6 +158,15 @@ const SettingsProvider = ({ children, settingsData }: Props) => {
       "noopener,noreferrer",
     );
   };
+
+  useEffect(() => {
+    if (sessionData?.user.userId) {
+      capturePageView({
+        name: "Settings page",
+        options: { userId: sessionData.user.userId },
+      });
+    }
+  }, [sessionData?.user.userId]);
 
   return (
     <SettingsContext.Provider

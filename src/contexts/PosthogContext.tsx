@@ -5,20 +5,15 @@ interface Props {
   children: React.ReactNode;
 }
 
-interface Options {
+interface EventProps {
+  name: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any;
+  options?: { [key: string]: any };
 }
 
 interface Context {
-  captureEvent: ({
-    name,
-    options,
-  }: {
-    name: string;
-    options?: Options;
-  }) => void;
-  capturePageView: ({ name }: { name: string }) => void;
+  captureEvent: ({ name, options }: EventProps) => void;
+  capturePageView: ({ name, options }: EventProps) => void;
 }
 
 const PosthogContext = createContext<Context>({
@@ -31,10 +26,10 @@ const PosthogProvider = ({ children }: Props) => {
     posthog.capture(name, options);
   };
 
-  const capturePageView = ({ name }: { name: string }) => {
+  const capturePageView: Context["capturePageView"] = ({ name, options }) => {
     captureEvent({
       name: "Page view",
-      options: { name: name },
+      options: { name: name, ...options },
     });
   };
 

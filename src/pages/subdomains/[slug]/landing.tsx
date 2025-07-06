@@ -8,16 +8,24 @@ import PdfDocument from "@/components/PdfDocument";
 import { ISubdomain } from "@/pages/api/types";
 import ModernDesignLayout from "@/components/layouts/ModernDesignLayout";
 import MinimalisticDesignLayout from "@/components/layouts/MinimalisticDesignLayout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { usePosthogContext } from "@/contexts/PosthogContext";
 
 interface Props {
   subdomainData: SubdomainData;
 }
 
 const LandingPage = ({ subdomainData }: Props) => {
+  const { capturePageView } = usePosthogContext();
   const [downloadLoading, setDownloadLoading] = useState(false);
   const router = useRouter();
   const slug = router.query.slug;
+
+  useEffect(() => {
+    if (slug) {
+      capturePageView({ name: "Subdomain page", options: { slug } });
+    }
+  }, [slug]);
 
   if (!subdomainData) {
     return null;
