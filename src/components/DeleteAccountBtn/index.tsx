@@ -3,10 +3,13 @@ import Modal from "@/components/ui/Modal";
 import { useState } from "react";
 import Checkbox from "@/components/ui/Checkbox";
 import useFetch from "@/hooks/useFetch";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { getDomainUrl } from "@/utils/subdomain";
+import { usePosthogContext } from "@/contexts/PosthogContext";
 
 const DeleteAccountBtn = () => {
+  const { data } = useSession();
+  const { captureEvent } = usePosthogContext();
   const [confirmModal, setConfirmModal] = useState(false);
   const [checked, setChecked] = useState(false);
   const [fakeLoading, setFakeLoading] = useState(false);
@@ -25,6 +28,11 @@ const DeleteAccountBtn = () => {
 
     fetch({
       onSuccess: () => {
+        captureEvent({
+          name: "Deleted account",
+          options: { userId: data?.user.userId },
+        });
+
         signOut().then(() => {
           window.location.href = getDomainUrl();
         });
