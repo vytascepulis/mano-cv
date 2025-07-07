@@ -127,7 +127,8 @@ const ExamplePage = () => {
           <div className="flex flex-col items-center gap-[40px] md:flex-row md:items-start md:gap-[70px]">
             <div className="order-2 w-full md:order-1">
               <p className="relative text-lg md:mb-2 md:text-3xl">
-                👋 Labas! <span className="text-primary">—</span>{" "}
+                🙋🏿‍♂️ 👋🏻 👋🏼 🙋‍♀️ 🙋🏻‍♀️ 💜 Labas!{" "}
+                <span className="text-primary">—</span>{" "}
               </p>
               <p className="relative mb-3 max-w-[700px] text-3xl leading-tight md:mb-10 md:text-5xl">
                 Aš{" "}
