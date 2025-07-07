@@ -52,6 +52,7 @@ const SubdomainPage = () => {
             <Button
               variant="link"
               className="my-0! inline-block max-h-max py-0!"
+              href="/nustatymai"
             >
               savo profilyje
             </Button>

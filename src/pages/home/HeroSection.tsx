@@ -31,7 +31,7 @@ const HeroSection = () => {
         <Button
           size="lg"
           onClick={handleCtaOnClick}
-          href={
+          externalUrl={
             data?.user.subdomainSlug
               ? `${formatSubdomainUrl(data.user.subdomainSlug)}/nustatymai`
               : undefined

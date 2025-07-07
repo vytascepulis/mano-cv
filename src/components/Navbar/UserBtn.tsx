@@ -99,7 +99,7 @@ const UserBtn = ({ hiddenIds = [] }: Props) => {
       <Button
         className="hidden lg:block"
         variant="link"
-        href={formatSubdomainUrl(data.user.subdomainSlug)}
+        externalUrl={formatSubdomainUrl(data.user.subdomainSlug)}
         target="_blank"
       >
         {data.user.subdomainSlug}.mano-cv.lt

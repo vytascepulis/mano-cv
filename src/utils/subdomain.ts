@@ -21,7 +21,8 @@ export const formatSubdomainUrl = (slug: string) => {
 export const getDomainUrl = () => {
   const protocol = process.env.NODE_ENV === "development" ? "http" : "https";
 
-  return `${protocol}://${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
+  // return `${protocol}://${process.env.NEXT_PUBLIC_ROOT_DOMAIN}`;
+  return "http://localhost:3000";
 };
 
 const reservedSubdomains = new Set([

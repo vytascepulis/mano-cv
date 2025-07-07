@@ -14,6 +14,7 @@ export interface ButtonProps {
   target?: string;
   className?: string;
   type?: "button" | "submit";
+  externalUrl?: string;
   children: ReactNode;
 }
 
@@ -30,6 +31,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
       target,
       className,
       type = "button",
+      externalUrl,
       children,
     },
     ref,
@@ -85,6 +87,19 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
       variant === "outline" && outlineClasses,
       variant === "link" && linkClasses,
     );
+
+    if (externalUrl) {
+      return (
+        <a
+          href={externalUrl}
+          className={buttonClass}
+          target={target}
+          onClick={onClick}
+        >
+          {children}
+        </a>
+      );
+    }
 
     if (href) {
       return (

@@ -155,7 +155,7 @@ const ClassicDesignLayout = ({
               transition={{ duration: 1, ease: [0, 0.71, 0.2, 1.01] }}
               className="relative text-lg md:mb-2 md:text-3xl"
             >
-              👋 Labas! <span className="text-primary">—</span>{" "}
+              👋🏼 Labas! <span className="text-primary">—</span>{" "}
             </motion.p>
             <motion.p
               initial={{ opacity: 0, top: 30 }}

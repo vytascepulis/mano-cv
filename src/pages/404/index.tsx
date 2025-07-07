@@ -15,7 +15,7 @@ export default function NotFoundPage({ customMessage }: Props) {
           😵 404
         </h1>
         <p className="text-2xl">Oi! Toks puslapis neegzistuoja</p>
-        <Button variant="link" className="mt-5" href={getDomainUrl()}>
+        <Button variant="link" className="mt-5" externalUrl={getDomainUrl()}>
           Grįžti į mano-cv.lt
         </Button>
       </div>

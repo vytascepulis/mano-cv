@@ -154,7 +154,7 @@ const ModernDesignLayout = ({
               "relative mb-3 text-xl font-extralight md:text-2xl",
             )}
           >
-            👋 Labas!
+            👋🏼 Labas!
           </motion.p>
           <motion.p
             initial={{
