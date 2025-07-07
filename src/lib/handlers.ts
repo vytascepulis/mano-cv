@@ -552,17 +552,6 @@ export const getSubdomainByCode = async ({
   googleId?: IUser["googleId"];
   userId?: string;
 }): FirestoreResponse<SubdomainData> => {
-  if (!isCodeValid(subdomainCode)) {
-    return {
-      data: null,
-      error: buildErrorResponse({
-        code: HttpError.BAD_REQUEST,
-        serverMessage: `Subdomain code is incorrect for slug: ${subdomainSlug}`,
-        clientMessage: "Svetainės kodas neteisingas",
-      }),
-    };
-  }
-
   try {
     const subdomainSnap = await db
       .collection("subdomains")
@@ -605,6 +594,17 @@ export const getSubdomainByCode = async ({
         error: buildErrorResponse({
           code: HttpError.NOT_FOUND,
           serverMessage: `Subdomain is hidden or user is blocked for slug: ${subdomainSlug}`,
+        }),
+      };
+    }
+
+    if (!isCodeValid(subdomainCode)) {
+      return {
+        data: null,
+        error: buildErrorResponse({
+          code: HttpError.BAD_REQUEST,
+          serverMessage: `Subdomain code is incorrect for slug: ${subdomainSlug}`,
+          clientMessage: "Svetainės kodas neteisingas",
         }),
       };
     }
