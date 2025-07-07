@@ -173,7 +173,7 @@ const ClassicDesignLayout = ({
               animate={{ opacity: 1 }}
               transition={{ duration: 1.2, delay: 1.2 }}
             >
-              <p className="mb-5 text-sm leading-relaxed font-light text-gray-500 md:mb-7 md:text-lg">
+              <p className="mb-5 text-sm leading-relaxed font-light whitespace-pre-line text-gray-500 md:mb-7 md:text-lg">
                 {subdomainData.intro}
               </p>
               <DownloadBtn
@@ -323,7 +323,7 @@ const ClassicDesignLayout = ({
                         </p>
                         <p className="text-lg font-semibold">{item.title}</p>
                         <p className="mb-1 font-light">{item.subtitle}</p>
-                        <p className="text-sm font-light text-gray-600">
+                        <p className="text-sm font-light whitespace-pre-line text-gray-600">
                           {formatExperienceDescription(item)}
                         </p>
                         {(item.description || "").length > 50 &&

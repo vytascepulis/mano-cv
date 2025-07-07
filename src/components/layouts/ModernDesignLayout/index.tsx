@@ -198,7 +198,7 @@ const ModernDesignLayout = ({
             }}
             className={twMerge(
               robotoCondensed.className,
-              "mb-8 inline-block max-w-[600px] overflow-hidden font-light md:text-center",
+              "mb-8 inline-block max-w-[600px] overflow-hidden font-light whitespace-pre-line md:text-center",
             )}
           >
             {subdomainData.intro}
@@ -274,7 +274,7 @@ const ModernDesignLayout = ({
                   <p
                     className={twMerge(
                       robotoCondensed.className,
-                      "w-full leading-normal font-light md:text-lg",
+                      "w-full leading-normal font-light whitespace-pre-line md:text-lg",
                     )}
                   >
                     {formatExperienceDescription(item)}

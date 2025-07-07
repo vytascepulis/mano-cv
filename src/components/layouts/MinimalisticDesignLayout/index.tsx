@@ -129,7 +129,7 @@ const MinimalisticDesignLayout = ({
           <p
             className={twMerge(
               robotoSlab.className,
-              "mt-3 text-sm font-light md:text-base",
+              "mt-3 text-sm font-light whitespace-pre-line md:text-base",
             )}
           >
             {formatExperienceDescription(item)}
@@ -167,7 +167,9 @@ const MinimalisticDesignLayout = ({
           <p className="text-center text-3xl font-bold uppercase md:text-start md:text-6xl">
             {subdomainData.fullName}
           </p>
-          <p className="text-sm font-light md:text-lg">{subdomainData.intro}</p>
+          <p className="text-sm font-light whitespace-pre-line md:text-lg">
+            {subdomainData.intro}
+          </p>
           <DownloadBtn
             handleDownload={handleDownload}
             downloadLoading={downloadLoading}
