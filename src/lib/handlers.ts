@@ -582,40 +582,29 @@ export const getSubdomainByCode = async ({
     }
 
     const userSnap = await subdomainSnap.docs[0]?.data().user.get();
+    const isSubdomainHidden =
+      subdomainSnap.docs[0].data().status === SubdomainStatus.HIDDEN;
+    const isUserBlocked = userSnap.data().status === UserStatus.BLOCKED;
+    const isUserViewing =
+      userSnap.id === userId && userSnap.data().googleId === googleId;
 
-    if (
-      subdomainSnap.docs[0].data().status === SubdomainStatus.HIDDEN ||
-      userSnap.data().status === UserStatus.BLOCKED
-    ) {
-      if (
-        userSnap.id === userId &&
-        userSnap.data().googleId === googleId &&
-        userSnap.data().status !== UserStatus.BLOCKED
-      ) {
-        return {
-          data: null,
-          error: buildErrorResponse({
-            code: HttpError.NOT_ALLOWED,
-            serverMessage: `Subdomain is hidden for slug: ${subdomainSlug}`,
-            clientMessage: "Svetainė paslėpta. Aktyvuok ją savo profilyje",
-          }),
-        };
-      }
+    if (isSubdomainHidden && !isUserBlocked && isUserViewing) {
+      return {
+        data: null,
+        error: buildErrorResponse({
+          code: HttpError.NOT_ALLOWED,
+          serverMessage: `Subdomain is hidden for slug: ${subdomainSlug}`,
+          clientMessage: "Svetainė paslėpta. Aktyvuok ją savo profilyje",
+        }),
+      };
+    }
 
+    if (isSubdomainHidden || isUserBlocked) {
       return {
         data: null,
         error: buildErrorResponse({
           code: HttpError.NOT_FOUND,
           serverMessage: `Subdomain is hidden or user is blocked for slug: ${subdomainSlug}`,
-        }),
-      };
-    }
-
-    if (!subdomainCode) {
-      return {
-        data: null,
-        error: buildErrorResponse({
-          code: HttpError.BAD_REQUEST,
         }),
       };
     }
