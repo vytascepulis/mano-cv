@@ -81,6 +81,7 @@ export const isMaxRequests = async ({
   }
 
   rateLimit.set(key, current + 1);
+  console.log("update rateLimit: ", rateLimit);
   return null;
 };
 
