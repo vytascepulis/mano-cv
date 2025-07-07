@@ -76,10 +76,10 @@ const UserBtn = ({ hiddenIds = [] }: Props) => {
       target: "_blank",
     },
     {
-      id: "settings",
-      title: "Nustatymai",
+      id: "profile",
+      title: "Profilis",
       icon: faGear,
-      href: `${formatSubdomainUrl(data.user.subdomainSlug!)}/nustatymai`,
+      href: `${formatSubdomainUrl(data.user.subdomainSlug!)}/profilis`,
     },
     {
       title: "Atsijungti",

@@ -33,7 +33,7 @@ const HeroSection = () => {
           onClick={handleCtaOnClick}
           externalUrl={
             data?.user.subdomainSlug
-              ? `${formatSubdomainUrl(data.user.subdomainSlug)}/nustatymai`
+              ? `${formatSubdomainUrl(data.user.subdomainSlug)}/profilis`
               : undefined
           }
         >

@@ -68,7 +68,7 @@ const ExamplePage = () => {
     }
 
     const url = data?.user.subdomainSlug
-      ? `${formatSubdomainUrl(data.user.subdomainSlug)}/nustatymai`
+      ? `${formatSubdomainUrl(data.user.subdomainSlug)}/profilis`
       : undefined;
 
     window.open(url, "_blank", "noopener,noreferrer");

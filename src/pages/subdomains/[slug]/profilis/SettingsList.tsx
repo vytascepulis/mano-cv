@@ -1,4 +1,4 @@
-import Setting from "@/pages/subdomains/[slug]/nustatymai/Setting";
+import Setting from "@/pages/subdomains/[slug]/profilis/Setting";
 import Input from "@/components/ui/Input";
 import InputPills from "@/components/ui/InputPills";
 import InfoCards from "@/components/InfoCards";

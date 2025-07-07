@@ -1,8 +1,8 @@
 import { getDomainUrl } from "@/utils/subdomain";
 import logo from "@/assets/mano-cv-logo-dark.png";
 import UserBtn from "@/components/Navbar/UserBtn";
-import ControlBar from "@/pages/subdomains/[slug]/nustatymai/ControlBar";
-import BlockedBar from "@/pages/subdomains/[slug]/nustatymai/BlockedBar";
+import ControlBar from "@/pages/subdomains/[slug]/profilis/ControlBar";
+import BlockedBar from "@/pages/subdomains/[slug]/profilis/BlockedBar";
 import Head from "next/head";
 import Footer from "@/components/Footer";
 
@@ -14,7 +14,7 @@ const SettingsPageLayout = ({ children }: Props) => {
   return (
     <>
       <Head>
-        <title>mano-cv.lt - nustatymai</title>
+        <title>mano-cv.lt - profilis</title>
       </Head>
       <div className="min-h-screen bg-violet-50">
         <div className="mx-auto max-w-7xl">

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getSubdomainFromUrl } from "@/utils/subdomain";
 
 export const config = {
-  matcher: ["/", "/ui", "/nustatymai"],
+  matcher: ["/", "/ui", "/profilis"],
 };
 
 export async function middleware(req: NextRequest) {

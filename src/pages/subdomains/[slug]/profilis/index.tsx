@@ -7,7 +7,7 @@ import NotFoundPage from "@/pages/404";
 import InternalErrorPage from "@/pages/500";
 import SettingsPageLayout from "@/components/layouts/SettingsPageLayout";
 import { SettingsProvider } from "@/contexts/SettingsContext";
-import SettingsList from "@/pages/subdomains/[slug]/nustatymai/SettingsList";
+import SettingsList from "@/pages/subdomains/[slug]/profilis/SettingsList";
 import { LogError } from "@/contexts/SentryContext";
 
 const notFoundErrors = [
