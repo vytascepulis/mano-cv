@@ -73,7 +73,6 @@ export const authOptions: AuthOptions = {
       return true;
     },
     async jwt({ token, user, account, profile, trigger, session }) {
-      console.time("jwt");
       if (trigger === "update") {
         token.userStatus = session.userStatus ?? token.userStatus;
         token.subdomainSlug = session.subdomainSlug ?? token.subdomainSlug;
@@ -88,11 +87,9 @@ export const authOptions: AuthOptions = {
         token.userStatus = user.userStatus;
       }
 
-      console.timeEnd("jwt");
       return token;
     },
     async session({ session, token }) {
-      console.time("session");
       if (session.user && token) {
         session.user.googleId = token.googleId;
         session.user.userStatus = token.userStatus;
@@ -101,7 +98,6 @@ export const authOptions: AuthOptions = {
         session.user.image = token.image;
       }
 
-      console.timeEnd("session");
       return session;
     },
   },

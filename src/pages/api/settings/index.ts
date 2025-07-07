@@ -15,7 +15,6 @@ export const config = {
 };
 
 const handler: HandlerWithJwt<Response> = async (req, res, jwt) => {
-  console.time("settings");
   const method = req.method;
 
   const subdomainSlug = getSubdomainFromUrl(req.headers.host || "")!;
@@ -29,19 +28,16 @@ const handler: HandlerWithJwt<Response> = async (req, res, jwt) => {
 
     const { googleId, userId: id } = jwt;
 
-    console.time("getUserSettings");
     const { data, error } = await getUserSettings({
       id,
       googleId,
       subdomainSlug,
     });
-    console.timeEnd("getUserSettings");
 
     if (error || !data) {
       return returnErrorResponse(req, res, error);
     }
 
-    console.timeEnd("settings");
     return res.status(200).json(data);
   }
 
@@ -54,19 +50,16 @@ const handler: HandlerWithJwt<Response> = async (req, res, jwt) => {
 
     const { googleId, userId: id } = jwt;
 
-    console.time("updateUserSettings");
     const { data, error } = await updateUserSettings({
       id,
       googleId,
       req,
     });
-    console.timeEnd("updateUserSettings");
 
     if (error || !data) {
       return returnErrorResponse(req, res, error);
     }
 
-    console.timeEnd("settings");
     return res.status(200).json(data);
   }
 

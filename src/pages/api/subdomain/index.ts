@@ -18,30 +18,25 @@ const handler: HandlerWithJwt<Response> = async (req, res) => {
   const cookiesCode = req.cookies.code;
   const bodyCode = req.body.code;
 
-  console.log("cookiesCode: ", cookiesCode);
-
   if (method === "POST") {
-    console.time("subdomain");
-    const maxRequests = await isMaxRequests({ req, maxCount: 30 });
+    const maxRequests = await isMaxRequests({ req, maxCount: 1 });
 
     if (maxRequests) {
       return returnErrorResponse(req, res, maxRequests);
     }
 
-    console.time("getSubdomainByCode");
     const { data, error } = await getSubdomainByCode({
       subdomainCode: bodyCode || cookiesCode,
       subdomainSlug,
     });
-    console.timeEnd("getSubdomainByCode");
 
     if (error) {
       return returnErrorResponse(req, res, error);
     }
 
-    console.timeEnd("subdomain");
     return res.status(200).json(formatSubdomainData(data));
   }
+
   return returnErrorResponse(
     req,
     res,
