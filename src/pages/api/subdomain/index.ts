@@ -19,7 +19,7 @@ const handler: HandlerWithJwt<Response> = async (req, res) => {
   const bodyCode = req.body.code;
 
   if (method === "POST") {
-    const maxRequests = await isMaxRequests({ req, maxCount: 1 });
+    const maxRequests = await isMaxRequests({ req, maxCount: 2 });
 
     if (maxRequests) {
       return returnErrorResponse(req, res, maxRequests);
