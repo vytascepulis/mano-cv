@@ -5,7 +5,6 @@ import useFetch from "@/hooks/useFetch";
 import Loader from "@/components/ui/Loader";
 import { SubdomainData } from "@/types/types";
 import LandingPage from "@/pages/subdomains/[slug]/landing";
-import InternalErrorPage from "@/pages/500";
 import { HttpError } from "@/constants/http";
 import Button from "@/components/ui/Button";
 
@@ -60,10 +59,6 @@ const SubdomainPage = () => {
         }
       />
     );
-  }
-
-  if (error) {
-    return <InternalErrorPage error={error} />;
   }
 
   if (!subdomainData) {

@@ -91,3 +91,7 @@ export function isSlugValid(subdomain: string) {
     !reservedSubdomains.has(subdomain)
   );
 }
+
+export const isCodeValid = (code?: string | null) => {
+  return code && code.length === 4 && /^\d+$/.test(code);
+};

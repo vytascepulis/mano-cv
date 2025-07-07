@@ -253,7 +253,7 @@ const SettingsList = () => {
       >
         {isEditing && (
           <Input
-            type="text"
+            type="number"
             inputMode="numeric"
             onChange={(val) => {
               if (val.length <= 4) {

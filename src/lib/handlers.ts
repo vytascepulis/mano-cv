@@ -23,7 +23,7 @@ import { SubdomainStatus, UserStatus } from "@/types/enums";
 import { firestore } from "firebase-admin";
 import FieldValue = firestore.FieldValue;
 import { buildSettings, validateSettingsState } from "@/utils/settings";
-import { isSlugValid } from "@/utils/subdomain";
+import { isCodeValid, isSlugValid } from "@/utils/subdomain";
 
 export const getUserSettings = async ({
   id,
@@ -552,6 +552,17 @@ export const getSubdomainByCode = async ({
   googleId?: IUser["googleId"];
   userId?: string;
 }): FirestoreResponse<SubdomainData> => {
+  if (!isCodeValid(subdomainCode)) {
+    return {
+      data: null,
+      error: buildErrorResponse({
+        code: HttpError.BAD_REQUEST,
+        serverMessage: `Subdomain code is incorrect for slug: ${subdomainSlug}`,
+        clientMessage: "Svetainės kodas neteisingas",
+      }),
+    };
+  }
+
   try {
     const subdomainSnap = await db
       .collection("subdomains")

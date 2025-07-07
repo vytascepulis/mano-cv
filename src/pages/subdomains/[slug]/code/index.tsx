@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useFetch from "@/hooks/useFetch";
 import { SubdomainData } from "@/types/types";
-import { getDomainUrl } from "@/utils/subdomain";
+import { getDomainUrl, isCodeValid } from "@/utils/subdomain";
 import logo from "@/assets/mano-cv-logo-dark.png";
 import Button from "@/components/ui/Button";
 import { useRouter } from "next/router";
@@ -26,7 +26,16 @@ export default function CodePage({ setSubdomainData }: Props) {
   });
   const [code, setCode] = useState("");
 
-  const handleOnSubmit = () => {
+  const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const isValid = isCodeValid(code);
+
+    if (!isValid) {
+      fireToast({ type: "error", message: "Kodas neteisingas" });
+      return;
+    }
+
     fetch({
       body: {
         code,
@@ -65,21 +74,21 @@ export default function CodePage({ setSubdomainData }: Props) {
             <p className="text-md lg:text-xl">
               Svetainė pasiekiama tik suvedus kodą
             </p>
-            <div className="mt-10 flex w-full max-w-[300px] justify-center gap-3">
+            <form
+              onSubmit={handleOnSubmit}
+              className="mt-10 flex w-full max-w-[300px] justify-center gap-3"
+            >
               <Input
                 type="text"
                 inputMode="numeric"
                 onChange={setCode}
                 placeholder="Kodas"
+                required
               />
-              <Button
-                type="button"
-                onClick={handleOnSubmit}
-                loading={isLoading}
-              >
+              <Button type="submit" loading={isLoading}>
                 Atidaryti
               </Button>
-            </div>
+            </form>
           </div>
         </div>
       </div>
