@@ -124,6 +124,7 @@ const EditCardModal = ({
               onChange={setDescription}
               name="description"
               disabled={state?.mode === "delete"}
+              rows={10}
             />
           )}
           <div className="grid grid-cols-1 items-end justify-items-start gap-2 sm:grid-cols-[max-content_max-content_max-content] sm:gap-5">

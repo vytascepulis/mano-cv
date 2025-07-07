@@ -54,16 +54,18 @@ const Input = (props: Props) => {
   const handleOnChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
+    const newVal = e.target.value.replace(/\r\n|\r/g, "\n");
+
     if (maxLength && value.length >= maxLength) {
       setValue((prevState) => {
         return prevState.slice(0, maxLength);
       });
     } else {
-      setValue(e.target.value);
+      setValue(newVal);
     }
 
     if (!onEnter) {
-      onChange?.(e.target.value);
+      onChange?.(newVal);
     }
   };
 

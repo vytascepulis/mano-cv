@@ -225,7 +225,7 @@ const ClassicDesignLayout = ({
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: true, amount: "some" }}
             transition={{ duration: 1 }}
             className="relative"
           >
@@ -284,7 +284,7 @@ const ClassicDesignLayout = ({
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: true, amount: "some" }}
             transition={{ duration: 1 }}
             className="relative"
           >
@@ -400,7 +400,7 @@ const ClassicDesignLayout = ({
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
-            viewport={{ once: true, amount: 0.3 }}
+            viewport={{ once: true, amount: "some" }}
             transition={{ duration: 1 }}
           >
             <p className="text-dark mb-7 text-center text-2xl font-semibold md:mb-[90px] md:text-4xl">
@@ -458,7 +458,7 @@ const ClassicDesignLayout = ({
                   />
                 </div>
               </div>
-              <div className="flex w-full shrink-0 basis-[350px] flex-col gap-3 md:gap-6">
+              <div className="flex w-full shrink-0 flex-col gap-3 md:basis-[350px] md:gap-6">
                 {subdomainData.desiredPositions.length > 0 && (
                   <GeneralInfoCard
                     title={"Ieškomos pareigos"}
