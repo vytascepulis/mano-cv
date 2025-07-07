@@ -2,7 +2,11 @@ import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { getSubdomainFromUrl } from "@/utils/subdomain";
 import { HttpError } from "@/constants/http";
 import { buildErrorResponse, returnErrorResponse } from "@/pages/api/utils";
-import { ErrorResponse, HandlerWithJwt } from "@/pages/api/types";
+import {
+  ErrorResponse,
+  HandlerWithJwt,
+  HandlerWithOptionalJwt,
+} from "@/pages/api/types";
 import { db } from "@/lib/firebase";
 import { firestore } from "firebase-admin";
 import DocumentReference = firestore.DocumentReference;
@@ -50,6 +54,15 @@ export function withJwtCheck<T>(handler: HandlerWithJwt<T>): NextApiHandler<T> {
   };
 }
 
+export function withOptionalJwtCheck<T>(
+  handler: HandlerWithOptionalJwt<T>,
+): NextApiHandler<T> {
+  return async (req: NextApiRequest, res: NextApiResponse<T>) => {
+    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+    return handler(req, res, token);
+  };
+}
+
 export const isMaxRequests = async ({
   req,
   maxCount,
@@ -81,7 +94,6 @@ export const isMaxRequests = async ({
   }
 
   rateLimit.set(key, current + 1);
-  console.log("update rateLimit: ", rateLimit);
   return null;
 };
 

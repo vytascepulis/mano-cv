@@ -5,21 +5,25 @@ import {
   returnErrorResponse,
 } from "@/pages/api/utils";
 import { HttpError } from "@/constants/http";
-import { ErrorResponse, HandlerWithJwt } from "@/pages/api/types";
-import { isMaxRequests, withSubdomainCheck } from "@/lib/checks";
+import { ErrorResponse, HandlerWithOptionalJwt } from "@/pages/api/types";
+import {
+  isMaxRequests,
+  withOptionalJwtCheck,
+  withSubdomainCheck,
+} from "@/lib/checks";
 import { SubdomainData } from "@/types/types";
 import { getSubdomainByCode } from "@/lib/handlers";
 
 type Response = SubdomainData | ErrorResponse;
 
-const handler: HandlerWithJwt<Response> = async (req, res) => {
+const handler: HandlerWithOptionalJwt<Response> = async (req, res, jwt) => {
   const method = req.method;
   const subdomainSlug = getSubdomainFromUrl(req.headers.host || "")!;
   const cookiesCode = req.cookies.code;
   const bodyCode = req.body.code;
 
   if (method === "POST") {
-    const maxRequests = await isMaxRequests({ req, maxCount: 2 });
+    const maxRequests = await isMaxRequests({ req, maxCount: 10 });
 
     if (maxRequests) {
       return returnErrorResponse(req, res, maxRequests);
@@ -28,6 +32,8 @@ const handler: HandlerWithJwt<Response> = async (req, res) => {
     const { data, error } = await getSubdomainByCode({
       subdomainCode: bodyCode || cookiesCode,
       subdomainSlug,
+      googleId: jwt?.googleId,
+      userId: jwt?.userId,
     });
 
     if (error) {
@@ -47,4 +53,4 @@ const handler: HandlerWithJwt<Response> = async (req, res) => {
   );
 };
 
-export default withSubdomainCheck(handler);
+export default withSubdomainCheck(withOptionalJwtCheck(handler));

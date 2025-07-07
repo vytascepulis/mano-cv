@@ -21,6 +21,12 @@ export type HandlerWithJwt<T> = (
   jwt: JWT,
 ) => unknown | Promise<unknown>;
 
+export type HandlerWithOptionalJwt<T> = (
+  req: NextApiRequest,
+  res: NextApiResponse<T>,
+  jwt: JWT | null,
+) => unknown | Promise<unknown>;
+
 export type ParsedSettingsData = Omit<
   SettingsData,
   "subdomainStatus" | "userStatus" | "image"

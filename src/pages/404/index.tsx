@@ -2,10 +2,15 @@ import { getDomainUrl } from "@/utils/subdomain";
 import Button from "@/components/ui/Button";
 import PlainPageLayout from "@/components/layouts/PlainPageLayout";
 
-export default function NotFoundPage() {
+interface Props {
+  customMessage?: React.ReactNode;
+}
+
+export default function NotFoundPage({ customMessage }: Props) {
   return (
     <PlainPageLayout title="mano-cv.lt - puslapis nerastas">
-      <div className="mx-auto mt-[100px] flex max-w-4xl flex-col justify-center text-center md:mt-[300px]">
+      <div className="mx-auto mt-[100px] flex max-w-4xl flex-col items-center text-center md:mt-[300px]">
+        {customMessage && customMessage}
         <h1 className="mb-7 text-5xl font-extrabold md:mb-5 lg:text-6xl">
           😵 404
         </h1>

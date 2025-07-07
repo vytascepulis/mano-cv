@@ -6,6 +6,8 @@ import Loader from "@/components/ui/Loader";
 import { SubdomainData } from "@/types/types";
 import LandingPage from "@/pages/subdomains/[slug]/landing";
 import InternalErrorPage from "@/pages/500";
+import { HttpError } from "@/constants/http";
+import Button from "@/components/ui/Button";
 
 const SubdomainPage = () => {
   const { error, isLoading, fetch } = useFetch<SubdomainData>({
@@ -37,8 +39,26 @@ const SubdomainPage = () => {
     );
   }
 
-  if (error?.code === 404) {
+  if (error?.code === HttpError.NOT_FOUND) {
     return <NotFoundPage />;
+  }
+
+  if (error?.code === HttpError.NOT_ALLOWED) {
+    return (
+      <NotFoundPage
+        customMessage={
+          <div className="mb-5 rounded-lg bg-red-300 p-3 text-sm">
+            Tavo svetainė paslėpta. Aktyvuok ją{" "}
+            <Button
+              variant="link"
+              className="my-0! inline-block max-h-max py-0!"
+            >
+              savo profilyje
+            </Button>
+          </div>
+        }
+      />
+    );
   }
 
   if (error) {

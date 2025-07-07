@@ -544,9 +544,13 @@ export const updateSubdomainStatus = async ({
 export const getSubdomainByCode = async ({
   subdomainCode,
   subdomainSlug,
+  googleId,
+  userId,
 }: {
   subdomainCode: ISettings["subdomainCode"];
   subdomainSlug: ISubdomain["slug"];
+  googleId?: IUser["googleId"];
+  userId?: string;
 }): FirestoreResponse<SubdomainData> => {
   try {
     const subdomainSnap = await db
@@ -572,6 +576,21 @@ export const getSubdomainByCode = async ({
       subdomainSnap.docs[0].data().status === SubdomainStatus.HIDDEN ||
       userSnap.data().status === UserStatus.BLOCKED
     ) {
+      if (
+        userSnap.id === userId &&
+        userSnap.data().googleId === googleId &&
+        userSnap.data().status !== UserStatus.BLOCKED
+      ) {
+        return {
+          data: null,
+          error: buildErrorResponse({
+            code: HttpError.NOT_ALLOWED,
+            serverMessage: `Subdomain is hidden for slug: ${subdomainSlug}`,
+            clientMessage: "Svetainė paslėpta. Aktyvuok ją savo profilyje",
+          }),
+        };
+      }
+
       return {
         data: null,
         error: buildErrorResponse({
