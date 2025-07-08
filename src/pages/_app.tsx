@@ -13,6 +13,7 @@ import { PosthogProvider } from "@/contexts/PosthogContext";
 import { CookiesProvider } from "@/contexts/CookiesContext";
 import Cookiebar from "@/components/Cookiebar";
 import { SentryProvider } from "@/contexts/SentryContext";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export type NextPageWithLayout<P = unknown, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -34,6 +35,7 @@ export default function App({
 
   return (
     <>
+      <SpeedInsights />
       <Head>
         <meta
           property="og:title"
