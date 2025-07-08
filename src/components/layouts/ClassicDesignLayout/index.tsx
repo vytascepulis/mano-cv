@@ -319,27 +319,35 @@ const ClassicDesignLayout = ({
                         <div className="absolute left-0 h-full w-[5px] rounded-xl bg-gray-200" />
                         <p className="mb-[3px] text-sm font-light">
                           {item.dateFrom} -{" "}
-                          {item.dateTo ? item.dateTo : "dabar"}
+                          {item.dateTo ? item.dateTo : "dabar"} (
+                          {getDateDiffString(item.dateFrom, item.dateTo)})
                         </p>
                         <p className="text-lg font-semibold">{item.title}</p>
                         <p className="mb-1 font-light">{item.subtitle}</p>
                         <p className="text-sm font-light whitespace-pre-line text-gray-600">
                           {formatExperienceDescription(item)}
                         </p>
-                        {(item.description || "").length > 50 &&
-                          !expandedExperience.includes(item.id) && (
-                            <a
-                              onClick={() =>
+                        {(item.description || "").length > 50 && (
+                          <a
+                            onClick={() => {
+                              if (expandedExperience.includes(item.id)) {
+                                setExpandedExperience((prevState) => {
+                                  return prevState.filter((i) => i !== item.id);
+                                });
+                              } else {
                                 setExpandedExperience((prevState) => [
                                   ...prevState,
                                   item.id,
-                                ])
+                                ]);
                               }
-                              className="text-primary mt-2 cursor-pointer text-xs font-semibold transition-colors hover:text-violet-500"
-                            >
-                              Rodyti daugiau
-                            </a>
-                          )}
+                            }}
+                            className="text-primary mt-2 cursor-pointer text-xs font-semibold transition-colors hover:text-violet-500"
+                          >
+                            {expandedExperience.includes(item.id)
+                              ? "Rodyti mažiau"
+                              : "Rodyti daugiau"}
+                          </a>
+                        )}
                       </li>
                     ))}
                   </ul>
@@ -468,7 +476,7 @@ const ClassicDesignLayout = ({
                 {subdomainData.expectedSalary && (
                   <GeneralInfoCard
                     title={"Pageidaujamas atlygis"}
-                    value={`${subdomainData.expectedSalary} EUR`}
+                    value={`${subdomainData.expectedSalary} EUR (atskaičius mokesčius)`}
                   />
                 )}
                 {subdomainData.drivingLicences.length > 0 && (

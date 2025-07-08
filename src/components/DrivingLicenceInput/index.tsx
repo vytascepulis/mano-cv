@@ -7,7 +7,7 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import InputDate from "@/components/ui/InputDate";
-import { formatDate } from "@/utils/date";
+import { formatDate, getDateDiffString } from "@/utils/date";
 
 const DrivingLicenceInput = () => {
   const {
@@ -74,7 +74,8 @@ const DrivingLicenceInput = () => {
             key={idx}
             className="bg-primary relative max-w-[230px] cursor-default rounded-full px-[10px] py-[5px] text-center font-bold text-wrap wrap-break-word text-white"
           >
-            <strong>{licence.category}</strong> - {licence.issuedAt}
+            <strong>{licence.category}</strong> - {licence.issuedAt} (
+            {getDateDiffString(licence.issuedAt)})
             {isEditing && (
               <button
                 className="absolute top-[-7px] right-[-7px] flex h-[24px] w-[24px] cursor-pointer items-center justify-center rounded-full bg-violet-900"

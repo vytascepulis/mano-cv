@@ -39,75 +39,76 @@ export const settingsData: {
     image: {
       title: "Nuotrauka",
       subtitle:
-        "Įkelkite savo nuotrauką, kad darbdavys galėtų jus atpažinti. Naudokite profesionalią, aiškią nuotrauką.",
+        "Įkelkite savo nuotrauką, kad darbdavys galėtų jus atpažinti. Naudokite profesionalią, aiškią nuotrauką",
     },
     fullName: {
       title: "Vardas ir pavardė",
-      subtitle: "Įrašykite savo vardą ir pavardę, kurie bus rodomi jūsų CV.",
+      subtitle: "Įrašykite savo vardą ir pavardę, kurie bus rodomi jūsų CV",
     },
     phoneNumber: {
       title: "Telefono numeris",
-      subtitle: "Darbdaviai galės su jumis greitai susisiekti.",
+      subtitle: "Darbdaviai galės su jumis greitai susisiekti",
     },
     email: {
       title: "El. paštas",
       subtitle:
-        "Jūsų pagrindinis el. paštas. Naudokite tą, kurį tikrinate dažniausiai.",
+        "Jūsų pagrindinis el. paštas. Naudokite tą, kurį tikrinate dažniausiai",
       optional: true,
     },
     address: {
       title: "Gyvenamoji vieta",
-      subtitle: "Įrašykite miestą, kuriame šiuo metu gyvenate.",
+      subtitle: "Įrašykite miestą, kuriame šiuo metu gyvenate",
     },
     intro: {
       title: "Trumpas prisistatymas",
       subtitle:
-        "Trumpai aprašykite save, savo stipriąsias puses ir karjeros tikslus.",
+        "Trumpai aprašykite save, savo stipriąsias puses ir karjeros tikslus",
     },
     skills: {
       title: "Turimi įgūdžiai",
       subtitle:
-        "Pridėkite įgūdžius, kurie yra svarbūs jūsų profesinėje srityje.",
+        "Pridėk įgūdžius ir kompetencijas, kurie yra svarbūs tavo profesinėje srityje",
     },
     languages: {
       title: "Kalbos",
-      subtitle: "Nurodykite kalbas, kurias mokate, ir jų mokėjimo lygį.",
+      subtitle: "Nurodyk kalbas, kurias moki bei žinių lygį",
       optional: true,
     },
     experience: {
       title: "Darbo patirtis",
       subtitle:
-        "Nurodykite, kur ir kiek metų dirbote, ką veikėte, kokias atsakomybes turėjote.",
+        "Įrašyk savo darbo patirtį: vietą, trukmę, pareigas ir atsakomybes",
       optional: true,
     },
     education: {
       title: "Išsilavinimas",
       subtitle:
-        "Nurodykite savo mokymosi įstaigas, studijų programas ir įgytus laipsnius.",
+        "Nurodyk mokymosi įstaigas, studijų programas ir įgytas kvalifikacijas",
     },
     desiredPosition: {
       title: "Ieškomos pareigos",
       subtitle:
-        "Įrašykite pareigas, kurios jus domina. Tai padeda darbdaviams geriau jus suprasti.",
+        "Įrašykite pareigas, kurios jus domina. Tai padeda darbdaviams geriau jus suprasti",
       optional: true,
     },
     expectedSalary: {
       title: "Pageidaujamas atlygis",
-      subtitle: "Nurodykite eurais, kokio atlyginimo į rankas tikitės.",
+      subtitle: "Nurodyk, kokio atlyginimo „į rankas“ tikiesi",
       optional: true,
     },
     websiteDesign: {
       title: "Dizainas",
       subtitle:
-        "Pasirinkite CV dizainą, kuris geriausiai atspindi jūsų asmenybę ir profesinį stilių.",
+        "Pasirinkite CV dizainą, kuris geriausiai atspindi jūsų asmenybę ir profesinį stilių",
     },
     subdomainCode: {
       title: "Svetainės kodas",
-      subtitle: "Keturių skaičių kodas, kurį įvedus atsidarys jūsų CV svetainė",
+      subtitle:
+        "Keturių skaitmenų kodas, kurį suvedus darbdavys galės peržiūrėti tavo asmeninę svetainę",
     },
     drivingLicences: {
       title: "Vairuotojo pažymėjimas",
-      subtitle: "Nurodykite vairavimo kategorijas bei įgijimo datą",
+      subtitle: "Įrašyk, kokias vairuotojo kategorijas turi ir kada jas įgijai",
       optional: true,
     },
     deleteAccount: {
@@ -148,19 +149,19 @@ export const settingsData: {
       slug: "CLASSIC",
       title: "Klasikinis",
       description:
-        "Aiški struktūra, tradicinis išdėstymas. Puikiai tinka formaliems ar akademiniams CV",
+        "Klasikinis mano-cv stilius – aiškus, tvarkingas ir jaukus. Puikiai tinka norint atrodyti profesionaliai, bet ne pernelyg formaliai.",
     },
     {
       slug: "MODERN",
       title: "Modernus",
       description:
-        "Švarus dizainas su akcentais ir vizualine hierarchija. Idealus kūrybinių sričių ar tech specialistams",
+        "Išraiškingas, šiuolaikiškas, dinamiškas ir drąsus. Puikiai tinka norint išsiskirti, atskleisti kūrybiškumą ir perteikti šiuolaikišką požiūrį.",
     },
     {
       slug: "MINIMALISTIC",
       title: "Minimalistinis",
       description:
-        "Paprastas, lengvai skaitomas stilius be jokių perteklinių elementų. Dėmesys tik svarbiausiai informacijai",
+        "Paprastas, lengvai skaitomas stilius be jokių perteklinių elementų. Dėmesys tik svarbiausiai informacijai.",
     },
   ],
 };

@@ -6,9 +6,9 @@ export const formatDate = (date: Date | string) => {
   return `${year}-${month}`;
 };
 
-export function getDateDiffString(dateString: string) {
-  const now = new Date();
-  const past = new Date(dateString);
+export function getDateDiffString(dateFrom: string, dateTo?: string | null) {
+  const now = dateTo ? new Date(dateTo) : new Date();
+  const past = new Date(dateFrom);
 
   let years = now.getFullYear() - past.getFullYear();
   let months = now.getMonth() - past.getMonth();

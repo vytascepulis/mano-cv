@@ -16,19 +16,19 @@ const designsList: IDesignItem[] = [
   {
     title: "Klasikinis",
     description:
-      "Tvarkingas ir pažįstamas išdėstymas - kaip PDF CV, bet interaktyvus ir online",
+      "Klasikinis mano-cv stilius – aiškus, tvarkingas ir jaukus. Puikiai tinka norint atrodyti profesionaliai, bet ne pernelyg formaliai.",
     image: classicDesign.src,
   },
   {
     title: "Modernus",
     description:
-      "Dinamiškas išdėstymas su moderniomis animacijomis ir spalvomis – puikiai tinka kūrybiškiems specialistams",
+      "Išraiškingas, šiuolaikiškas, dinamiškas ir drąsus. Puikiai tinka norint išsiskirti, atskleisti kūrybiškumą ir perteikti šiuolaikišką požiūrį.",
     image: modernDesign.src,
   },
   {
     title: "Minimalistinis",
     description:
-      "Itin švarus dizainas su fokusu į turinį. Idealus profesionalams, norintiems paprastumo",
+      "Aiškus, formalus ir sutelktas į turinį. Šis dizainas pabrėžia informaciją, o ne dekoracijas, todėl labiausiai primena klasikinį dokumentą.",
     image: minimalisticDesign.src,
   },
 ];

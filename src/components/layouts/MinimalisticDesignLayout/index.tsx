@@ -113,13 +113,15 @@ const MinimalisticDesignLayout = ({
         <p
           className={twMerge(
             poppins.className,
-            "flex flex-row text-xl leading-tight font-semibold",
+            "flex flex-col text-xl leading-tight font-semibold md:flex-row",
           )}
         >
           <span className="block shrink-1">{item.title}</span>
-          <span className="mx-3 mt-[11px] block h-1 w-1 shrink-0 rounded-full bg-violet-600" />
+          <span className="mx-3 mt-[11px] hidden h-1 w-1 shrink-0 rounded-full bg-violet-600 md:block" />
           <span className="mt-[6px] shrink-0 text-xs font-normal">
-            {item.dateFrom} - {item.dateTo ? item.dateTo : "dabar"}
+            {item.dateFrom} - {item.dateTo ? item.dateTo : "dabar"}{" "}
+            {item.description &&
+              `(${getDateDiffString(item.dateFrom, item.dateTo)})`}
           </span>
         </p>
         <p className={twMerge(poppins.className, "mt-1 text-sm font-light")}>
@@ -133,20 +135,27 @@ const MinimalisticDesignLayout = ({
             )}
           >
             {formatExperienceDescription(item)}
-            {(item.description || "").length > 50 &&
-              !expandedExperience.includes(item.id) && (
-                <a
-                  onClick={() =>
+            {(item.description || "").length > 50 && (
+              <a
+                onClick={() => {
+                  if (expandedExperience.includes(item.id)) {
+                    setExpandedExperience((prevState) => {
+                      return prevState.filter((i) => i !== item.id);
+                    });
+                  } else {
                     setExpandedExperience((prevState) => [
                       ...prevState,
                       item.id,
-                    ])
+                    ]);
                   }
-                  className="mt-1 block w-max cursor-pointer text-xs font-semibold text-violet-600 transition-colors hover:text-violet-700"
-                >
-                  Rodyti daugiau
-                </a>
-              )}
+                }}
+                className="mt-1 block w-max cursor-pointer text-xs font-semibold text-violet-600 transition-colors hover:text-violet-700"
+              >
+                {expandedExperience.includes(item.id)
+                  ? "Rodyti mažiau"
+                  : "Rodyti daugiau"}
+              </a>
+            )}
           </p>
         )}
       </div>
@@ -230,7 +239,7 @@ const MinimalisticDesignLayout = ({
           {subdomainData.expectedSalary && (
             <GeneralInfoCard
               title="Pageidaujamas atlygis"
-              content={`${subdomainData.expectedSalary} EUR`}
+              content={`${subdomainData.expectedSalary} EUR (atskaičius mokesčius)`}
             />
           )}
           {subdomainData.languages.length > 0 && (

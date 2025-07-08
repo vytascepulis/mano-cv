@@ -8,21 +8,21 @@ import { useGlobalContext } from "@/contexts/GlobalContext";
 
 const advantagesList = [
   {
-    title: "Visada pasiekiamas ir atnaujinamas",
+    title: "Informaciją pasiek visur ir visada",
     description:
-      "Internetinis CV niekada neprarandamas - jis visada pasiekiamas ir lengvai atnaujinamas",
+      "CV internete - visada pasiekiamas ir lengvai atnaujinamas! Papildyk informaciją realiu laiku ir pamiršk nuolatinį dokumentų siuntinėjimą",
     icon: faFileContract,
   },
   {
-    title: "Greitas ir paprastas pasidalinimas",
+    title: "Greitai ir patogiai pasidalink",
     description:
-      "Pasidalinkite savo CV tiesiai su darbdaviais, partneriais ar kolegomis, nesivargindami siųsti failų ar priedų",
+      "Pasidalink savo CV akimirksniu - be failų, be priedų, be vargo! Vos viena nuoroda, ir tavo CV atsiduria reikiamose rankose",
     icon: faHandHoldingHeart,
   },
   {
-    title: "Gebėjimas išsiskirti iš kitų",
+    title: "Būk unikalus ir išskirtinis",
     description:
-      "Internetinis CV - galimybė išsiskirti iš kitų ir parodyti savo profesionalumą",
+      "Leisk savo CV kalbėti už tave - būk tas, kuris išsiskiria iš minios! Tapk pastebimu kandidatu su profesionaliai parengtu internetiniu CV",
     icon: faUsers,
   },
 ];

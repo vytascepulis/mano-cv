@@ -21,7 +21,7 @@ const mockData = {
   desiredPositions: ["Sandėlio darbuotojas", "Laiškininkas", "Pardavėjas"],
   expectedSalary: "1234",
   intro:
-    "Esu atsakingas, nuoširdus ir komunikabilus, vertinantis tvarką ir aiškumą. Greitai mokausi, lengvai prisitaikau prie naujų situacijų ir mėgstu dirbti tiek savarankiškai, tiek komandoje. Laisvalaikiu domiuosi knygomis, gamta ir saviugda. Man svarbu nuolatinis tobulėjimas ir pozityvus požiūris į gyvenimą.",
+    "Esu motyvuotas, atsakingas ir komunikabilus, vertinantis tvarką ir aiškumą. Greitai mokausi, lengvai prisitaikau prie naujų situacijų ir sugebu dirbti tiek savarankiškai, tiek komandoje. Išsiskiriu kruopštumu, greita orientacija ir nuolatiniu siekiu tobulėti. Atsakingai žiūriu į pavestas užduotis ir visada siekiu aukščiausių rezultatų savo veikloje. Laisvalaikiu domiuosi saviugda, skaitau knygas, leidžiu laiką gamtoje. Man svarbu nuolatinis tobulėjimas ir pozityvus požiūris į gyvenimą.",
   image: getGenericUserPhoto(),
   email: "mano@elpastas.lt",
   fullName: "Vardis Pavardis",
@@ -31,7 +31,7 @@ const mockData = {
   experience: [
     {
       id: "fc2b5590-acb2-436b-9374-96e1f41dd945",
-      title: "Buvusi darbovietė #2",
+      title: "Darbovietė #2",
       subtitle: "Biuro administratorius",
       description:
         "Buvau atsakingas už biuro veiklos organizavimą: dokumentų ruošimą, skambučių priėmimą, sutarčių administravimą bei bendravimą su klientais. Padėjau užtikrinti sklandų kasdienį įmonės darbą ir palaikiau tvarką dokumentacijoje.",
@@ -40,7 +40,7 @@ const mockData = {
     },
     {
       id: "b438f2c6-1460-4a12-bfbd-a2295fdcd6e9",
-      title: "Buvusi darbovietė #1",
+      title: "Darbovietė #1",
       subtitle: "Pardavimų konsultantas",
       description:
         "Dirbau su klientais parduotuvėje, padėjau išsirinkti prekes, rūpinausi prekių išdėstymu ir sandėliavimu. Nuolat siekiau gerinti klientų patirtį ir padėjau komandai pasiekti pardavimų tikslus.",
@@ -59,7 +59,7 @@ const mockData = {
     },
     {
       id: "47b088fb-edcb-48f0-885d-73e596f14c7a",
-      title: "Kursų įstaiga",
+      title: "Kursų organizatorius",
       subtitle: "Kurso pavadinimas",
       description: null,
       dateFrom: "2022-02",
@@ -77,12 +77,13 @@ const mockData = {
   skills: [
     "Kruopštumas",
     "Atkaklumas",
-    "Greitai mokausi",
     "Darbas komandoje",
     "Atsakingumas",
-    "Laiko planavimas",
+    "Organizuotumas",
     "Kantrybė",
     "Gebėjimas dirbti savarankiškai",
+    "MS Word, Excel",
+    "Photoshop",
   ],
   languages: [
     {
@@ -139,7 +140,7 @@ const Page = () => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `${mockData.fullName} CV.pdf`;
+    link.download = `${mockData.fullName} CV (mano-cv.lt pavyzdys).pdf`;
     link.click();
     URL.revokeObjectURL(url);
   };

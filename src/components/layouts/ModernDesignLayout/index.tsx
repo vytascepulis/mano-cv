@@ -70,11 +70,13 @@ const GeneralInfoCard = ({
   subtitle,
   dateFrom,
   dateTo,
+  condensed,
 }: {
   title: string;
-  subtitle: React.ReactNode;
+  subtitle?: React.ReactNode;
   dateFrom?: string;
   dateTo?: string | null;
+  condensed?: boolean;
 }) => {
   return (
     <div className="flex flex-row items-start gap-5 md:gap-8">
@@ -91,10 +93,19 @@ const GeneralInfoCard = ({
             {dateFrom} - {dateTo ? dateTo : "dabar"}
           </p>
         )}
-        <p className="mb-1 text-xl font-semibold">{title}</p>
-        <div className={twMerge(robotoCondensed.className, "text-slate-400")}>
-          {subtitle}
-        </div>
+        <p
+          className={twMerge(
+            condensed && "text-lg! font-normal!",
+            "mb-1 text-xl font-semibold",
+          )}
+        >
+          {title}
+        </p>
+        {subtitle && (
+          <div className={twMerge(robotoCondensed.className, "text-slate-400")}>
+            {subtitle}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -257,18 +268,19 @@ const ModernDesignLayout = ({
                 >
                   <div className="w-full">
                     <p className="mb-1 text-2xl font-semibold">
-                      {item.subtitle},{" "}
+                      {item.subtitle}
                       <span
                         className={twMerge(
                           gradient,
-                          "bg-clip-text text-transparent",
+                          "block bg-clip-text text-transparent",
                         )}
                       >
                         {item.title}
                       </span>
                     </p>
                     <p className="text-sm font-light italic md:text-base">
-                      {item.dateFrom} - {item.dateTo ? item.dateTo : "dabar"}
+                      {item.dateFrom} - {item.dateTo ? item.dateTo : "dabar"} (
+                      {getDateDiffString(item.dateFrom, item.dateTo)})
                     </p>
                   </div>
                   <p
@@ -278,20 +290,27 @@ const ModernDesignLayout = ({
                     )}
                   >
                     {formatExperienceDescription(item)}
-                    {(item.description || "").length > 50 &&
-                      !expandedExperience.includes(item.id) && (
-                        <a
-                          onClick={() =>
+                    {(item.description || "").length > 50 && (
+                      <a
+                        onClick={() => {
+                          if (expandedExperience.includes(item.id)) {
+                            setExpandedExperience((prevState) => {
+                              return prevState.filter((i) => i !== item.id);
+                            });
+                          } else {
                             setExpandedExperience((prevState) => [
                               ...prevState,
                               item.id,
-                            ])
+                            ]);
                           }
-                          className="mt-2 block w-max cursor-pointer text-xs font-semibold text-violet-400 transition-colors hover:text-violet-500"
-                        >
-                          Rodyti daugiau
-                        </a>
-                      )}
+                        }}
+                        className="mt-2 block w-max cursor-pointer text-xs font-semibold text-violet-400 transition-colors hover:text-violet-500"
+                      >
+                        {expandedExperience.includes(item.id)
+                          ? "Rodyti mažiau"
+                          : "Rodyti daugiau"}
+                      </a>
+                    )}
                   </p>
                 </div>
               ))}
@@ -320,6 +339,21 @@ const ModernDesignLayout = ({
               </div>
             </div>
           )}
+          <div className="mb-[70px] flex flex-col gap-[30px] md:mb-[150px] md:flex-row">
+            <h1
+              className={twMerge(
+                gradient,
+                "w-full bg-clip-text text-center text-4xl leading-tight font-bold text-transparent uppercase md:text-start md:text-5xl",
+              )}
+            >
+              Mano įgūdžiai
+            </h1>
+            <div className="bg-dark/30 flex w-full flex-col gap-1 rounded-md border-1 border-gray-600 p-5 md:p-8">
+              {subdomainData.skills.map((item, index) => (
+                <GeneralInfoCard key={index} title={item} condensed />
+              ))}
+            </div>
+          </div>
           <div className="flex flex-col gap-[30px] md:flex-row">
             <h1
               className={twMerge(
@@ -358,7 +392,7 @@ const ModernDesignLayout = ({
               {subdomainData.expectedSalary && (
                 <GeneralInfoCard
                   title="Pageidaujamas atlygis"
-                  subtitle={`${subdomainData.expectedSalary} EUR`}
+                  subtitle={`${subdomainData.expectedSalary} EUR (atskaičius mokesčius)`}
                 />
               )}
               {subdomainData.languages.length > 0 && (

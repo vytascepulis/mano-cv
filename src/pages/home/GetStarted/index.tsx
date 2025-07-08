@@ -14,19 +14,20 @@ const itemsList: IListItem[] = [
   {
     id: "register",
     title: "Užsiregistruok",
-    description: "Prisijunk per Google ir sukurk savo svetainės pavadinimą",
+    description:
+      "Prisijunk per Google, o tada sukurk asmeninės svetainės pavadinimą",
     image: registerImg.src,
   },
   {
     id: "enter-data",
     title: "Suvesk duomenis",
-    description: "Užpildyk būtinus laukelius apie save",
+    description: "Užpildyk būtinus laukelius su informacija apie save",
     image: enterDataImg.src,
   },
   {
     id: "activate",
     title: "Pasidalink savo puslapiu",
-    description: "Aktyvuok svetainę ir nusiųsk nuorodą darbdaviams",
+    description: "Aktyvuok savo svetainę ir dalinkis nuoroda su darbdaviais",
     image: activateImg.src,
   },
 ];

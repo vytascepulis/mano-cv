@@ -75,8 +75,8 @@ const RegisterModalContent = () => {
         Tavo svetainės pavadinimas
       </h1>
       <p className="text-dark max-w-[400px]">
-        Geras svetainės vardas leis kitiems lengviau ją įsiminti. Jo keisti
-        nebegalėsi, tad neskubėk
+        Rinkdamasis svetainės pavadinimą tai daryk atsakingai, kadangi jo
+        pakeisti nebegalėsi
       </p>
       <form
         onSubmit={handleRegisterSlug}

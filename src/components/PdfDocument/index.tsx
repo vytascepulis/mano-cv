@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins",
     flexDirection: "row",
     backgroundColor: "#fff",
-    padding: "20px 30px 10px 30px",
+    padding: "20px 30px 30px 30px",
   },
   sidebar: {
     width: 230,
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
 
 const CardNode = ({ data }: { data: Card }) => {
   return (
-    <View style={{ fontSize: 9, fontWeight: 300 }}>
+    <View wrap={false} style={{ fontSize: 9, fontWeight: 300 }}>
       <Text style={{ fontSize: 14, fontWeight: 500 }}>{data.title}</Text>
       <View
         style={{
@@ -306,7 +306,7 @@ const PdfDocument = ({
                   <Text>Pageidaujamas atlygis</Text>
                 </View>
                 <View style={styles.sidebarBody}>
-                  <Text>{userData.expectedSalary}€</Text>
+                  <Text>{userData.expectedSalary}€ (atskaičius mokesčius)</Text>
                 </View>
               </>
             )}

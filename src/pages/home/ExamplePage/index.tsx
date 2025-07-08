@@ -51,7 +51,7 @@ const DownloadBtn = ({
 
 const subdomainData = {
   intro:
-    "Esu atsakingas, nuoširdus ir komunikabilus, vertinantis tvarką ir aiškumą. Greitai mokausi, lengvai prisitaikau prie naujų situacijų ir mėgstu dirbti tiek savarankiškai, tiek komandoje.",
+    "Esu motyvuotas, atsakingas ir komunikabilus, vertinantis tvarką ir aiškumą. Greitai mokausi, lengvai prisitaikau prie naujų situacijų ir sugebu dirbti tiek savarankiškai, tiek komandoje.",
   image: getGenericUserPhoto(),
   fullName: "Vardis Pavardis",
 };
