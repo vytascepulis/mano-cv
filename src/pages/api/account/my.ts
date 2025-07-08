@@ -10,7 +10,7 @@ const handler: HandlerWithJwt<Response> = async (req, res, jwt) => {
   const method = req.method;
 
   if (method === "DELETE") {
-    const maxRequests = await isMaxRequests({ req, maxCount: 1 });
+    const maxRequests = await isMaxRequests({ req, maxCount: 3 });
 
     if (maxRequests) {
       return returnErrorResponse(req, res, maxRequests);

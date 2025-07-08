@@ -20,7 +20,7 @@ const handler: HandlerWithJwt<Response> = async (req, res, jwt) => {
   const subdomainSlug = getSubdomainFromUrl(req.headers.host || "")!;
 
   if (method === "GET") {
-    const maxRequests = await isMaxRequests({ req, maxCount: 30 });
+    const maxRequests = await isMaxRequests({ req, maxCount: 15 });
 
     if (maxRequests) {
       return returnErrorResponse(req, res, maxRequests);
@@ -42,7 +42,7 @@ const handler: HandlerWithJwt<Response> = async (req, res, jwt) => {
   }
 
   if (method === "PUT") {
-    const maxRequests = await isMaxRequests({ req, maxCount: 15 });
+    const maxRequests = await isMaxRequests({ req, maxCount: 8 });
 
     if (maxRequests) {
       return returnErrorResponse(req, res, maxRequests);

@@ -15,7 +15,7 @@ const handler: HandlerWithJwt<Response> = async (req, res, jwt) => {
   const status = req.body.status;
 
   if (method === "PUT") {
-    const maxRequests = await isMaxRequests({ req, maxCount: 15 });
+    const maxRequests = await isMaxRequests({ req, maxCount: 5 });
 
     if (maxRequests) {
       return returnErrorResponse(req, res, maxRequests);
