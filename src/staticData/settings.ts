@@ -39,30 +39,30 @@ export const settingsData: {
     image: {
       title: "Nuotrauka",
       subtitle:
-        "Įkelkite savo nuotrauką, kad darbdavys galėtų jus atpažinti. Naudokite profesionalią, aiškią nuotrauką",
+        "Įkelk savo nuotrauką, kad darbdavys galėtų tave atpažinti. Naudok profesionalią, aiškią nuotrauką",
     },
     fullName: {
       title: "Vardas ir pavardė",
-      subtitle: "Įrašykite savo vardą ir pavardę, kurie bus rodomi jūsų CV",
+      subtitle: "Įrašyk savo vardą ir pavardę, kurie bus rodomi tavo CV",
     },
     phoneNumber: {
       title: "Telefono numeris",
-      subtitle: "Darbdaviai galės su jumis greitai susisiekti",
+      subtitle: "Darbdaviai galės su tavimi greitai susisiekti",
     },
     email: {
       title: "El. paštas",
       subtitle:
-        "Jūsų pagrindinis el. paštas. Naudokite tą, kurį tikrinate dažniausiai",
+        "Tavo pagrindinis el. paštas. Naudok tą, kurį tikrini dažniausiai",
       optional: true,
     },
     address: {
       title: "Gyvenamoji vieta",
-      subtitle: "Įrašykite miestą, kuriame šiuo metu gyvenate",
+      subtitle: "Įrašyk miestą, kuriame šiuo metu gyveni",
     },
     intro: {
       title: "Trumpas prisistatymas",
       subtitle:
-        "Trumpai aprašykite save, savo stipriąsias puses ir karjeros tikslus",
+        "Trumpai aprašyk save, savo stipriąsias savybes ir karjeros tikslus",
     },
     skills: {
       title: "Turimi įgūdžiai",
@@ -88,7 +88,7 @@ export const settingsData: {
     desiredPosition: {
       title: "Ieškomos pareigos",
       subtitle:
-        "Įrašykite pareigas, kurios jus domina. Tai padeda darbdaviams geriau jus suprasti",
+        "Įrašyk pareigas, kurios tave domina. Tai padeda darbdaviams geriau tave suprasti",
       optional: true,
     },
     expectedSalary: {
@@ -99,7 +99,7 @@ export const settingsData: {
     websiteDesign: {
       title: "Dizainas",
       subtitle:
-        "Pasirinkite CV dizainą, kuris geriausiai atspindi jūsų asmenybę ir profesinį stilių",
+        "Pasirink CV dizainą, kuris geriausiai atspindi tavo asmenybę ir profesinį stilių",
     },
     subdomainCode: {
       title: "Svetainės kodas",
@@ -113,7 +113,7 @@ export const settingsData: {
     },
     deleteAccount: {
       title: "Pašalinti paskyrą",
-      subtitle: "Tai ištrins visus tavo duomenis iš mūsų bazės",
+      subtitle: "Tai ištrins visus tavo duomenis iš mūsų duomenų bazės",
     },
   },
   experienceTexts: {
