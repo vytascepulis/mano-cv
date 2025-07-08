@@ -77,6 +77,10 @@ export const isMaxRequests = async ({
     });
   }
 
+  const ip2 =
+    req.headers["x-forwarded-for"] || req.socket.remoteAddress || "anonymous";
+  console.log(ip2);
+
   const method = req.method || "UNKNOWN";
   const endpoint = req.url || "UNKNOWN";
   const ip = requestIp.getClientIp(req) || "UNKNOWN";
@@ -94,7 +98,6 @@ export const isMaxRequests = async ({
   }
 
   rateLimit.set(key, current + 1);
-  console.log("set: ", key, current + 1);
   return null;
 };
 
