@@ -10,8 +10,7 @@ import {
 import { db } from "@/lib/firebase";
 import { firestore } from "firebase-admin";
 import DocumentReference = firestore.DocumentReference;
-import { rateLimit } from "@/lib/cache";
-import requestIp from "request-ip";
+import { createRateLimiter } from "@/lib/cache";
 import { getToken, JWT } from "next-auth/jwt";
 
 export function withSubdomainCheck<T>(
@@ -70,6 +69,10 @@ export const isMaxRequests = async ({
   req: NextApiRequest;
   maxCount: number;
 }): Promise<ErrorResponse | null> => {
+  if (process.env.NODE_ENV === "development") {
+    return null;
+  }
+
   if (process.env.ENDPOINTS_DISABLED === "true") {
     return buildErrorResponse({
       code: HttpError.TOO_MANY_REQUESTS,
@@ -77,19 +80,18 @@ export const isMaxRequests = async ({
     });
   }
 
-  const ip2 =
-    req.headers["x-forwarded-for"] || req.socket.remoteAddress || "anonymous";
-  console.log(ip2);
+  const rateLimit = createRateLimiter(maxCount);
 
+  const ip =
+    req.headers["x-forwarded-for"] || req.socket.remoteAddress || "anonymous";
   const method = req.method || "UNKNOWN";
   const endpoint = req.url || "UNKNOWN";
-  const ip = requestIp.getClientIp(req) || "UNKNOWN";
 
   const key = `${ip}:${method}:${endpoint}`;
 
-  const current = rateLimit.get(key) || 0;
+  const { success } = await rateLimit.limit(key);
 
-  if (current >= maxCount) {
+  if (!success) {
     return buildErrorResponse({
       code: HttpError.TOO_MANY_REQUESTS,
       serverMessage: `Too many requests from ip ${ip} for endpoint ${method}:${endpoint}`,
@@ -97,7 +99,6 @@ export const isMaxRequests = async ({
     });
   }
 
-  rateLimit.set(key, current + 1);
   return null;
 };
 

@@ -1,6 +1,11 @@
-import { LRUCache } from "lru-cache";
+import { Redis } from "@upstash/redis";
+import { Ratelimit } from "@upstash/ratelimit";
+const redis = Redis.fromEnv();
 
-export const rateLimit = new LRUCache<string, number>({
-  max: 500,
-  ttl: 5 * 60 * 1000,
-});
+export function createRateLimiter(maxRequests: number) {
+  return new Ratelimit({
+    redis,
+    limiter: Ratelimit.slidingWindow(maxRequests, "3 m"),
+    analytics: true,
+  });
+}
