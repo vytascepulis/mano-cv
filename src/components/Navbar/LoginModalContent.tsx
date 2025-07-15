@@ -50,7 +50,6 @@ const LoginModalContent = () => {
           >
             slapukų politika
           </Button>
-          ,
         </p>
       </div>
     </div>
