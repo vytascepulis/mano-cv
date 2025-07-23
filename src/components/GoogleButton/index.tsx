@@ -1,11 +1,13 @@
 import { useState } from "react";
 import Loader from "@/components/ui/Loader";
+import { twMerge } from "tailwind-merge";
 
 interface Props {
   onClick: () => void;
+  disabled?: boolean;
 }
 
-const GoogleButton = ({ onClick }: Props) => {
+const GoogleButton = ({ onClick, disabled }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
 
   return (
@@ -13,13 +15,24 @@ const GoogleButton = ({ onClick }: Props) => {
       className="gsi-material-button"
       style={{ width: "200px" }}
       onClick={() => {
+        if (disabled) return;
         onClick();
         setIsLoading(true);
       }}
-      disabled={isLoading}
+      disabled={isLoading || disabled}
     >
-      <div className="gsi-material-button-state"></div>
-      <div className="gsi-material-button-content-wrapper">
+      <div
+        className={twMerge(
+          disabled && "hover:cursor-not-allowed",
+          "gsi-material-button-state",
+        )}
+      ></div>
+      <div
+        className={twMerge(
+          disabled && "hover:cursor-not-allowed",
+          "gsi-material-button-content-wrapper",
+        )}
+      >
         <div className="gsi-material-button-icon">
           <svg
             version="1.1"

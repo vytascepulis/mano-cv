@@ -18,6 +18,7 @@ const LoginModalContent = () => {
       </p>
       <div className="mt-4 md:mt-6">
         <GoogleButton
+          disabled={process.env.NODE_ENV === "production"}
           onClick={() => {
             signIn("google", { callbackUrl: "/auth" });
           }}
