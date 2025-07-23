@@ -20,11 +20,11 @@ const SettingsList = () => {
     settingsData;
 
   const textLg = (text: string) => {
-    return <p className="text-xl">{text}</p>;
+    return <p className="text-xl whitespace-pre-line">{text}</p>;
   };
 
   const textSm = (text: string) => {
-    return <p className="text-sm">{text}</p>;
+    return <p className="text-sm whitespace-pre-line">{text}</p>;
   };
 
   return (

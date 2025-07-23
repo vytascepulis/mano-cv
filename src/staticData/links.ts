@@ -6,19 +6,19 @@ export interface ILink {
 
 export const legalLinks: ILink[] = [
   {
-    href: `#`,
+    href: ``,
     // href: `${getDomainUrl()}/naudojimosi-taisykles`,
     title: "Naudojimosi taisyklės",
     slug: "terms-and-conditions",
   },
   {
-    href: `#`,
+    href: ``,
     // href: `${getDomainUrl()}/slapuku-politika`,
     title: "Slapukų politika",
     slug: "cookie-policy",
   },
   {
-    href: `#`,
+    href: ``,
     // href: `${getDomainUrl()}/privatumo-politika`,
     title: "Privatumo politika",
     slug: "privacy-policy",
