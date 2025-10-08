@@ -4,7 +4,7 @@ import Button from "@/components/ui/Button";
 import useFetch from "@/hooks/useFetch";
 import { RegisterData } from "@/types/types";
 import { useSession } from "next-auth/react";
-import { getSubdomainFromUrl, isSlugValid } from "@/utils/subdomain";
+import { formatSubdomainUrl, isSlugValid } from "@/utils/subdomain";
 import { usePosthogContext } from "@/contexts/PosthogContext";
 import { useSentry } from "@/contexts/SentryContext";
 
@@ -56,7 +56,7 @@ const RegisterModalContent = () => {
 
         update({ subdomainSlug: slug, userStatus }).then(() => {
           setLoading(false);
-          window.location.href = getSubdomainFromUrl(slug)!;
+          window.location.href = formatSubdomainUrl(slug) + "/profilis";
         });
       },
       onError: (error) => {
