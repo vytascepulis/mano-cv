@@ -69,6 +69,9 @@ export const isMaxRequests = async ({
   req: NextApiRequest;
   maxCount: number;
 }): Promise<ErrorResponse | null> => {
+  // Disable redis
+  return null;
+
   if (process.env.NODE_ENV === "development") {
     return null;
   }
