@@ -22,7 +22,7 @@
     "@upstash/ratelimit": "^2.0.8",
     "@upstash/redis": "^1.35.1",
     "@vercel/speed-insights": "^1.2.0",
-    "axios": "^1.8.4",
+    "axios": "^1.19.0",
     "date-fns": "^4.4.0",
     "firebase-admin": "^14.2.0",
     "formidable": "^3.5.4",
