@@ -30,7 +30,7 @@
     "next": "15.3.6",
     "next-auth": "^4.24.11",
     "postcss": "^8.5.3",
-    "posthog-js": "^1.256.2",
+    "posthog-js": "^1.414.0",
     "react": "^19.1.0",
     "react-datepicker": "^8.3.0",
     "react-dom": "^19.1.0",
