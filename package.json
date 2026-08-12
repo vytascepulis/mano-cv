@@ -32,7 +32,7 @@
     "postcss": "^8.5.26",
     "posthog-js": "^1.414.0",
     "react": "^19.1.0",
-    "react-datepicker": "^8.3.0",
+    "react-datepicker": "^9.1.0",
     "react-dom": "^19.2.8",
     "react-fast-marquee": "^1.6.5",
     "react-hot-toast": "^2.6.0",
